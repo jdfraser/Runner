@@ -2,9 +2,8 @@
 
 class Manager
 {
-
 public:
-	virtual void startUp();
+	virtual void startUp()=0;
 
-	virtual void shutDown();
+	virtual void shutDown()=0;
 };

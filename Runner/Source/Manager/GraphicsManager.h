@@ -3,31 +3,30 @@
 #include <glm/glm.hpp>
 
 #include <vector>
+#include <memory>
 
 #include "Manager.h"
 
-class GraphicsManager : public Manager
+class GraphicsManager final : public Manager
 {
 private:
 	SDL_Window* m_window;
 	SDL_GLContext m_context;
 
-	class Transform* m_camera;
+	std::weak_ptr<class GameObject> m_camera;
 
-	std::vector<class GameObject*> m_gameObjects;
+	std::vector<std::weak_ptr<class GameObject>> m_gameObjects;
 
 public:
 	virtual void startUp() override;
 
 	virtual void shutDown() override;
 
-	void setCamera(class Transform* camera);
+	void setCamera(std::weak_ptr<class GameObject> gameObject);
 
-	void addObject(class GameObject* gameObject);
+	void addObject(std::weak_ptr<class GameObject> gameObject);
 
 	void draw();
-
-	void present();
 
 private:
 

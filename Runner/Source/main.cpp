@@ -1,16 +1,15 @@
 #include <SDL2/SDL.h>
 #include <GL/glew.h>
-#include <SOIL2/SOIL2.h>
 
 #include <iostream>
 #include <vector>
+#include <memory>
 
 #include "Manager/GraphicsManager.h"
-#include "GameObject/GameObject.h"
-#include "Component/Model.h"
-#include "Graphics/Material.h"
+#include "Manager/ResourceManager.h"
 
-#include "Util/shader.h"
+#include "GameObject/GameObject.h"
+#include "GameObject/GameObjectFactory.h"
 
 float speed = 3.0f;
 float mouseSpeed = 0.05f;
@@ -18,106 +17,24 @@ float mouseSpeed = 0.05f;
 const int WINDOW_WIDTH = 1024;
 const int WINDOW_HEIGHT = 768;
 
-const std::vector<GLfloat> vertices = {
-	-1.0f, -1.0f, -1.0f,
-	-1.0f, -1.0f, 1.0f,
-	-1.0f, 1.0f, 1.0f,
-	1.0f, 1.0f, -1.0f,
-	-1.0f, -1.0f, -1.0f,
-	-1.0f, 1.0f, -1.0f,
-	1.0f, -1.0f, 1.0f,
-	-1.0f, -1.0f, -1.0f,
-	1.0f, -1.0f, -1.0f,
-	1.0f, 1.0f, -1.0f,
-	1.0f, -1.0f, -1.0f,
-	-1.0f, -1.0f, -1.0f,
-	-1.0f, -1.0f, -1.0f,
-	-1.0f, 1.0f, 1.0f,
-	-1.0f, 1.0f, -1.0f,
-	1.0f, -1.0f, 1.0f,
-	-1.0f, -1.0f, 1.0f,
-	-1.0f, -1.0f, -1.0f,
-	-1.0f, 1.0f, 1.0f,
-	-1.0f, -1.0f, 1.0f,
-	1.0f, -1.0f, 1.0f,
-	1.0f, 1.0f, 1.0f,
-	1.0f, -1.0f, -1.0f,
-	1.0f, 1.0f, -1.0f,
-	1.0f, -1.0f, -1.0f,
-	1.0f, 1.0f, 1.0f,
-	1.0f, -1.0f, 1.0f,
-	1.0f, 1.0f, 1.0f,
-	1.0f, 1.0f, -1.0f,
-	-1.0f, 1.0f, -1.0f,
-	1.0f, 1.0f, 1.0f,
-	-1.0f, 1.0f, -1.0f,
-	-1.0f, 1.0f, 1.0f,
-	1.0f, 1.0f, 1.0f,
-	-1.0f, 1.0f, 1.0f,
-	1.0f, -1.0f, 1.0f
-};
-
-const std::vector<GLfloat> texCoords = {
-	0.000059f, 1.0f - 0.000004f,
-	0.000103f, 1.0f - 0.336048f,
-	0.335973f, 1.0f - 0.335903f,
-	1.000023f, 1.0f - 0.000013f,
-	0.667979f, 1.0f - 0.335851f,
-	0.999958f, 1.0f - 0.336064f,
-	0.667979f, 1.0f - 0.335851f,
-	0.336024f, 1.0f - 0.671877f,
-	0.667969f, 1.0f - 0.671889f,
-	1.000023f, 1.0f - 0.000013f,
-	0.668104f, 1.0f - 0.000013f,
-	0.667979f, 1.0f - 0.335851f,
-	0.000059f, 1.0f - 0.000004f,
-	0.335973f, 1.0f - 0.335903f,
-	0.336098f, 1.0f - 0.000071f,
-	0.667979f, 1.0f - 0.335851f,
-	0.335973f, 1.0f - 0.335903f,
-	0.336024f, 1.0f - 0.671877f,
-	1.000004f, 1.0f - 0.671847f,
-	0.999958f, 1.0f - 0.336064f,
-	0.667979f, 1.0f - 0.335851f,
-	0.668104f, 1.0f - 0.000013f,
-	0.335973f, 1.0f - 0.335903f,
-	0.667979f, 1.0f - 0.335851f,
-	0.335973f, 1.0f - 0.335903f,
-	0.668104f, 1.0f - 0.000013f,
-	0.336098f, 1.0f - 0.000071f,
-	0.000103f, 1.0f - 0.336048f,
-	0.000004f, 1.0f - 0.671870f,
-	0.336024f, 1.0f - 0.671877f,
-	0.000103f, 1.0f - 0.336048f,
-	0.336024f, 1.0f - 0.671877f,
-	0.335973f, 1.0f - 0.335903f,
-	0.667969f, 1.0f - 0.671889f,
-	1.000004f, 1.0f - 0.671847f,
-	0.667979f, 1.0f - 0.335851f
-};
-
 int main(int argc, char* argv[]) {
-	GraphicsManager graphicsManager;
-	graphicsManager.startUp();
 
-	// TODO: move this into a manager
-	GLuint programID = LoadShaders("Assets/Shaders/default.vert", "Assets/Shaders/default.frag");
-	GLuint textureID = SOIL_load_OGL_texture("Assets/Textures/uvtemplate.DDS", SOIL_LOAD_RGB, SOIL_CREATE_NEW_ID, SOIL_FLAG_DDS_LOAD_DIRECT);
+	GraphicsManager g_graphicsManager;
+	ResourceManager g_resourceManager;
 
-	Material material(programID);
-	material.setTexture(textureID);
+	g_graphicsManager.startUp();
+	g_resourceManager.startUp();
 
-	Model model(vertices, texCoords, &material);
+	GameObjectFactory factory(g_resourceManager);
 
-	GameObject box;
-	box.setModel(&model);
+	g_graphicsManager.addObject(factory.makeCube());
 
-	graphicsManager.addObject(&box);
+	std::weak_ptr<GameObject> wpPlayer = g_resourceManager.getNewObject();
+	g_graphicsManager.setCamera(wpPlayer);
 
-	GameObject player;
-	player.getTransform().setPosition(glm::vec3(0.0f, 0.0f, 10.0f));
+	std::shared_ptr<GameObject> player = wpPlayer.lock();
 
-	graphicsManager.setCamera(&(player.getTransform()));
+	player->getTransform().setPosition(glm::vec3(0.0f, 0.0f, 10.0f));
 
 	float forward = 0.0f;
 	float backward = 0.0f;
@@ -175,22 +92,22 @@ int main(int argc, char* argv[]) {
 
 		SDL_GetMouseState(&xPos, &yPos);
 
-		glm::vec3 position      = player.getTransform().getPosition();
-		glm::vec3 forwardVector = player.getTransform().getForwardVector();
-		glm::vec3 rightVector   = player.getTransform().getRightVector();
-		glm::vec3 upVector      = player.getTransform().getUpVector();
+		glm::vec3 position      = player->getTransform().getPosition();
+		glm::vec3 forwardVector = player->getTransform().getForwardVector();
+		glm::vec3 rightVector   = player->getTransform().getRightVector();
+		glm::vec3 upVector      = player->getTransform().getUpVector();
 
 		float horizontalRotation = static_cast<float>(xPos - (WINDOW_WIDTH / 2)) * deltaTime * mouseSpeed;
 		float verticalRotation   = static_cast<float>(yPos - (WINDOW_HEIGHT / 2)) * deltaTime * mouseSpeed;
 
-		player.getTransform().addRotation(glm::vec3(verticalRotation, horizontalRotation, 0.f));
+		player->getTransform().addRotation(glm::vec3(verticalRotation, horizontalRotation, 0.f));
 
 		position += forwardVector * (forward - backward) * deltaTime * speed;
 		position += rightVector * (right - left) * deltaTime * speed;
 
-		player.getTransform().setPosition(position);
+		player->getTransform().setPosition(position);
 
-		graphicsManager.draw();
+		g_graphicsManager.draw();
 
 		lastTime = currentTime;
 	}

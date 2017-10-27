@@ -1,5 +1,7 @@
 #pragma once
 
+#include <memory>
+
 #include "Component/Component.h"
 #include "Component/Transform.h"
 #include "Component/Model.h"
@@ -10,14 +12,14 @@ private:
 
 	Transform m_transform;
 
-	Model* m_model;
+	std::weak_ptr<Model> m_model;
 
 public:
 
 	Transform& getTransform();
 
-	Model* getModel();
+	std::weak_ptr<Model> getModel();
 
-	void setModel(Model* model);
+	void setModel(std::weak_ptr<Model> model);
 
 };

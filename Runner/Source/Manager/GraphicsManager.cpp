@@ -11,8 +11,6 @@
 #include "Graphics/Material.h"
 
 void GraphicsManager::startUp() {
-	Manager::startUp();
-
 	m_window = SDL_CreateWindow(
 		"Hello World",
 		SDL_WINDOWPOS_CENTERED,
@@ -63,11 +61,11 @@ void GraphicsManager::shutDown() {
 	SDL_Quit();
 }
 
-void GraphicsManager::setCamera(Transform* camera) {
+void GraphicsManager::setCamera(std::weak_ptr<GameObject> camera) {
 	m_camera = camera;
 }
 
-void GraphicsManager::addObject(GameObject* gameObject) {
+void GraphicsManager::addObject(std::weak_ptr<GameObject> gameObject) {
 	m_gameObjects.push_back(gameObject);
 }
 
@@ -77,6 +75,14 @@ void GraphicsManager::draw() {
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+	std::shared_ptr<GameObject> camera = m_camera.lock();
+
+	if (!camera) {
+		std::cerr << "Missing camera in GraphicsManager" << std::endl;
+
+		return;
+	}
+
 	glm::mat4 projectionMatrix = glm::perspective(
 		glm::radians(45.0f),
 		getAspectRatio(),
@@ -84,22 +90,33 @@ void GraphicsManager::draw() {
 		100.0f
 	);
 
-	glm::vec3 pos = m_camera->getPosition();
+	glm::vec3 pos = camera->getTransform().getPosition();
 
 	glm::mat4 viewMatrix = glm::lookAt(
 		pos,
-		pos + m_camera->getForwardVector(),
-		m_camera->getUpVector()
+		pos + camera->getTransform().getForwardVector(),
+		camera->getTransform().getUpVector()
 	);
 
-	for (GameObject* gameObject : m_gameObjects) {
-		Model* model = gameObject->getModel();
+	for (std::weak_ptr<GameObject> pointer : m_gameObjects) {
+		std::shared_ptr<GameObject> gameObject = pointer.lock();
 
-		if (model == nullptr) {
+		if (!gameObject) {
 			continue;
 		}
 
-		Material* mat = model->getMaterial();
+		std::shared_ptr<Model> model  = gameObject->getModel().lock();
+
+		if (!model) {
+			continue;
+		}
+
+		std::shared_ptr<Material> mat = model->getMaterial().lock();
+
+		if (!mat) {
+			continue;
+		}
+
 		glUseProgram(mat->getProgramID());
 
 		glm::mat4 modelMatrix = gameObject->getTransform().toMatrix();

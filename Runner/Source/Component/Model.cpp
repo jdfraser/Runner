@@ -1,9 +1,9 @@
 #include "Model.h"
 
-Model::Model(std::vector<GLfloat> vertices, std::vector<GLfloat> UVs, Material* material) 
+Model::Model(std::vector<GLfloat> vertices, std::vector<GLfloat> UVs, std::weak_ptr<Material> mat) 
 	: m_vertices(vertices),
 	  m_UVs(UVs),
-	  m_material(material)
+	  m_material(mat)
 {
 	glGenVertexArrays(1, &m_vertexArrayID);
 	glBindVertexArray(m_vertexArrayID);
@@ -29,7 +29,7 @@ GLuint Model::getUVBuffer() {
 	return m_UVBufferID;
 }
 
-Material* Model::getMaterial() {
+std::weak_ptr<Material> Model::getMaterial() {
 	return m_material;
 }
 

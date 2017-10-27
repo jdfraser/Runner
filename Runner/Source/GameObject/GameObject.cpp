@@ -4,11 +4,11 @@ Transform& GameObject::getTransform() {
 	return m_transform;
 }
 
-Model* GameObject::getModel() {
+std::weak_ptr<Model> GameObject::getModel() {
 	return m_model;
 }
 
-void GameObject::setModel(Model* model) {
+void GameObject::setModel(std::weak_ptr<Model> model) {
 	m_model = model;
 }
 

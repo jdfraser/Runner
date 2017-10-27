@@ -1,6 +1,7 @@
 #pragma once
 
 #include <vector>
+#include <memory>
 
 #include "Component.h"
 #include "Graphics/Material.h"
@@ -16,12 +17,12 @@ private:
 	GLuint m_vertexBufferID;
 	GLuint m_UVBufferID;
 
-	Material* m_material;
+	std::weak_ptr<Material> m_material;
 
 public:
 	Model() {}
 
-	Model(std::vector<GLfloat> vertices, std::vector<GLfloat> UVs, Material* material);
+	Model(std::vector<GLfloat> vertices, std::vector<GLfloat> UVs, std::weak_ptr<Material> mat);
 
 	GLuint getVertexArray();
 
@@ -29,7 +30,7 @@ public:
 
 	GLuint getUVBuffer();
 
-	Material* getMaterial();
+	std::weak_ptr<Material> getMaterial();
 
 	~Model();
 };
