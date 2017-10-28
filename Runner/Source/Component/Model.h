@@ -24,6 +24,8 @@ public:
 
 	Model(std::vector<GLfloat> vertices, std::vector<GLfloat> UVs, std::weak_ptr<Material> mat);
 
+	virtual void tick(float deltaTime);
+
 	GLuint getVertexArray();
 
 	GLuint getVertexBuffer();

@@ -95,6 +95,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Component\Component.cpp" />
+    <ClCompile Include="Source\Component\InputHandler.cpp" />
     <ClCompile Include="Source\Component\Model.cpp" />
     <ClCompile Include="Source\Component\Transform.cpp" />
     <ClCompile Include="Source\GameObject\GameObject.cpp" />
@@ -229,6 +230,7 @@
     <ClInclude Include="Libraries\SOIL2\stb_image.h" />
     <ClInclude Include="Libraries\SOIL2\stb_image_write.h" />
     <ClInclude Include="Source\Component\Component.h" />
+    <ClInclude Include="Source\Component\InputHandler.h" />
     <ClInclude Include="Source\Component\Model.h" />
     <ClInclude Include="Source\Component\Transform.h" />
     <ClInclude Include="Source\GameObject\GameObject.h" />

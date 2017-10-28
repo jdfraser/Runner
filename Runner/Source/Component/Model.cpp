@@ -17,6 +17,10 @@ Model::Model(std::vector<GLfloat> vertices, std::vector<GLfloat> UVs, std::weak_
 	glBufferData(GL_ARRAY_BUFFER, m_UVs.size() * sizeof(GLuint), m_UVs.data(), GL_STATIC_DRAW);
 }
 
+void Model::tick(float deltaTime) {
+
+}
+
 GLuint Model::getVertexArray() {
 	return m_vertexArrayID;
 }

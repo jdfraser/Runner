@@ -16,6 +16,8 @@ public:
 
 	Transform();
 
+	virtual void tick(float deltaTime);
+
 	glm::vec3 getScale();
 
 	glm::vec3 getRotation();

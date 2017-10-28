@@ -75,9 +75,9 @@ void GraphicsManager::draw() {
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	std::shared_ptr<GameObject> camera = m_camera.lock();
+	std::shared_ptr<GameObject> spCamera = m_camera.lock();
 
-	if (!camera) {
+	if (!spCamera) {
 		std::cerr << "Missing camera in GraphicsManager" << std::endl;
 
 		return;
@@ -90,42 +90,42 @@ void GraphicsManager::draw() {
 		100.0f
 	);
 
-	glm::vec3 pos = camera->getTransform().getPosition();
+	glm::vec3 pos = spCamera->getTransform().getPosition();
 
 	glm::mat4 viewMatrix = glm::lookAt(
 		pos,
-		pos + camera->getTransform().getForwardVector(),
-		camera->getTransform().getUpVector()
+		pos + spCamera->getTransform().getForwardVector(),
+		spCamera->getTransform().getUpVector()
 	);
 
-	for (std::weak_ptr<GameObject> pointer : m_gameObjects) {
-		std::shared_ptr<GameObject> gameObject = pointer.lock();
+	for (std::weak_ptr<GameObject> gameObject : m_gameObjects) {
+		std::shared_ptr<GameObject> spGameObject = gameObject.lock();
 
-		if (!gameObject) {
+		if (!spGameObject) {
 			continue;
 		}
 
-		std::shared_ptr<Model> model  = gameObject->getModel().lock();
+		std::shared_ptr<Model> spModel  = spGameObject->getModel().lock();
 
-		if (!model) {
+		if (!spModel) {
 			continue;
 		}
 
-		std::shared_ptr<Material> mat = model->getMaterial().lock();
+		std::shared_ptr<Material> spMaterial = spModel->getMaterial().lock();
 
-		if (!mat) {
+		if (!spMaterial) {
 			continue;
 		}
 
-		glUseProgram(mat->getProgramID());
+		glUseProgram(spMaterial->getProgramID());
 
-		glm::mat4 modelMatrix = gameObject->getTransform().toMatrix();
+		glm::mat4 modelMatrix = spGameObject->getTransform().toMatrix();
 
 		glm::mat4 mvp = projectionMatrix * viewMatrix * modelMatrix;
 
 		// Write the MVP matrix
 		glUniformMatrix4fv(
-			glGetUniformLocation(mat->getProgramID(), "MVP"),
+			glGetUniformLocation(spMaterial->getProgramID(), "MVP"),
 			1,
 			GL_FALSE,
 			&mvp[0][0]
@@ -133,17 +133,17 @@ void GraphicsManager::draw() {
 
 		// Write the texture data
 		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, mat->getTexture());
-		glUniform1i(glGetUniformLocation(mat->getProgramID(), "textureSampler"), 0);
+		glBindTexture(GL_TEXTURE_2D, spMaterial->getTexture());
+		glUniform1i(glGetUniformLocation(spMaterial->getProgramID(), "textureSampler"), 0);
 
 		// Write the vertex data
 		glEnableVertexAttribArray(0);
-		glBindBuffer(GL_ARRAY_BUFFER, model->getVertexBuffer());
+		glBindBuffer(GL_ARRAY_BUFFER, spModel->getVertexBuffer());
 		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, nullptr);
 
 		// Write the texture coordinates
 		glEnableVertexAttribArray(1);
-		glBindBuffer(GL_ARRAY_BUFFER, model->getUVBuffer());
+		glBindBuffer(GL_ARRAY_BUFFER, spModel->getUVBuffer());
 		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, nullptr);
 
 		// Draw

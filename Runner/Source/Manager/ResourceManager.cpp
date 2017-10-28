@@ -95,29 +95,29 @@ void ResourceManager::shutDown() {
 }
 
 std::weak_ptr<GameObject> ResourceManager::getNewObject() {
-	std::shared_ptr<GameObject> obj = std::make_shared<GameObject>();
-	m_gameObjects.push_back(obj);
+	std::shared_ptr<GameObject> spGameObject = std::make_shared<GameObject>();
+	m_gameObjects.push_back(spGameObject);
 
-	return std::weak_ptr<GameObject>(obj);
+	return std::weak_ptr<GameObject>(spGameObject);
 }
 
 std::weak_ptr<Model> ResourceManager::getNewModel(const char path[], std::weak_ptr<Material> mat) {
 	// TODO: load model data from file
-	std::shared_ptr<Model> model = std::make_shared<Model>(vertices, texCoords, mat);
-	m_models.push_back(model);
+	std::shared_ptr<Model> spModel = std::make_shared<Model>(vertices, texCoords, mat);
+	m_models.push_back(spModel);
 
-	return std::weak_ptr<Model>(model);
+	return std::weak_ptr<Model>(spModel);
 }
 
 std::weak_ptr<Material> ResourceManager::getNewMaterial() {
 	GLuint programID = LoadShaders("Assets/Shaders/default.vert", "Assets/Shaders/default.frag");
 	GLuint textureID = SOIL_load_OGL_texture("Assets/Textures/uvtemplate.DDS", SOIL_LOAD_RGB, SOIL_CREATE_NEW_ID, SOIL_FLAG_DDS_LOAD_DIRECT);
 
-	std::shared_ptr<Material> mat = std::make_shared<Material>(programID);
+	std::shared_ptr<Material> spMaterial = std::make_shared<Material>(programID);
 
-	mat->setTexture(textureID);
+	spMaterial->setTexture(textureID);
 
-	m_materials.push_back(mat);
+	m_materials.push_back(spMaterial);
 
-	return std::weak_ptr<Material>(mat);
+	return std::weak_ptr<Material>(spMaterial);
 }

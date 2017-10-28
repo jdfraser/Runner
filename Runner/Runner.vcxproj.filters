@@ -37,6 +37,9 @@
     <ClCompile Include="Source\GameObject\GameObjectFactory.cpp">
       <Filter>Source</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Component\InputHandler.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Libraries\GL\glew.h" />
@@ -171,6 +174,7 @@
     <ClInclude Include="Source\Graphics\Material.h" />
     <ClInclude Include="Source\Manager\ResourceManager.h" />
     <ClInclude Include="Source\GameObject\GameObjectFactory.h" />
+    <ClInclude Include="Source\Component\InputHandler.h" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="Libraries\GL\glew32.lib" />
