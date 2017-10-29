@@ -4,7 +4,7 @@
 #include <memory>
 
 #include "Component.h"
-#include "Graphics/Material.h"
+#include "Component/Material.h"
 #include "Component/Transform.h"
 
 class Model : public Component
@@ -17,14 +17,14 @@ private:
 	GLuint m_vertexBufferID;
 	GLuint m_UVBufferID;
 
-	std::weak_ptr<Material> m_material;
+	std::shared_ptr<class Material> m_material;
 
 public:
-	Model() {}
+	void setVertices(std::vector<GLfloat> m_vertices);
+	
+	void setUVs(std::vector<GLfloat> m_UVs);
 
-	Model(std::vector<GLfloat> vertices, std::vector<GLfloat> UVs, std::weak_ptr<Material> mat);
-
-	virtual void tick(float deltaTime);
+	void setMaterial(std::shared_ptr<class Material> material);
 
 	GLuint getVertexArray();
 
@@ -32,7 +32,10 @@ public:
 
 	GLuint getUVBuffer();
 
-	std::weak_ptr<Material> getMaterial();
+	std::shared_ptr<Material> getMaterial();
 
-	~Model();
+protected:
+	virtual bool onInitialize() override;
+
+	virtual bool onDestroy() override;
 };

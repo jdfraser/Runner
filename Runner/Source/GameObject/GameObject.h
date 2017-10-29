@@ -12,22 +12,22 @@ private:
 
 	Transform m_transform;
 
-	std::weak_ptr<class Model> m_model;
+	std::shared_ptr<class Model> m_model;
 
-	std::weak_ptr<class InputHandler> m_inputHandler;
+	std::shared_ptr<class InputHandler> m_inputHandler;
 
-	std::vector<std::weak_ptr<Component>> m_components;
+	std::vector<std::shared_ptr<Component>> m_components;
 
 public:
 	Transform& getTransform();
 
-	std::weak_ptr<class Model> getModel();
+	std::shared_ptr<class Model> getModel();
 
-	void setModel(std::weak_ptr<class Model> model);
+	void setModel(std::shared_ptr<class Model> model);
 
-	std::weak_ptr<class InputHandler> getInputHandler();
+	std::shared_ptr<class InputHandler> getInputHandler();
 
-	void setInputHandler(std::weak_ptr<class InputHandler> inputHandler);
+	void setInputHandler(std::shared_ptr<class InputHandler> inputHandler);
 
 	void tick(float deltaTime);
 

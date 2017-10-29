@@ -5,13 +5,26 @@
 class Component
 {
 private:
-	std::weak_ptr<class GameObject> m_owner;
+	bool valid = false;
+
+	std::shared_ptr<class GameObject> m_owner;
 
 protected:
-	std::weak_ptr<class GameObject> getOwner();
+	std::shared_ptr<class GameObject> getOwner();
+
+	virtual bool onInitialize();
+
+	virtual bool onDestroy();
 
 public:
-	void setOwner(std::weak_ptr<class GameObject> owner);
+	void setOwner(std::shared_ptr<class GameObject> owner);
 
-	virtual void tick(float deltaTime)=0;
+	virtual void tick(float deltaTime);
+
+	void initialize();
+
+	bool isValid();
+
+	void destroy();
+
 };

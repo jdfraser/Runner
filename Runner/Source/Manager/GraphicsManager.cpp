@@ -8,7 +8,7 @@
 #include "GameObject/GameObject.h"
 #include "Component/Transform.h"
 #include "Component/Model.h"
-#include "Graphics/Material.h"
+#include "Component/Material.h"
 
 void GraphicsManager::startUp() {
 	m_window = SDL_CreateWindow(
@@ -61,11 +61,11 @@ void GraphicsManager::shutDown() {
 	SDL_Quit();
 }
 
-void GraphicsManager::setCamera(std::weak_ptr<GameObject> camera) {
+void GraphicsManager::setCamera(std::shared_ptr<GameObject> camera) {
 	m_camera = camera;
 }
 
-void GraphicsManager::addObject(std::weak_ptr<GameObject> gameObject) {
+void GraphicsManager::addObject(std::shared_ptr<GameObject> gameObject) {
 	m_gameObjects.push_back(gameObject);
 }
 
@@ -75,14 +75,6 @@ void GraphicsManager::draw() {
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	std::shared_ptr<GameObject> spCamera = m_camera.lock();
-
-	if (!spCamera) {
-		std::cerr << "Missing camera in GraphicsManager" << std::endl;
-
-		return;
-	}
-
 	glm::mat4 projectionMatrix = glm::perspective(
 		glm::radians(45.0f),
 		getAspectRatio(),
@@ -90,42 +82,31 @@ void GraphicsManager::draw() {
 		100.0f
 	);
 
-	glm::vec3 pos = spCamera->getTransform().getPosition();
+	glm::vec3 pos = m_camera->getTransform().getPosition();
 
 	glm::mat4 viewMatrix = glm::lookAt(
 		pos,
-		pos + spCamera->getTransform().getForwardVector(),
-		spCamera->getTransform().getUpVector()
+		pos + m_camera->getTransform().getForwardVector(),
+		m_camera->getTransform().getUpVector()
 	);
 
-	for (std::weak_ptr<GameObject> gameObject : m_gameObjects) {
-		std::shared_ptr<GameObject> spGameObject = gameObject.lock();
+	for (std::shared_ptr<GameObject> gameObject : m_gameObjects) {
+		std::shared_ptr<Model> model       = gameObject->getModel();
+		std::shared_ptr<Material> material = model->getMaterial();
 
-		if (!spGameObject) {
+		if (!model->isValid() || !material->isValid()) {
 			continue;
 		}
 
-		std::shared_ptr<Model> spModel  = spGameObject->getModel().lock();
+		glUseProgram(material->getProgramID());
 
-		if (!spModel) {
-			continue;
-		}
-
-		std::shared_ptr<Material> spMaterial = spModel->getMaterial().lock();
-
-		if (!spMaterial) {
-			continue;
-		}
-
-		glUseProgram(spMaterial->getProgramID());
-
-		glm::mat4 modelMatrix = spGameObject->getTransform().toMatrix();
+		glm::mat4 modelMatrix = gameObject->getTransform().toMatrix();
 
 		glm::mat4 mvp = projectionMatrix * viewMatrix * modelMatrix;
 
 		// Write the MVP matrix
 		glUniformMatrix4fv(
-			glGetUniformLocation(spMaterial->getProgramID(), "MVP"),
+			glGetUniformLocation(material->getProgramID(), "MVP"),
 			1,
 			GL_FALSE,
 			&mvp[0][0]
@@ -133,17 +114,17 @@ void GraphicsManager::draw() {
 
 		// Write the texture data
 		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, spMaterial->getTexture());
-		glUniform1i(glGetUniformLocation(spMaterial->getProgramID(), "textureSampler"), 0);
+		glBindTexture(GL_TEXTURE_2D, material->getTexture());
+		glUniform1i(glGetUniformLocation(material->getProgramID(), "textureSampler"), 0);
 
 		// Write the vertex data
 		glEnableVertexAttribArray(0);
-		glBindBuffer(GL_ARRAY_BUFFER, spModel->getVertexBuffer());
+		glBindBuffer(GL_ARRAY_BUFFER, model->getVertexBuffer());
 		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, nullptr);
 
 		// Write the texture coordinates
 		glEnableVertexAttribArray(1);
-		glBindBuffer(GL_ARRAY_BUFFER, spModel->getUVBuffer());
+		glBindBuffer(GL_ARRAY_BUFFER, model->getUVBuffer());
 		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, nullptr);
 
 		// Draw

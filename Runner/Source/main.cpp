@@ -28,20 +28,19 @@ int main(int argc, char* argv[]) {
 
 	g_graphicsManager.addObject(factory.makeCube());
 
-	std::weak_ptr<GameObject> player = factory.makePlayer();
+	std::shared_ptr<GameObject> player = factory.makePlayer();
 	g_graphicsManager.setCamera(player);
 
-	std::shared_ptr<GameObject> spPlayer = player.lock();
-	std::shared_ptr<InputHandler> spInputHandler = spPlayer->getInputHandler().lock();
+	std::shared_ptr<InputHandler> inputHandler = player->getInputHandler();
 
-	spPlayer->getTransform().setPosition(glm::vec3(0.0f, 0.0f, 10.0f));
+	player->getTransform().setPosition(glm::vec3(0.0f, 0.0f, 10.0f));
 
-	while (!spInputHandler->wantsQuit()) {
+	while (!inputHandler->wantsQuit()) {
 		static float lastTime = static_cast<float>(SDL_GetTicks());
 		float currentTime = static_cast<float>(SDL_GetTicks());
 		float deltaTime = (currentTime - lastTime) / 1000.0f;
 
-		spPlayer->tick(deltaTime);
+		player->tick(deltaTime);
 
 		g_graphicsManager.draw();
 

@@ -1,7 +1,7 @@
 #include "Material.h"
 
-Material::Material(GLuint programID) : m_programID(programID) {
-
+void Material::setProgramID(GLuint programID) {
+	m_programID = programID;
 }
 
 GLuint Material::getProgramID() {
@@ -16,3 +16,10 @@ GLuint Material::getTexture() {
 	return m_textureID;
 }
 
+bool Material::onInitialize() {
+	return (m_programID > 0 && m_textureID > 0);
+}
+
+bool Material::onDestroy() {
+	return true;
+}

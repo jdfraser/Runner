@@ -13,7 +13,7 @@ public:
 
 	explicit GameObjectFactory(ResourceManager& resourceManager);
 
-	std::weak_ptr<class GameObject> makeCube();
+	std::shared_ptr<class GameObject> makeCube();
 
-	std::weak_ptr<class GameObject> makePlayer();
+	std::shared_ptr<class GameObject> makePlayer();
 };

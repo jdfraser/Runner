@@ -6,29 +6,35 @@
 #include "GameObject/GameObject.h"
 #include "Component/Model.h"
 #include "Component/InputHandler.h"
-#include "Graphics/Material.h"
+#include "Component/Material.h"
 
 GameObjectFactory::GameObjectFactory(ResourceManager& resourceManager) : m_resourceManager(resourceManager) {
 
 }
 
-std::weak_ptr<GameObject> GameObjectFactory::makeCube() {
-	std::weak_ptr<class Material> mat          = m_resourceManager.getNewMaterial();
-	std::weak_ptr<class Model> model           = m_resourceManager.getNewModel("", mat);
-	std::weak_ptr<class GameObject> gameObject = m_resourceManager.getNewObject();
+std::shared_ptr<GameObject> GameObjectFactory::makeCube() {
+	std::shared_ptr<GameObject> gameObject = std::dynamic_pointer_cast<GameObject>(m_resourceManager.makeNewObject());
 
-	model.lock()->setOwner(gameObject);
-	gameObject.lock()->setModel(model);
+	std::shared_ptr<Material> material = std::dynamic_pointer_cast<Material>(m_resourceManager.makeNewComponent<Material>());
+	m_resourceManager.loadMaterialData(material);
+
+	std::shared_ptr<Model> model = std::dynamic_pointer_cast<Model>(m_resourceManager.makeNewComponent<Model>());
+	model->setMaterial(material);
+	model->setOwner(gameObject);
+
+	m_resourceManager.loadModelData(model);
+
+	gameObject->setModel(model);
 
 	return gameObject;
 }
 
-std::weak_ptr<class GameObject> GameObjectFactory::makePlayer() {
-	std::weak_ptr<GameObject> player               = m_resourceManager.getNewObject();
-	std::weak_ptr<class InputHandler> inputHandler = m_resourceManager.getNewComponent<InputHandler>();
+std::shared_ptr<class GameObject> GameObjectFactory::makePlayer() {
+	std::shared_ptr<GameObject> player               = std::dynamic_pointer_cast<GameObject>(m_resourceManager.makeNewObject());
+	std::shared_ptr<class InputHandler> inputHandler = std::dynamic_pointer_cast<InputHandler>(m_resourceManager.makeNewComponent<InputHandler>());
 
-	inputHandler.lock()->setOwner(player);
-	player.lock()->setInputHandler(inputHandler);
+	inputHandler->setOwner(player);
+	player->setInputHandler(inputHandler);
 
 	return player;
 }

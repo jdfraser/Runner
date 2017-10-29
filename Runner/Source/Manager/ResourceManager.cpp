@@ -6,7 +6,7 @@
 
 #include "GameObject/GameObject.h"
 #include "Component/Model.h"
-#include "Graphics/Material.h"
+#include "Component/Material.h"
 
 const std::vector<GLfloat> vertices = {
 	-1.0f, -1.0f, -1.0f,
@@ -91,33 +91,30 @@ void ResourceManager::startUp() {
 }
 
 void ResourceManager::shutDown() {
-	
+	for (std::shared_ptr<Component> component : m_components) {
+		component->destroy();
+	}
 }
 
-std::weak_ptr<GameObject> ResourceManager::getNewObject() {
-	std::shared_ptr<GameObject> spGameObject = std::make_shared<GameObject>();
-	m_gameObjects.push_back(spGameObject);
-
-	return std::weak_ptr<GameObject>(spGameObject);
+void ResourceManager::loadModelData(const std::shared_ptr<class Model> model) {
+	model->setVertices(vertices);
+	model->setUVs(texCoords);
+	model->initialize();
 }
 
-std::weak_ptr<Model> ResourceManager::getNewModel(const char path[], std::weak_ptr<Material> mat) {
-	// TODO: load model data from file
-	std::shared_ptr<Model> spModel = std::make_shared<Model>(vertices, texCoords, mat);
-	m_models.push_back(spModel);
-
-	return std::weak_ptr<Model>(spModel);
-}
-
-std::weak_ptr<Material> ResourceManager::getNewMaterial() {
+void ResourceManager::loadMaterialData(const std::shared_ptr<Material> material) {
 	GLuint programID = LoadShaders("Assets/Shaders/default.vert", "Assets/Shaders/default.frag");
 	GLuint textureID = SOIL_load_OGL_texture("Assets/Textures/uvtemplate.DDS", SOIL_LOAD_RGB, SOIL_CREATE_NEW_ID, SOIL_FLAG_DDS_LOAD_DIRECT);
 
-	std::shared_ptr<Material> spMaterial = std::make_shared<Material>(programID);
+	material->setProgramID(programID);
+	material->setTexture(textureID);
+	material->initialize();
+}
 
-	spMaterial->setTexture(textureID);
+std::shared_ptr<class GameObject> ResourceManager::makeNewObject() {
+	std::shared_ptr<GameObject> gameObject = std::make_shared<GameObject>();
 
-	m_materials.push_back(spMaterial);
+	m_gameObjects.push_back(gameObject);
 
-	return std::weak_ptr<Material>(spMaterial);
+	return gameObject;
 }

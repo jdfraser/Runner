@@ -13,18 +13,18 @@ private:
 	SDL_Window* m_window;
 	SDL_GLContext m_context;
 
-	std::weak_ptr<class GameObject> m_camera;
+	std::shared_ptr<class GameObject> m_camera;
 
-	std::vector<std::weak_ptr<class GameObject>> m_gameObjects;
+	std::vector<std::shared_ptr<class GameObject>> m_gameObjects;
 
 public:
 	virtual void startUp() override;
 
 	virtual void shutDown() override;
 
-	void setCamera(std::weak_ptr<class GameObject> gameObject);
+	void setCamera(std::shared_ptr<class GameObject> gameObject);
 
-	void addObject(std::weak_ptr<class GameObject> gameObject);
+	void addObject(std::shared_ptr<class GameObject> gameObject);
 
 	void draw();
 

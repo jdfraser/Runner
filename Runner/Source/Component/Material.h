@@ -2,7 +2,9 @@
 
 #include <GL/glew.h>
 
-class Material
+#include "Component.h"
+
+class Material : public Component
 {
 private:
 	GLuint m_programID;
@@ -10,11 +12,16 @@ private:
 
 public:
 
-	Material(GLuint programID);
+	void setProgramID(GLuint programID);
 
 	GLuint getProgramID();
 
 	void setTexture(GLuint textureID);
 
 	GLuint getTexture();
+
+protected:
+	virtual bool onInitialize() override;
+
+	virtual bool onDestroy() override;
 };

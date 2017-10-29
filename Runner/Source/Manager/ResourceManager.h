@@ -13,32 +13,26 @@ private:
 
 	std::vector<std::shared_ptr<class Component>> m_components;
 
-	std::vector<std::shared_ptr<class Model>> m_models;
-
-	std::vector<std::shared_ptr<class Material>> m_materials;
-
 public:
 	virtual void startUp() override;
 
 	virtual void shutDown() override;
 
-	std::weak_ptr<class GameObject> getNewObject();
-
-	std::weak_ptr<class Model> getNewModel(const char path[], std::weak_ptr<Material> mat);
-
-	std::weak_ptr<class Material> getNewMaterial();
+	std::shared_ptr<class GameObject> makeNewObject();
 
 	template<class T>
-	std::weak_ptr<T> getNewComponent();
+	std::shared_ptr<class Component> makeNewComponent();
+
+	void loadModelData(const std::shared_ptr<class Model> model);
+
+	void loadMaterialData(const std::shared_ptr<class Material> material);
 };
 
-template<class T>
-std::weak_ptr<T> ResourceManager::getNewComponent() {
-	std::shared_ptr<T> spClass = std::make_shared<T>();
+template <typename T>
+std::shared_ptr<class Component> ResourceManager::makeNewComponent() {
+	std::shared_ptr<class Component> component = std::make_shared<T>();
 
-	std::shared_ptr<Component> spComponent = std::dynamic_pointer_cast<Component>(spClass);
+	m_components.push_back(component);
 
-	m_components.push_back(spComponent);
-
-	return std::weak_ptr<T>(spClass);
+	return component;
 }

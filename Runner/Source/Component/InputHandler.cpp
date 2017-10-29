@@ -5,9 +5,9 @@
 #include "GameObject/GameObject.h"
 
 void InputHandler::tick(float deltaTime) {
-	std::shared_ptr<GameObject> spOwner = getOwner().lock();
+	std::shared_ptr<GameObject> owner = getOwner();
 
-	if (!spOwner) {
+	if (!owner) {
 		return;
 	}
 
@@ -56,21 +56,21 @@ void InputHandler::tick(float deltaTime) {
 
 	SDL_GetMouseState(&xPos, &yPos);
 
-	glm::vec3 position = spOwner->getTransform().getPosition();
-	glm::vec3 forwardVector = spOwner->getTransform().getForwardVector();
-	glm::vec3 rightVector = spOwner->getTransform().getRightVector();
-	glm::vec3 upVector = spOwner->getTransform().getUpVector();
+	glm::vec3 position = owner->getTransform().getPosition();
+	glm::vec3 forwardVector = owner->getTransform().getForwardVector();
+	glm::vec3 rightVector = owner->getTransform().getRightVector();
+	glm::vec3 upVector = owner->getTransform().getUpVector();
 
 	// TODO: get window dimensions from GraphicsManager
 	float horizontalRotation = static_cast<float>(xPos - (1024 / 2)) * deltaTime * m_mouseSpeed;
 	float verticalRotation = static_cast<float>(yPos - (768 / 2)) * deltaTime * m_mouseSpeed;
 
-	spOwner->getTransform().addRotation(glm::vec3(verticalRotation, horizontalRotation, 0.f));
+	owner->getTransform().addRotation(glm::vec3(verticalRotation, horizontalRotation, 0.f));
 
 	position += forwardVector * (m_forward - m_backward) * deltaTime * m_speed;
 	position += rightVector * (m_right - m_left) * deltaTime * m_speed;
 
-	spOwner->getTransform().setPosition(position);
+	owner->getTransform().setPosition(position);
 }
 
 bool InputHandler::wantsQuit() {

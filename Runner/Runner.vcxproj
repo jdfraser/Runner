@@ -100,7 +100,7 @@
     <ClCompile Include="Source\Component\Transform.cpp" />
     <ClCompile Include="Source\GameObject\GameObject.cpp" />
     <ClCompile Include="Source\GameObject\GameObjectFactory.cpp" />
-    <ClCompile Include="Source\Graphics\Material.cpp" />
+    <ClCompile Include="Source\Component\Material.cpp" />
     <ClCompile Include="Source\main.cpp" />
     <ClCompile Include="Source\Manager\GraphicsManager.cpp" />
     <ClCompile Include="Source\Manager\ResourceManager.cpp" />
@@ -235,7 +235,7 @@
     <ClInclude Include="Source\Component\Transform.h" />
     <ClInclude Include="Source\GameObject\GameObject.h" />
     <ClInclude Include="Source\GameObject\GameObjectFactory.h" />
-    <ClInclude Include="Source\Graphics\Material.h" />
+    <ClInclude Include="Source\Component\Material.h" />
     <ClInclude Include="Source\Manager\GraphicsManager.h" />
     <ClInclude Include="Source\Manager\Manager.h" />
     <ClInclude Include="Source\Manager\ResourceManager.h" />
