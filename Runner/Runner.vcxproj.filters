@@ -40,6 +40,9 @@
     <ClCompile Include="Source\Component\Material.cpp">
       <Filter>Source</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Debug.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Libraries\GL\glew.h" />
@@ -175,6 +178,8 @@
     <ClInclude Include="Source\GameObject\GameObjectFactory.h" />
     <ClInclude Include="Source\Component\InputHandler.h" />
     <ClInclude Include="Source\Component\Material.h" />
+    <ClInclude Include="Source\Common.h" />
+    <ClInclude Include="Source\Debug.h" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="Libraries\GL\glew32.lib" />

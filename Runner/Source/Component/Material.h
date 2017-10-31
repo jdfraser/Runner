@@ -11,6 +11,9 @@ private:
 	GLuint m_textureID;
 
 public:
+	virtual void load() override;
+
+	virtual void unLoad() override;
 
 	void setProgramID(GLuint programID);
 
@@ -19,9 +22,4 @@ public:
 	void setTexture(GLuint textureID);
 
 	GLuint getTexture();
-
-protected:
-	virtual bool onInitialize() override;
-
-	virtual bool onDestroy() override;
 };

@@ -1,8 +1,6 @@
 #include <GL/glew.h>
 #include <glm/gtc/matrix_transform.hpp>
 
-#include <iostream>
-
 #include "GraphicsManager.h"
 #include "Util/shader.h"
 #include "GameObject/GameObject.h"
@@ -21,7 +19,8 @@ void GraphicsManager::startUp() {
 	);
 
 	if (m_window == nullptr) {
-		std::cerr << "Unable to create window:" << SDL_GetError() << std::endl;
+		Debug::log("Unable to create window:");
+		Debug::log(SDL_GetError());
 
 		return;
 	}
@@ -29,7 +28,8 @@ void GraphicsManager::startUp() {
 	m_context = SDL_GL_CreateContext(m_window);
 
 	if (m_context == nullptr) {
-		std::cerr << "Unable to create context:" << SDL_GetError() << std::endl;
+		Debug::log("Unable to create context:");
+		Debug::log(SDL_GetError());
 
 		return;
 	}
@@ -92,9 +92,14 @@ void GraphicsManager::draw() {
 
 	for (std::shared_ptr<GameObject> gameObject : m_gameObjects) {
 		std::shared_ptr<Model> model       = gameObject->getModel();
+
+		if (!model) {
+			continue;
+		}
+
 		std::shared_ptr<Material> material = model->getMaterial();
 
-		if (!model->isValid() || !material->isValid()) {
+		if (!material) {
 			continue;
 		}
 

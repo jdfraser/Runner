@@ -1,7 +1,5 @@
 #pragma once
 
-#include <glm/glm.hpp>
-
 #include "Component.h"
 
 class Transform : public Component
@@ -16,7 +14,11 @@ public:
 
 	Transform();
 
-	virtual void tick(float deltaTime);
+	virtual void tick(float deltaTime) override;
+
+	virtual void load() override;
+
+	virtual void unLoad() override;
 
 	glm::vec3 getScale();
 

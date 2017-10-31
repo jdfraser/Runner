@@ -92,14 +92,14 @@ void ResourceManager::startUp() {
 
 void ResourceManager::shutDown() {
 	for (std::shared_ptr<Component> component : m_components) {
-		component->destroy();
+		component->unLoad();
 	}
 }
 
 void ResourceManager::loadModelData(const std::shared_ptr<class Model> model) {
 	model->setVertices(vertices);
 	model->setUVs(texCoords);
-	model->initialize();
+	model->load();
 }
 
 void ResourceManager::loadMaterialData(const std::shared_ptr<Material> material) {
@@ -108,7 +108,7 @@ void ResourceManager::loadMaterialData(const std::shared_ptr<Material> material)
 
 	material->setProgramID(programID);
 	material->setTexture(textureID);
-	material->initialize();
+	material->load();
 }
 
 std::shared_ptr<class GameObject> ResourceManager::makeNewObject() {

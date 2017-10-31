@@ -1,7 +1,5 @@
 #pragma once
 
-#include <memory>
-
 #include "Component.h"
 
 class InputHandler : public Component
@@ -18,7 +16,11 @@ private:
 	float m_right    = 0.0f;
 
 public:
-	virtual void tick(float deltaTime);
+	virtual void tick(float deltaTime) override;
+
+	virtual void load() override;
+
+	virtual void unLoad() override;
 
 	bool wantsQuit();
 };

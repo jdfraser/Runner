@@ -11,6 +11,14 @@ void Transform::tick(float deltaTime) {
 
 }
 
+void Transform::load() {
+
+}
+
+void Transform::unLoad() {
+
+}
+
 glm::vec3 Transform::getScale() {
 	return m_scale;
 }

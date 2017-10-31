@@ -98,6 +98,7 @@
     <ClCompile Include="Source\Component\InputHandler.cpp" />
     <ClCompile Include="Source\Component\Model.cpp" />
     <ClCompile Include="Source\Component\Transform.cpp" />
+    <ClCompile Include="Source\Debug.cpp" />
     <ClCompile Include="Source\GameObject\GameObject.cpp" />
     <ClCompile Include="Source\GameObject\GameObjectFactory.cpp" />
     <ClCompile Include="Source\Component\Material.cpp" />
@@ -229,10 +230,12 @@
     <ClInclude Include="Libraries\SOIL2\stbi_pvr_c.h" />
     <ClInclude Include="Libraries\SOIL2\stb_image.h" />
     <ClInclude Include="Libraries\SOIL2\stb_image_write.h" />
+    <ClInclude Include="Source\Common.h" />
     <ClInclude Include="Source\Component\Component.h" />
     <ClInclude Include="Source\Component\InputHandler.h" />
     <ClInclude Include="Source\Component\Model.h" />
     <ClInclude Include="Source\Component\Transform.h" />
+    <ClInclude Include="Source\Debug.h" />
     <ClInclude Include="Source\GameObject\GameObject.h" />
     <ClInclude Include="Source\GameObject\GameObjectFactory.h" />
     <ClInclude Include="Source\Component\Material.h" />

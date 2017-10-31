@@ -1,8 +1,5 @@
 #pragma once
 
-#include <vector>
-#include <memory>
-
 #include "Manager.h"
 
 class ResourceManager final : public Manager

@@ -1,9 +1,7 @@
 #include <SDL2/SDL.h>
 #include <GL/glew.h>
 
-#include <iostream>
-#include <vector>
-#include <memory>
+#include "Common.h"
 
 #include "Manager/GraphicsManager.h"
 #include "Manager/ResourceManager.h"

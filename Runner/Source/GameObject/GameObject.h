@@ -1,8 +1,6 @@
 #pragma once
 
-#include <memory>
-#include <vector>
-
+#include "Common.h"
 #include "Component/Component.h"
 #include "Component/Transform.h"
 

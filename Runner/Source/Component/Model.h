@@ -1,8 +1,5 @@
 #pragma once
 
-#include <vector>
-#include <memory>
-
 #include "Component.h"
 #include "Component/Material.h"
 #include "Component/Transform.h"
@@ -20,6 +17,10 @@ private:
 	std::shared_ptr<class Material> m_material;
 
 public:
+	virtual void load() override;
+
+	virtual void unLoad() override;
+
 	void setVertices(std::vector<GLfloat> m_vertices);
 	
 	void setUVs(std::vector<GLfloat> m_UVs);
@@ -33,9 +34,4 @@ public:
 	GLuint getUVBuffer();
 
 	std::shared_ptr<Material> getMaterial();
-
-protected:
-	virtual bool onInitialize() override;
-
-	virtual bool onDestroy() override;
 };

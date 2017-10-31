@@ -1,5 +1,4 @@
 #include <SDL2/SDL.h>
-#include <glm/glm.hpp>
 
 #include "InputHandler.h"
 #include "GameObject/GameObject.h"
@@ -71,6 +70,14 @@ void InputHandler::tick(float deltaTime) {
 	position += rightVector * (m_right - m_left) * deltaTime * m_speed;
 
 	owner->getTransform().setPosition(position);
+}
+
+void InputHandler::load() {
+
+}
+
+void InputHandler::unLoad() {
+
 }
 
 bool InputHandler::wantsQuit() {

@@ -1,6 +1,3 @@
-#include <memory>
-#include <iostream>
-
 #include "GameObjectFactory.h"
 #include "Manager/ResourceManager.h"
 #include "GameObject/GameObject.h"

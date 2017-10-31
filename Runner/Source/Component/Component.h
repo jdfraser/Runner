@@ -1,30 +1,22 @@
 #pragma once
 
-#include <memory>
+#include "Common.h"
 
 class Component
 {
 private:
-	bool valid = false;
-
 	std::shared_ptr<class GameObject> m_owner;
 
 protected:
 	std::shared_ptr<class GameObject> getOwner();
-
-	virtual bool onInitialize();
-
-	virtual bool onDestroy();
 
 public:
 	void setOwner(std::shared_ptr<class GameObject> owner);
 
 	virtual void tick(float deltaTime);
 
-	void initialize();
+	virtual void load()=0;
 
-	bool isValid();
-
-	void destroy();
+	virtual void unLoad()=0;
 
 };

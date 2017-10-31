@@ -1,9 +1,5 @@
 #pragma once
 #include <SDL2/SDL.h>
-#include <glm/glm.hpp>
-
-#include <vector>
-#include <memory>
 
 #include "Manager.h"
 
