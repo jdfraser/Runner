@@ -94,6 +94,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Libraries\tinyobjloader\tiny_obj_loader.cc" />
     <ClCompile Include="Source\Component\Component.cpp" />
     <ClCompile Include="Source\Component\InputHandler.cpp" />
     <ClCompile Include="Source\Component\Model.cpp" />
@@ -230,6 +231,7 @@
     <ClInclude Include="Libraries\SOIL2\stbi_pvr_c.h" />
     <ClInclude Include="Libraries\SOIL2\stb_image.h" />
     <ClInclude Include="Libraries\SOIL2\stb_image_write.h" />
+    <ClInclude Include="Libraries\tinyobjloader\tiny_obj_loader.h" />
     <ClInclude Include="Source\Common.h" />
     <ClInclude Include="Source\Component\Component.h" />
     <ClInclude Include="Source\Component\InputHandler.h" />
@@ -252,6 +254,7 @@
     <Library Include="Libraries\SOIL2\soil2-debug.lib" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Assets\Models\pink_cube.mtl" />
     <None Include="glew32.dll" />
     <None Include="Libraries\SDL2\SDL_config.h.cmake" />
     <None Include="Libraries\SDL2\SDL_config.h.in" />
@@ -266,6 +269,12 @@
   <ItemGroup>
     <Text Include="Libraries\glm\CMakeLists.txt" />
     <Text Include="Libraries\glm\copying.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Object Include="Assets\Models\pink_cube.obj">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </Object>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

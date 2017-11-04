@@ -43,6 +43,9 @@
     <ClCompile Include="Source\Debug.cpp">
       <Filter>Source</Filter>
     </ClCompile>
+    <ClCompile Include="Libraries\tinyobjloader\tiny_obj_loader.cc">
+      <Filter>Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Libraries\GL\glew.h" />
@@ -180,6 +183,7 @@
     <ClInclude Include="Source\Component\Material.h" />
     <ClInclude Include="Source\Common.h" />
     <ClInclude Include="Source\Debug.h" />
+    <ClInclude Include="Libraries\tinyobjloader\tiny_obj_loader.h" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="Libraries\GL\glew32.lib" />
@@ -196,6 +200,7 @@
     <None Include="Libraries\SDL2\SDL_config_macosx.h.orig" />
     <None Include="Assets\Shaders\default.frag" />
     <None Include="Assets\Shaders\default.vert" />
+    <None Include="Assets\Models\pink_cube.mtl" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Libraries\glm\CMakeLists.txt" />
@@ -203,5 +208,8 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="Assets\Textures\uvtemplate.DDS" />
+  </ItemGroup>
+  <ItemGroup>
+    <Object Include="Assets\Models\pink_cube.obj" />
   </ItemGroup>
 </Project>

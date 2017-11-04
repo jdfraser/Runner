@@ -1,4 +1,5 @@
 #include <SOIL2/SOIL2.h>
+#include <tinyobjloader/tiny_obj_loader.h>
 
 #include "ResourceManager.h"
 
@@ -7,84 +8,6 @@
 #include "GameObject/GameObject.h"
 #include "Component/Model.h"
 #include "Component/Material.h"
-
-const std::vector<GLfloat> vertices = {
-	-1.0f, -1.0f, -1.0f,
-	-1.0f, -1.0f, 1.0f,
-	-1.0f, 1.0f, 1.0f,
-	1.0f, 1.0f, -1.0f,
-	-1.0f, -1.0f, -1.0f,
-	-1.0f, 1.0f, -1.0f,
-	1.0f, -1.0f, 1.0f,
-	-1.0f, -1.0f, -1.0f,
-	1.0f, -1.0f, -1.0f,
-	1.0f, 1.0f, -1.0f,
-	1.0f, -1.0f, -1.0f,
-	-1.0f, -1.0f, -1.0f,
-	-1.0f, -1.0f, -1.0f,
-	-1.0f, 1.0f, 1.0f,
-	-1.0f, 1.0f, -1.0f,
-	1.0f, -1.0f, 1.0f,
-	-1.0f, -1.0f, 1.0f,
-	-1.0f, -1.0f, -1.0f,
-	-1.0f, 1.0f, 1.0f,
-	-1.0f, -1.0f, 1.0f,
-	1.0f, -1.0f, 1.0f,
-	1.0f, 1.0f, 1.0f,
-	1.0f, -1.0f, -1.0f,
-	1.0f, 1.0f, -1.0f,
-	1.0f, -1.0f, -1.0f,
-	1.0f, 1.0f, 1.0f,
-	1.0f, -1.0f, 1.0f,
-	1.0f, 1.0f, 1.0f,
-	1.0f, 1.0f, -1.0f,
-	-1.0f, 1.0f, -1.0f,
-	1.0f, 1.0f, 1.0f,
-	-1.0f, 1.0f, -1.0f,
-	-1.0f, 1.0f, 1.0f,
-	1.0f, 1.0f, 1.0f,
-	-1.0f, 1.0f, 1.0f,
-	1.0f, -1.0f, 1.0f
-};
-
-const std::vector<GLfloat> texCoords = {
-	0.000059f, 1.0f - 0.000004f,
-	0.000103f, 1.0f - 0.336048f,
-	0.335973f, 1.0f - 0.335903f,
-	1.000023f, 1.0f - 0.000013f,
-	0.667979f, 1.0f - 0.335851f,
-	0.999958f, 1.0f - 0.336064f,
-	0.667979f, 1.0f - 0.335851f,
-	0.336024f, 1.0f - 0.671877f,
-	0.667969f, 1.0f - 0.671889f,
-	1.000023f, 1.0f - 0.000013f,
-	0.668104f, 1.0f - 0.000013f,
-	0.667979f, 1.0f - 0.335851f,
-	0.000059f, 1.0f - 0.000004f,
-	0.335973f, 1.0f - 0.335903f,
-	0.336098f, 1.0f - 0.000071f,
-	0.667979f, 1.0f - 0.335851f,
-	0.335973f, 1.0f - 0.335903f,
-	0.336024f, 1.0f - 0.671877f,
-	1.000004f, 1.0f - 0.671847f,
-	0.999958f, 1.0f - 0.336064f,
-	0.667979f, 1.0f - 0.335851f,
-	0.668104f, 1.0f - 0.000013f,
-	0.335973f, 1.0f - 0.335903f,
-	0.667979f, 1.0f - 0.335851f,
-	0.335973f, 1.0f - 0.335903f,
-	0.668104f, 1.0f - 0.000013f,
-	0.336098f, 1.0f - 0.000071f,
-	0.000103f, 1.0f - 0.336048f,
-	0.000004f, 1.0f - 0.671870f,
-	0.336024f, 1.0f - 0.671877f,
-	0.000103f, 1.0f - 0.336048f,
-	0.336024f, 1.0f - 0.671877f,
-	0.335973f, 1.0f - 0.335903f,
-	0.667969f, 1.0f - 0.671889f,
-	1.000004f, 1.0f - 0.671847f,
-	0.667979f, 1.0f - 0.335851f
-};
 
 void ResourceManager::startUp() {
 	
@@ -96,19 +19,41 @@ void ResourceManager::shutDown() {
 	}
 }
 
-void ResourceManager::loadModelData(const std::shared_ptr<class Model> model) {
-	model->setVertices(vertices);
-	model->setUVs(texCoords);
-	model->load();
-}
+void ResourceManager::loadModelData(const std::shared_ptr<class Model> model, std::string modelFile) {
+	tinyobj::attrib_t attrib;
+	std::vector<tinyobj::shape_t> shapes;
+	std::vector<tinyobj::material_t> materials;
+	std::string errorMessage;
 
-void ResourceManager::loadMaterialData(const std::shared_ptr<Material> material) {
-	GLuint programID = LoadShaders("Assets/Shaders/default.vert", "Assets/Shaders/default.frag");
-	GLuint textureID = SOIL_load_OGL_texture("Assets/Textures/uvtemplate.DDS", SOIL_LOAD_RGB, SOIL_CREATE_NEW_ID, SOIL_FLAG_DDS_LOAD_DIRECT);
+	tinyobj::LoadObj(&attrib, &shapes, &materials, &errorMessage, (MODEL_DIR + modelFile + ".obj").c_str(), MODEL_DIR.c_str());
 
-	material->setProgramID(programID);
-	material->setTexture(textureID);
+	if (!errorMessage.empty()) {
+		Debug::log(errorMessage);
+	}
+
+	std::vector<GLfloat> vertices;
+	std::vector<GLfloat> texCoords;
+
+	for (tinyobj::shape_t shape : shapes) {
+		for (tinyobj::index_t index : shape.mesh.indices) {
+			vertices.push_back(attrib.vertices[3 * index.vertex_index]);
+			vertices.push_back(attrib.vertices[3 * index.vertex_index + 1]);
+			vertices.push_back(attrib.vertices[3 * index.vertex_index + 2]);
+
+			if (index.texcoord_index >= 0) {
+				texCoords.push_back(attrib.texcoords[2 * index.texcoord_index]);
+				texCoords.push_back(attrib.texcoords[2 * index.texcoord_index + 1]);
+			}
+		}
+	}
+	
+	std::shared_ptr<Material> material = std::dynamic_pointer_cast<Material>(makeNewComponent<Material>());
 	material->load();
+
+	model->setMaterial(material);
+	model->setVertices(vertices);
+	model->setTexCoords(texCoords);
+	model->load();
 }
 
 std::shared_ptr<class GameObject> ResourceManager::makeNewObject() {
@@ -117,4 +62,10 @@ std::shared_ptr<class GameObject> ResourceManager::makeNewObject() {
 	m_gameObjects.push_back(gameObject);
 
 	return gameObject;
+}
+
+GLuint ResourceManager::loadShader(std::string shaderName) {
+	std::string baseDir = "Assets/Shaders/";
+
+	return LoadShaders((baseDir + shaderName + ".vert").c_str(), (baseDir + shaderName + ".frag").c_str());
 }

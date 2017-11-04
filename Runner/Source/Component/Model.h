@@ -7,8 +7,11 @@
 class Model : public Component
 {
 private:
+	bool m_rendering = false;
+	std::vector<GLuint> m_attribArraysInUse;
+
 	std::vector<GLfloat> m_vertices;
-	std::vector<GLfloat> m_UVs;
+	std::vector<GLfloat> m_texCoords;
 
 	GLuint m_vertexArrayID;
 	GLuint m_vertexBufferID;
@@ -21,17 +24,19 @@ public:
 
 	virtual void unLoad() override;
 
-	void setVertices(std::vector<GLfloat> m_vertices);
+	void beginRender();
+
+	void endRender();
+
+	void setVertices(std::vector<GLfloat> vertices);
 	
-	void setUVs(std::vector<GLfloat> m_UVs);
+	void setTexCoords(std::vector<GLfloat> texCoords);
 
 	void setMaterial(std::shared_ptr<class Material> material);
 
-	GLuint getVertexArray();
+	void writeTextureToShader(GLuint uniformLocation);
 
-	GLuint getVertexBuffer();
+	void writeVerticesToShader(GLuint verticesIndex);
 
-	GLuint getUVBuffer();
-
-	std::shared_ptr<Material> getMaterial();
+	void writeTexCoordsToShader(GLuint texCoordsIndex);
 };

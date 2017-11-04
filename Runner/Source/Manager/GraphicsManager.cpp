@@ -2,11 +2,17 @@
 #include <glm/gtc/matrix_transform.hpp>
 
 #include "GraphicsManager.h"
+#include "ResourceManager.h"
 #include "Util/shader.h"
 #include "GameObject/GameObject.h"
 #include "Component/Transform.h"
 #include "Component/Model.h"
 #include "Component/Material.h"
+
+GraphicsManager::GraphicsManager(ResourceManager& resourceManager)
+	: m_resourceManager(resourceManager) {
+
+}
 
 void GraphicsManager::startUp() {
 	m_window = SDL_CreateWindow(
@@ -40,6 +46,8 @@ void GraphicsManager::startUp() {
 	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 
 	glewInit();
+
+	m_defaultShader = m_resourceManager.loadShader("default");
 
 	glClearColor(0.0f, 0.0f, 0.4f, 0.0f);
 
@@ -97,44 +105,26 @@ void GraphicsManager::draw() {
 			continue;
 		}
 
-		std::shared_ptr<Material> material = model->getMaterial();
-
-		if (!material) {
-			continue;
-		}
-
-		glUseProgram(material->getProgramID());
-
 		glm::mat4 modelMatrix = gameObject->getTransform().toMatrix();
 
 		glm::mat4 mvp = projectionMatrix * viewMatrix * modelMatrix;
 
+		glUseProgram(m_defaultShader);
+
 		// Write the MVP matrix
 		glUniformMatrix4fv(
-			glGetUniformLocation(material->getProgramID(), "MVP"),
+			glGetUniformLocation(m_defaultShader, "MVP"),
 			1,
 			GL_FALSE,
 			&mvp[0][0]
 		);
-
-		// Write the texture data
-		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, material->getTexture());
-		glUniform1i(glGetUniformLocation(material->getProgramID(), "textureSampler"), 0);
-
-		// Write the vertex data
-		glEnableVertexAttribArray(0);
-		glBindBuffer(GL_ARRAY_BUFFER, model->getVertexBuffer());
-		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, nullptr);
-
-		// Write the texture coordinates
-		glEnableVertexAttribArray(1);
-		glBindBuffer(GL_ARRAY_BUFFER, model->getUVBuffer());
-		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, nullptr);
-
-		// Draw
-		glDrawArrays(GL_TRIANGLES, 0, 12 * 3);
-		glDisableVertexAttribArray(0);
+		
+		model->beginRender();
+			model->writeTextureToShader(glGetUniformLocation(m_defaultShader, "textureSampler"));
+			model->writeVerticesToShader(0);
+			model->writeTexCoordsToShader(1);
+			glDrawArrays(GL_TRIANGLES, 0, 12 * 3);
+		model->endRender();
 	}
 
 	SDL_GL_SwapWindow(m_window);

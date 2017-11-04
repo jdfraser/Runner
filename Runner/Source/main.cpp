@@ -16,11 +16,11 @@ const int WINDOW_HEIGHT = 768;
 
 int main(int argc, char* argv[]) {
 
-	GraphicsManager g_graphicsManager;
 	ResourceManager g_resourceManager;
+	GraphicsManager g_graphicsManager(g_resourceManager);
 
-	g_graphicsManager.startUp();
 	g_resourceManager.startUp();
+	g_graphicsManager.startUp();
 
 	GameObjectFactory factory(g_resourceManager);
 

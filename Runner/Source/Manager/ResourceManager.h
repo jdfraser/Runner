@@ -1,11 +1,14 @@
 #pragma once
 
 #include "Manager.h"
+#include <GL/glew.h>
 
 class ResourceManager final : public Manager
 {
 
 private:
+	const std::string MODEL_DIR = "Assets/Models/";
+
 	std::vector<std::shared_ptr<class GameObject>> m_gameObjects;
 
 	std::vector<std::shared_ptr<class Component>> m_components;
@@ -20,9 +23,9 @@ public:
 	template<class T>
 	std::shared_ptr<class Component> makeNewComponent();
 
-	void loadModelData(const std::shared_ptr<class Model> model);
+	void loadModelData(const std::shared_ptr<class Model> model, std::string modelFile);
 
-	void loadMaterialData(const std::shared_ptr<class Material> material);
+	GLuint loadShader(std::string shaderName);
 };
 
 template <typename T>

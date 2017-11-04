@@ -1,7 +1,7 @@
 #include "Model.h"
 
 void Model::load() {
-	if (!m_material || m_vertices.size() == 0 || m_UVs.size() == 0) {
+	if (!m_material || m_vertices.size() == 0 || (m_material->getTexture() && m_texCoords.size() == 0)) {
 		Debug::log("Failed to load model");
 
 		return;
@@ -16,7 +16,7 @@ void Model::load() {
 
 	glGenBuffers(1, &m_UVBufferID);
 	glBindBuffer(GL_ARRAY_BUFFER, m_UVBufferID);
-	glBufferData(GL_ARRAY_BUFFER, m_UVs.size() * sizeof(GLuint), m_UVs.data(), GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, m_texCoords.size() * sizeof(GLuint), m_texCoords.data(), GL_STATIC_DRAW);
 }
 
 void Model::unLoad() {
@@ -25,31 +25,68 @@ void Model::unLoad() {
 	glDeleteVertexArrays(1, &m_vertexArrayID);
 }
 
+void Model::beginRender() {
+	assert(!m_rendering);
+
+	m_rendering = true;
+}
+
+void Model::endRender() {
+	assert(m_rendering);
+
+	m_rendering = false;
+
+	for (GLuint index : m_attribArraysInUse) {
+		glDisableVertexAttribArray(index);
+	}
+
+	m_attribArraysInUse.clear();
+}
+
 void Model::setVertices(std::vector<GLfloat> vertices) {
 	m_vertices = vertices;
 }
 
-void Model::setUVs(std::vector<GLfloat> UVs) {
-	m_UVs = UVs;
+void Model::setTexCoords(std::vector<GLfloat> texCoords) {
+	m_texCoords = texCoords;
 }
 
 void Model::setMaterial(std::shared_ptr<class Material> material) {
 	m_material = material;
 }
 
-GLuint Model::getVertexArray() {
-	return m_vertexArrayID;
+void Model::writeTextureToShader(GLuint uniformLocation) {
+	assert(m_rendering);
+
+	if (!m_material->getTexture()) {
+		return;
+	}
+
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, m_material->getTexture());
+	glUniform1i(uniformLocation, 0);
 }
 
-GLuint Model::getVertexBuffer() {
-	return m_vertexBufferID;
+void Model::writeVerticesToShader(GLuint verticesIndex) {
+	assert(m_rendering);
+
+	m_attribArraysInUse.push_back(verticesIndex);
+
+	glEnableVertexAttribArray(verticesIndex);
+	glBindBuffer(GL_ARRAY_BUFFER, m_vertexBufferID);
+	glVertexAttribPointer(verticesIndex, 3, GL_FLOAT, GL_FALSE, 0, nullptr);
 }
 
-GLuint Model::getUVBuffer() {
-	return m_UVBufferID;
-}
+void Model::writeTexCoordsToShader(GLuint texCoordsIndex) {
+	assert(m_rendering);
 
-std::shared_ptr<Material> Model::getMaterial() {
-	return m_material;
-}
+	if (!m_material->getTexture()) {
+		return;
+	}
 
+	m_attribArraysInUse.push_back(texCoordsIndex);
+
+	glEnableVertexAttribArray(texCoordsIndex);
+	glBindBuffer(GL_ARRAY_BUFFER, m_UVBufferID);
+	glVertexAttribPointer(texCoordsIndex, 2, GL_FLOAT, GL_FALSE, 0, nullptr);
+}
