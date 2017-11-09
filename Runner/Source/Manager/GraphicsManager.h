@@ -15,8 +15,6 @@ private:
 
 	std::shared_ptr<class GameObject> m_camera;
 
-	std::vector<std::shared_ptr<class GameObject>> m_gameObjects;
-
 public:
 	GraphicsManager(class ResourceManager& resourceManager);
 
@@ -27,8 +25,6 @@ public:
 	virtual void shutDown() override;
 
 	void setCamera(std::shared_ptr<class GameObject> gameObject);
-
-	void addObject(std::shared_ptr<class GameObject> gameObject);
 
 	void draw();
 

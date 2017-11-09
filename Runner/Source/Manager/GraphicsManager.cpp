@@ -73,10 +73,6 @@ void GraphicsManager::setCamera(std::shared_ptr<GameObject> camera) {
 	m_camera = camera;
 }
 
-void GraphicsManager::addObject(std::shared_ptr<GameObject> gameObject) {
-	m_gameObjects.push_back(gameObject);
-}
-
 void GraphicsManager::draw() {
 	glm::uvec2 center = getWindowCenter();
 	SDL_WarpMouseInWindow(m_window, center.x, center.y);
@@ -98,7 +94,7 @@ void GraphicsManager::draw() {
 		m_camera->getTransform().getUpVector()
 	);
 
-	for (std::shared_ptr<GameObject> gameObject : m_gameObjects) {
+	for (std::shared_ptr<GameObject> gameObject : m_resourceManager.getDrawObjects()) {
 		std::shared_ptr<Model> model       = gameObject->getModel();
 
 		if (!model) {

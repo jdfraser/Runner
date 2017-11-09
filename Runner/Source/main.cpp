@@ -24,7 +24,7 @@ int main(int argc, char* argv[]) {
 
 	GameObjectFactory factory(g_resourceManager);
 
-	g_graphicsManager.addObject(factory.makeCube());
+	factory.makeGround();
 
 	std::shared_ptr<GameObject> player = factory.makePlayer();
 	g_graphicsManager.setCamera(player);

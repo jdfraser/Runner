@@ -8,6 +8,7 @@ class ResourceManager final : public Manager
 
 private:
 	const std::string MODEL_DIR = "Assets/Models/";
+	const std::string TEXTURE_DIR = "Assets/Textures/";
 
 	std::vector<std::shared_ptr<class GameObject>> m_gameObjects;
 
@@ -23,9 +24,11 @@ public:
 	template<class T>
 	std::shared_ptr<class Component> makeNewComponent();
 
-	void loadModelData(const std::shared_ptr<class Model> model, std::string modelFile);
+	void loadModelData(const std::shared_ptr<class Model> model, std::string modelName);
 
 	GLuint loadShader(std::string shaderName);
+
+	const std::vector<std::shared_ptr<class GameObject>>& getDrawObjects();
 };
 
 template <typename T>

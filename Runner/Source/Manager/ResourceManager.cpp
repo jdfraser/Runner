@@ -19,13 +19,13 @@ void ResourceManager::shutDown() {
 	}
 }
 
-void ResourceManager::loadModelData(const std::shared_ptr<class Model> model, std::string modelFile) {
+void ResourceManager::loadModelData(const std::shared_ptr<class Model> model, std::string modelName) {
 	tinyobj::attrib_t attrib;
 	std::vector<tinyobj::shape_t> shapes;
 	std::vector<tinyobj::material_t> materials;
 	std::string errorMessage;
 
-	tinyobj::LoadObj(&attrib, &shapes, &materials, &errorMessage, (MODEL_DIR + modelFile + ".obj").c_str(), MODEL_DIR.c_str());
+	tinyobj::LoadObj(&attrib, &shapes, &materials, &errorMessage, (MODEL_DIR + modelName + ".obj").c_str(), MODEL_DIR.c_str());
 
 	if (!errorMessage.empty()) {
 		Debug::log(errorMessage);
@@ -48,6 +48,16 @@ void ResourceManager::loadModelData(const std::shared_ptr<class Model> model, st
 	}
 	
 	std::shared_ptr<Material> material = std::dynamic_pointer_cast<Material>(makeNewComponent<Material>());
+
+	material->setTexture(
+		SOIL_load_OGL_texture(
+			(TEXTURE_DIR + modelName + ".DDS").c_str(),
+			SOIL_LOAD_RGB,
+			SOIL_CREATE_NEW_ID,
+			SOIL_FLAG_DDS_LOAD_DIRECT
+		)
+	);
+
 	material->load();
 
 	model->setMaterial(material);
@@ -68,4 +78,8 @@ GLuint ResourceManager::loadShader(std::string shaderName) {
 	std::string baseDir = "Assets/Shaders/";
 
 	return LoadShaders((baseDir + shaderName + ".vert").c_str(), (baseDir + shaderName + ".frag").c_str());
+}
+
+const std::vector<std::shared_ptr<class GameObject>>& ResourceManager::getDrawObjects() {
+	return m_gameObjects;
 }

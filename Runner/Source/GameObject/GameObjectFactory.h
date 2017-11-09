@@ -11,7 +11,7 @@ public:
 
 	explicit GameObjectFactory(ResourceManager& resourceManager);
 
-	std::shared_ptr<class GameObject> makeCube();
+	std::shared_ptr<class GameObject> makeGround();
 
 	std::shared_ptr<class GameObject> makePlayer();
 };

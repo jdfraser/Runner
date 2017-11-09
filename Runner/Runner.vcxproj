@@ -254,6 +254,10 @@
     <Library Include="Libraries\SOIL2\soil2-debug.lib" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Assets\Models\ground.mtl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </None>
     <None Include="Assets\Models\pink_cube.mtl" />
     <None Include="glew32.dll" />
     <None Include="Libraries\SDL2\SDL_config.h.cmake" />
@@ -264,17 +268,22 @@
     <None Include="Assets\Shaders\default.vert" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="Assets\Textures\uvtemplate.DDS" />
-  </ItemGroup>
-  <ItemGroup>
     <Text Include="Libraries\glm\CMakeLists.txt" />
     <Text Include="Libraries\glm\copying.txt" />
   </ItemGroup>
   <ItemGroup>
+    <Object Include="Assets\Models\ground.obj">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </Object>
     <Object Include="Assets\Models\pink_cube.obj">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </Object>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Assets\Textures\ground.DDS" />
+    <Image Include="Assets\Textures\uvtemplate.DDS" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

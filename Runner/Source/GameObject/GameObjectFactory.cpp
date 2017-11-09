@@ -9,11 +9,11 @@ GameObjectFactory::GameObjectFactory(ResourceManager& resourceManager) : m_resou
 
 }
 
-std::shared_ptr<GameObject> GameObjectFactory::makeCube() {
+std::shared_ptr<GameObject> GameObjectFactory::makeGround() {
 	std::shared_ptr<GameObject> gameObject = std::dynamic_pointer_cast<GameObject>(m_resourceManager.makeNewObject());
 
 	std::shared_ptr<Model> model = std::dynamic_pointer_cast<Model>(m_resourceManager.makeNewComponent<Model>());
-	m_resourceManager.loadModelData(model, "pink_cube");
+	m_resourceManager.loadModelData(model, "ground");
 
 	gameObject->setModel(model);
 	model->setOwner(gameObject);
