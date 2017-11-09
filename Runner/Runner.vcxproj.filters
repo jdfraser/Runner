@@ -46,6 +46,9 @@
     <ClCompile Include="Libraries\tinyobjloader\tiny_obj_loader.cc">
       <Filter>Source</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Manager\GameplayManager.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Libraries\GL\glew.h" />
@@ -184,6 +187,7 @@
     <ClInclude Include="Source\Common.h" />
     <ClInclude Include="Source\Debug.h" />
     <ClInclude Include="Libraries\tinyobjloader\tiny_obj_loader.h" />
+    <ClInclude Include="Source\Manager\GameplayManager.h" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="Libraries\GL\glew32.lib" />

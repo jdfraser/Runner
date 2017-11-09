@@ -104,6 +104,7 @@
     <ClCompile Include="Source\GameObject\GameObjectFactory.cpp" />
     <ClCompile Include="Source\Component\Material.cpp" />
     <ClCompile Include="Source\main.cpp" />
+    <ClCompile Include="Source\Manager\GameplayManager.cpp" />
     <ClCompile Include="Source\Manager\GraphicsManager.cpp" />
     <ClCompile Include="Source\Manager\ResourceManager.cpp" />
     <ClCompile Include="Source\Util\shader.cpp" />
@@ -241,6 +242,7 @@
     <ClInclude Include="Source\GameObject\GameObject.h" />
     <ClInclude Include="Source\GameObject\GameObjectFactory.h" />
     <ClInclude Include="Source\Component\Material.h" />
+    <ClInclude Include="Source\Manager\GameplayManager.h" />
     <ClInclude Include="Source\Manager\GraphicsManager.h" />
     <ClInclude Include="Source\Manager\Manager.h" />
     <ClInclude Include="Source\Manager\ResourceManager.h" />
@@ -255,8 +257,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Models\ground.mtl">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </ExcludedFromBuild>
     </None>
     <None Include="Assets\Models\pink_cube.mtl" />
     <None Include="glew32.dll" />

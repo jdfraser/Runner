@@ -26,6 +26,8 @@ public:
 
 	void setCamera(std::shared_ptr<class GameObject> gameObject);
 
+	std::shared_ptr<class GameObject> getCamera();
+
 	void draw();
 
 private:

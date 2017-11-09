@@ -14,6 +14,8 @@ private:
 
 	std::vector<std::shared_ptr<class Component>> m_components;
 
+	std::shared_ptr<class GameObject> m_player;
+
 public:
 	virtual void startUp() override;
 
@@ -24,11 +26,17 @@ public:
 	template<class T>
 	std::shared_ptr<class Component> makeNewComponent();
 
+	std::shared_ptr<class GameObject> makeNewPlayer();
+
 	void loadModelData(const std::shared_ptr<class Model> model, std::string modelName);
 
 	GLuint loadShader(std::string shaderName);
 
 	const std::vector<std::shared_ptr<class GameObject>>& getDrawObjects();
+
+	const std::vector<std::shared_ptr<class GameObject>>& getAllGameObjects();
+
+	const std::shared_ptr<class GameObject> getPlayer();
 };
 
 template <typename T>

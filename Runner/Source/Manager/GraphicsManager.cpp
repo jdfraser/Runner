@@ -73,6 +73,14 @@ void GraphicsManager::setCamera(std::shared_ptr<GameObject> camera) {
 	m_camera = camera;
 }
 
+std::shared_ptr<class GameObject> GraphicsManager::getCamera() {
+	if (!m_camera) {
+		m_camera = m_resourceManager.getPlayer();
+	}
+
+	return m_camera;
+}
+
 void GraphicsManager::draw() {
 	glm::uvec2 center = getWindowCenter();
 	SDL_WarpMouseInWindow(m_window, center.x, center.y);
@@ -86,12 +94,12 @@ void GraphicsManager::draw() {
 		100.0f
 	);
 
-	glm::vec3 pos = m_camera->getTransform().getPosition();
+	glm::vec3 pos = getCamera()->getTransform().getPosition();
 
 	glm::mat4 viewMatrix = glm::lookAt(
 		pos,
-		pos + m_camera->getTransform().getForwardVector(),
-		m_camera->getTransform().getUpVector()
+		pos + getCamera()->getTransform().getForwardVector(),
+		getCamera()->getTransform().getUpVector()
 	);
 
 	for (std::shared_ptr<GameObject> gameObject : m_resourceManager.getDrawObjects()) {

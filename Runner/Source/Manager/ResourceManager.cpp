@@ -83,3 +83,17 @@ GLuint ResourceManager::loadShader(std::string shaderName) {
 const std::vector<std::shared_ptr<class GameObject>>& ResourceManager::getDrawObjects() {
 	return m_gameObjects;
 }
+
+const std::vector<std::shared_ptr<class GameObject>>& ResourceManager::getAllGameObjects() {
+	return m_gameObjects;
+}
+
+std::shared_ptr<class GameObject> ResourceManager::makeNewPlayer() {
+	m_player = std::dynamic_pointer_cast<GameObject>(makeNewObject());
+	
+	return m_player;
+}
+
+const std::shared_ptr<class GameObject> ResourceManager::getPlayer() {
+	return m_player;
+}
