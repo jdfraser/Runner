@@ -7,18 +7,6 @@ Transform::Transform() : m_scale(1.0f, 1.0f, 1.0f) {
 
 }
 
-void Transform::tick(float deltaTime) {
-
-}
-
-void Transform::load() {
-
-}
-
-void Transform::unLoad() {
-
-}
-
 glm::vec3 Transform::getScale() {
 	return m_scale;
 }

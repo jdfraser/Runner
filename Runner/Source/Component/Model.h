@@ -2,23 +2,25 @@
 
 #include "Component.h"
 #include "Component/Material.h"
-#include "Component/Transform.h"
+#include "Util/Bounds.h"
 
 class Model : public Component
 {
 private:
-	bool m_rendering = false;
-	std::vector<GLuint> m_attribArraysInUse;
-
-	std::vector<GLfloat> m_vertices;
-	std::vector<GLfloat> m_texCoords;
-
 	GLuint m_vertexArrayID;
 	GLuint m_vertexBufferID;
 	GLuint m_UVBufferID;
 
+	Bounds m_bounds;
+
+	std::vector<GLfloat> m_vertices;
+	std::vector<GLfloat> m_texCoords;
+
 	std::shared_ptr<class Material> m_material;
 
+	bool m_rendering = false;
+	std::vector<GLuint> m_attribArraysInUse;
+	
 public:
 	virtual void load() override;
 
@@ -34,9 +36,14 @@ public:
 
 	void setMaterial(std::shared_ptr<class Material> material);
 
+	Bounds getBounds();
+
 	void writeTextureToShader(GLuint uniformLocation);
 
 	void writeVerticesToShader(GLuint verticesIndex);
 
 	void writeTexCoordsToShader(GLuint texCoordsIndex);
+
+private:
+	void calculateBounds();
 };

@@ -17,6 +17,8 @@ void Model::load() {
 	glGenBuffers(1, &m_UVBufferID);
 	glBindBuffer(GL_ARRAY_BUFFER, m_UVBufferID);
 	glBufferData(GL_ARRAY_BUFFER, m_texCoords.size() * sizeof(GLuint), m_texCoords.data(), GL_STATIC_DRAW);
+
+	calculateBounds();
 }
 
 void Model::unLoad() {
@@ -55,6 +57,10 @@ void Model::setMaterial(std::shared_ptr<class Material> material) {
 	m_material = material;
 }
 
+Bounds Model::getBounds() {
+	return m_bounds;
+}
+
 void Model::writeTextureToShader(GLuint uniformLocation) {
 	assert(m_rendering);
 
@@ -89,4 +95,28 @@ void Model::writeTexCoordsToShader(GLuint texCoordsIndex) {
 	glEnableVertexAttribArray(texCoordsIndex);
 	glBindBuffer(GL_ARRAY_BUFFER, m_UVBufferID);
 	glVertexAttribPointer(texCoordsIndex, 2, GL_FLOAT, GL_FALSE, 0, nullptr);
+}
+
+void Model::calculateBounds() {
+	glm::vec3 min;
+	glm::vec3 max;
+
+	assert(m_vertices.size() % 3 == 0);
+
+	for (int i = 0; i < m_vertices.size(); i += 3) {
+		float x = m_vertices[i];
+		float y = m_vertices[i + 1];
+		float z = m_vertices[i + 2];
+
+		min.x = glm::min(x, min.x);
+		min.y = glm::min(y, min.y);
+		min.z = glm::min(z, min.z);
+
+		max.x = glm::max(x, max.x);
+		max.y = glm::max(y, max.y);
+		max.z = glm::max(z, max.z);
+	}
+
+	m_bounds.min = min;
+	m_bounds.max = max;
 }

@@ -5,9 +5,9 @@
 #include "ResourceManager.h"
 #include "Util/shader.h"
 #include "GameObject/GameObject.h"
-#include "Component/Transform.h"
 #include "Component/Model.h"
 #include "Component/Material.h"
+#include "Util/Transform.h"
 
 GraphicsManager::GraphicsManager(ResourceManager& resourceManager)
 	: m_resourceManager(resourceManager) {

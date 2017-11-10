@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Component.h"
+#include "Common.h"
 
-class Transform : public Component
+class Transform
 {
 private:
 	
@@ -13,12 +13,6 @@ private:
 public:
 
 	Transform();
-
-	virtual void tick(float deltaTime) override;
-
-	virtual void load() override;
-
-	virtual void unLoad() override;
 
 	glm::vec3 getScale();
 

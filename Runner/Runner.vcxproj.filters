@@ -22,9 +22,6 @@
     <ClCompile Include="Source\GameObject\GameObject.cpp">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Component\Transform.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Component\Model.cpp">
       <Filter>Source</Filter>
     </ClCompile>
@@ -47,6 +44,9 @@
       <Filter>Source</Filter>
     </ClCompile>
     <ClCompile Include="Source\Manager\GameplayManager.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Util\Transform.cpp">
       <Filter>Source</Filter>
     </ClCompile>
   </ItemGroup>
@@ -178,7 +178,6 @@
     <ClInclude Include="Source\Util\shader.h" />
     <ClInclude Include="Source\Component\Component.h" />
     <ClInclude Include="Source\GameObject\GameObject.h" />
-    <ClInclude Include="Source\Component\Transform.h" />
     <ClInclude Include="Source\Component\Model.h" />
     <ClInclude Include="Source\Manager\ResourceManager.h" />
     <ClInclude Include="Source\GameObject\GameObjectFactory.h" />
@@ -188,6 +187,8 @@
     <ClInclude Include="Source\Debug.h" />
     <ClInclude Include="Libraries\tinyobjloader\tiny_obj_loader.h" />
     <ClInclude Include="Source\Manager\GameplayManager.h" />
+    <ClInclude Include="Source\Util\Transform.h" />
+    <ClInclude Include="Source\Util\Bounds.h" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="Libraries\GL\glew32.lib" />

@@ -2,7 +2,7 @@
 
 #include "Common.h"
 #include "Component/Component.h"
-#include "Component/Transform.h"
+#include "Util/Transform.h"
 
 class GameObject
 {
