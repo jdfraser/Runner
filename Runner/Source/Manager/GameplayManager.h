@@ -6,9 +6,15 @@
 class GameplayManager : public Manager
 {
 private:
+	const int MIN_GROUND_INSTANCES = 5;
+
 	class ResourceManager& m_resourceManager;
 
 	GameObjectFactory m_factory;
+
+	std::shared_ptr<GameObject> m_player;
+
+	std::vector<std::shared_ptr<GameObject>> m_groundInstances;
 
 public:
 	GameplayManager(class ResourceManager& resourceManager);
@@ -21,4 +27,6 @@ public:
 
 	void tick(float deltaTime);
 
+private:
+	void generateGround();
 };
