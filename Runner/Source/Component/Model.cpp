@@ -103,7 +103,7 @@ void Model::calculateBounds() {
 
 	assert(m_vertices.size() % 3 == 0);
 
-	for (int i = 0; i < m_vertices.size(); i += 3) {
+	for (uint32_t i = 0; i < m_vertices.size(); i += 3) {
 		float x = m_vertices[i];
 		float y = m_vertices[i + 1];
 		float z = m_vertices[i + 2];

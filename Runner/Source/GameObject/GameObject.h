@@ -2,12 +2,11 @@
 
 #include "Common.h"
 #include "Component/Component.h"
-#include "Util/Transform.h"
+#include "Engine/Transform.h"
 
-class GameObject
+class GameObject : public Spawnable
 {
 private:
-
 	Transform m_transform;
 
 	std::shared_ptr<class Model> m_model;
@@ -28,5 +27,7 @@ public:
 	void setInputHandler(std::shared_ptr<class InputHandler> inputHandler);
 
 	void tick(float deltaTime);
+
+	virtual void destroy() final override;
 
 };

@@ -2,7 +2,7 @@
 
 #include "Component.h"
 #include "Component/Material.h"
-#include "Util/Bounds.h"
+#include "Engine/Bounds.h"
 
 class Model : public Component
 {

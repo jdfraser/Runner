@@ -46,7 +46,10 @@
     <ClCompile Include="Source\Manager\GameplayManager.cpp">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Util\Transform.cpp">
+    <ClCompile Include="Source\Engine\Transform.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Spawnable.cpp">
       <Filter>Source</Filter>
     </ClCompile>
   </ItemGroup>
@@ -187,8 +190,9 @@
     <ClInclude Include="Source\Debug.h" />
     <ClInclude Include="Libraries\tinyobjloader\tiny_obj_loader.h" />
     <ClInclude Include="Source\Manager\GameplayManager.h" />
-    <ClInclude Include="Source\Util\Transform.h" />
-    <ClInclude Include="Source\Util\Bounds.h" />
+    <ClInclude Include="Source\Engine\Bounds.h" />
+    <ClInclude Include="Source\Engine\Transform.h" />
+    <ClInclude Include="Source\Engine\Spawnable.h" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="Libraries\GL\glew32.lib" />

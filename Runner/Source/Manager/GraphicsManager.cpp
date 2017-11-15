@@ -7,7 +7,7 @@
 #include "GameObject/GameObject.h"
 #include "Component/Model.h"
 #include "Component/Material.h"
-#include "Util/Transform.h"
+#include "Engine/Transform.h"
 
 GraphicsManager::GraphicsManager(ResourceManager& resourceManager)
 	: m_resourceManager(resourceManager) {
@@ -81,6 +81,10 @@ std::shared_ptr<class GameObject> GraphicsManager::getCamera() {
 	return m_camera;
 }
 
+void GraphicsManager::tick(float deltaTime) {
+	draw();
+}
+
 void GraphicsManager::draw() {
 	glm::uvec2 center = getWindowCenter();
 	SDL_WarpMouseInWindow(m_window, center.x, center.y);
@@ -103,9 +107,13 @@ void GraphicsManager::draw() {
 	);
 
 	for (std::shared_ptr<GameObject> gameObject : m_resourceManager.getDrawObjects()) {
-		std::shared_ptr<Model> model       = gameObject->getModel();
+		if (!ResourceManager::isValid(gameObject)) {
+			continue;
+		}
 
-		if (!model) {
+		std::shared_ptr<Model> model = gameObject->getModel();
+
+		if (!ResourceManager::isValid(model)) {
 			continue;
 		}
 

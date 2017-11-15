@@ -33,8 +33,9 @@ int main(int argc, char* argv[]) {
 		float currentTime = static_cast<float>(SDL_GetTicks());
 		float deltaTime = (currentTime - lastTime) / 1000.0f;
 
+		g_resourceManager.tick(deltaTime);
 		g_gameplayManager.tick(deltaTime);
-		g_graphicsManager.draw();
+		g_graphicsManager.tick(deltaTime);
 
 		lastTime = currentTime;
 	}

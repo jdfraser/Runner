@@ -28,9 +28,11 @@ public:
 
 	std::shared_ptr<class GameObject> getCamera();
 
-	void draw();
+	virtual void tick(float deltaTime) override;
 
 private:
+
+	void draw();
 
 	int getWindowWidth();
 

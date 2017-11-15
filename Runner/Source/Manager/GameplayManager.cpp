@@ -1,3 +1,5 @@
+#include <algorithm>
+
 #include "Common.h"
 #include "GameplayManager.h"
 #include "GameObject/GameObject.h"
@@ -21,11 +23,15 @@ void GameplayManager::shutDown() {
 }
 
 void GameplayManager::tick(float deltaTime) {
+	generateGround();
+	
 	for (std::shared_ptr<GameObject> gameObject : m_resourceManager.getAllGameObjects()) {
+		if (!ResourceManager::isValid(gameObject)) {
+			continue;
+		}
+
 		gameObject->tick(deltaTime);
 	}
-
-	generateGround();
 }
 
 void GameplayManager::generateGround() {
@@ -34,10 +40,11 @@ void GameplayManager::generateGround() {
 
 	float furthestZ = 0.0f;
 	std::vector<std::shared_ptr<GameObject>> groundInFront;
-	for (std::shared_ptr<GameObject> ground : m_groundInstances) {
+	for (std::shared_ptr<GameObject>& ground : m_groundInstances) {
 		glm::vec3 groundPos = ground->getTransform().getPosition();
 		if (groundPos.z > playerPos.z) {
-			// TODO: destroy this ground instance
+			ground->destroy();
+			ground.reset();
 		} else {
 			groundInFront.push_back(ground);
 			if (groundPos.z < furthestZ) {
@@ -58,4 +65,13 @@ void GameplayManager::generateGround() {
 		m_groundInstances.push_back(ground);
 		groundInFront.push_back(ground);
 	}
+
+	m_groundInstances.erase(
+		std::remove_if(
+			m_groundInstances.begin(), 
+			m_groundInstances.end(), 
+			[](std::shared_ptr<GameObject>& gameObject) { return gameObject == nullptr; }
+		), 
+		m_groundInstances.end()
+	);
 }

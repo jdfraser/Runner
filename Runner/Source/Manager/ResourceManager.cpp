@@ -1,6 +1,8 @@
 #include <SOIL2/SOIL2.h>
 #include <tinyobjloader/tiny_obj_loader.h>
 
+#include <algorithm>
+
 #include "ResourceManager.h"
 
 #include "Util/shader.h"
@@ -17,6 +19,50 @@ void ResourceManager::shutDown() {
 	for (std::shared_ptr<Component> component : m_components) {
 		component->unLoad();
 	}
+}
+
+void ResourceManager::cleanupDestroyedSpawnables() {
+	for (std::shared_ptr<GameObject>& gameObject : m_gameObjects) {
+		if (!gameObject->isPendingDestruction()) {
+			continue;
+		}
+
+		if (!gameObject.unique()) {
+			continue;
+		}
+
+		gameObject.reset();
+	}
+
+	m_gameObjects.erase(
+		std::remove_if(
+			m_gameObjects.begin(),
+			m_gameObjects.end(),
+			[](std::shared_ptr<GameObject>& gameObject) { return gameObject == nullptr; }
+		),
+		m_gameObjects.end()
+	);
+
+	for (std::shared_ptr<Component> component : m_components) {
+		if (!component->isPendingDestruction()) {
+			continue;
+		}
+
+		if (!component.unique()) {
+			continue;
+		}
+
+		component.reset();
+	}
+
+	m_components.erase(
+		std::remove_if(
+			m_components.begin(),
+			m_components.end(),
+			[](std::shared_ptr<Component>& component) { return component == nullptr; }
+		),
+		m_components.end()
+	);
 }
 
 void ResourceManager::loadModelData(const std::shared_ptr<class Model> model, std::string modelName) {
@@ -96,4 +142,12 @@ std::shared_ptr<class GameObject> ResourceManager::makeNewPlayer() {
 
 const std::shared_ptr<class GameObject> ResourceManager::getPlayer() {
 	return m_player;
+}
+
+bool ResourceManager::isValid(std::shared_ptr<class Spawnable> spawnableObject) {
+	return spawnableObject != nullptr && !spawnableObject->isPendingDestruction();
+}
+
+void ResourceManager::tick(float deltaTime) {
+	cleanupDestroyedSpawnables();
 }

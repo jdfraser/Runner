@@ -1,8 +1,9 @@
 #pragma once
 
 #include "Common.h"
+#include "Engine/Spawnable.h"
 
-class Component
+class Component : public Spawnable
 {
 private:
 	std::shared_ptr<class GameObject> m_owner;
@@ -18,5 +19,7 @@ public:
 	virtual void load()=0;
 
 	virtual void unLoad()=0;
+
+	virtual void destroy() final override;
 
 };

@@ -25,7 +25,7 @@ public:
 
 	virtual void shutDown() override;
 
-	void tick(float deltaTime);
+	virtual void tick(float deltaTime) override;
 
 private:
 	void generateGround();

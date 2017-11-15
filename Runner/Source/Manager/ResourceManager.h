@@ -20,6 +20,10 @@ public:
 	virtual void startUp() override;
 
 	virtual void shutDown() override;
+	
+	virtual void tick(float deltaTime) override;
+
+	void cleanupDestroyedSpawnables();
 
 	std::shared_ptr<class GameObject> makeNewObject();
 
@@ -37,6 +41,8 @@ public:
 	const std::vector<std::shared_ptr<class GameObject>>& getAllGameObjects();
 
 	const std::shared_ptr<class GameObject> getPlayer();
+
+	static bool isValid(std::shared_ptr<class Spawnable> spawnableObject);
 };
 
 template <typename T>

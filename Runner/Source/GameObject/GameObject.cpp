@@ -29,7 +29,22 @@ void GameObject::setInputHandler(std::shared_ptr<InputHandler> inputHandler) {
 }
 
 void GameObject::tick(float deltaTime) {
+	if (!canTick()) {
+		return;
+	}
+
 	for (std::shared_ptr<Component> component : m_components) {
 		component->tick(deltaTime);
 	}
+}
+
+void GameObject::destroy() {
+	Spawnable::destroy();
+
+	for (std::shared_ptr<Component> component : m_components) {
+		component->destroy();
+	}
+
+	m_model.reset();
+	m_inputHandler.reset();
 }

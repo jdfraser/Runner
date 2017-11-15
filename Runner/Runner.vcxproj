@@ -98,7 +98,8 @@
     <ClCompile Include="Source\Component\Component.cpp" />
     <ClCompile Include="Source\Component\InputHandler.cpp" />
     <ClCompile Include="Source\Component\Model.cpp" />
-    <ClCompile Include="Source\Util\Transform.cpp" />
+    <ClCompile Include="Source\Engine\Spawnable.cpp" />
+    <ClCompile Include="Source\Engine\Transform.cpp" />
     <ClCompile Include="Source\Debug.cpp" />
     <ClCompile Include="Source\GameObject\GameObject.cpp" />
     <ClCompile Include="Source\GameObject\GameObjectFactory.cpp" />
@@ -237,8 +238,9 @@
     <ClInclude Include="Source\Component\Component.h" />
     <ClInclude Include="Source\Component\InputHandler.h" />
     <ClInclude Include="Source\Component\Model.h" />
-    <ClInclude Include="Source\Util\Bounds.h" />
-    <ClInclude Include="Source\Util\Transform.h" />
+    <ClInclude Include="Source\Engine\Bounds.h" />
+    <ClInclude Include="Source\Engine\Spawnable.h" />
+    <ClInclude Include="Source\Engine\Transform.h" />
     <ClInclude Include="Source\Debug.h" />
     <ClInclude Include="Source\GameObject\GameObject.h" />
     <ClInclude Include="Source\GameObject\GameObjectFactory.h" />
