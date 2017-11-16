@@ -5,7 +5,8 @@
 class InputHandler : public Component
 {
 private:
-	float m_speed = 3.0f;
+	float m_forwardSpeed = 3.0f;
+	float m_rightSpeed = 1.5f;
 	float m_mouseSpeed = 0.05f;
 
 	bool m_quit = false;
