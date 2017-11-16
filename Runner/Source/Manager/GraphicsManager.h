@@ -29,11 +29,13 @@ public:
 
 	virtual void shutDown() override;
 
+	virtual void tick(float deltaTime) override;
+
 	void setCamera(std::shared_ptr<class GameObject> gameObject);
 
 	std::shared_ptr<class GameObject> getCamera();
 
-	virtual void tick(float deltaTime) override;
+	float getMaxViewDistance();
 
 private:
 

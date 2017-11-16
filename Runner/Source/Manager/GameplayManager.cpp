@@ -1,22 +1,24 @@
+#include <glm/gtc/random.hpp>
+
 #include <algorithm>
 
 #include "Common.h"
 #include "GameplayManager.h"
+#include "GraphicsManager.h"
 #include "GameObject/GameObject.h"
 #include "Component/Model.h"
 
-GameplayManager::GameplayManager(class ResourceManager& resourceManager)
+GameplayManager::GameplayManager(class ResourceManager& resourceManager, class GraphicsManager& graphicsManager)
 	: m_resourceManager(resourceManager),
-	m_factory(resourceManager) {
+	  m_graphicsManager(graphicsManager),
+	  m_factory(resourceManager) 
+{
 
 }
 
 void GameplayManager::startUp() {
 	m_player = m_factory.makePlayer();
 	m_player->getTransform().setPosition(glm::vec3(0.0f, 0.5f, 0.0f));
-
-	std::shared_ptr<GameObject> hedge = m_factory.makeHedge();
-	hedge->getTransform().setPosition(m_player->getTransform().getPosition() + glm::vec3(1.0f, -0.5f, -10.0f));
 
 	initializeGround();
 }
@@ -26,7 +28,9 @@ void GameplayManager::shutDown() {
 }
 
 void GameplayManager::tick(float deltaTime) {
+	destroyUnusedObjects();
 	generateGround();
+	generateObstacles();
 	
 	for (std::shared_ptr<GameObject> gameObject : m_resourceManager.getAllGameObjects()) {
 		if (!ResourceManager::isValid(gameObject)) {
@@ -44,23 +48,11 @@ void GameplayManager::initializeGround() {
 	ground->setPosition(glm::vec3(playerPosition.x, 0.0f, playerPosition.z));
 
 	m_groundInstances.push_back(ground);
+
 	generateGround();
 }
 
 void GameplayManager::generateGround() {
-	std::shared_ptr<GameObject> player = m_resourceManager.getPlayer();
-	glm::vec3 playerPos = player->getPosition();
-
-	for (std::shared_ptr<GameObject>& ground : m_groundInstances) {
-		if (ground->getPosition().z > playerPos.z + ground->getDepth() / 2) {
-			// Ground is far enough behind the player that it can't be seen
-			ground->destroy();
-			ground.reset();
-		}
-	}
-
-	ResourceManager::eraseNullPointers<GameObject>(m_groundInstances);
-
 	assert(m_groundInstances.size() > 0);
 
 	std::shared_ptr<GameObject> furthestGround = m_groundInstances.back();
@@ -80,4 +72,58 @@ void GameplayManager::generateGround() {
 
 		m_groundInstances.push_back(ground);
 	}
+}
+
+void GameplayManager::destroyUnusedObjects() {
+	for (std::shared_ptr<GameObject>& ground : m_groundInstances) {
+		if (ground->getPosition().z > m_player->getPosition().z + (ground->getDepth() / 2)) {
+			ground->destroy();
+			ground.reset();
+		}
+	}
+
+	for (std::shared_ptr<GameObject>& obstacle : m_obstacles) {
+		if (obstacle->getPosition().z > m_player->getPosition().z + (obstacle->getDepth() / 2)) {
+			obstacle->destroy();
+			obstacle.reset();
+		}
+	}
+
+	ResourceManager::eraseNullPointers<GameObject>(m_groundInstances);
+	ResourceManager::eraseNullPointers<GameObject>(m_obstacles);
+}
+
+void GameplayManager::generateObstacles() {
+	float z = generateObstacleZ();
+
+	if (z < m_player->getPosition().z - MAX_DISTANCE) {
+		return;
+	}
+
+	float x = generateObstacleX();
+
+	std::shared_ptr<GameObject> obstacle = m_factory.makeHedge();
+	obstacle->setPosition(glm::vec3(x, 0.0f, z));
+
+	m_obstacles.push_back(obstacle);
+}
+
+float GameplayManager::generateObstacleZ() {
+	float minDepth = m_player->getPosition().z - m_graphicsManager.getMaxViewDistance();
+
+	if (m_obstacles.size() > 0) {
+		std::shared_ptr<GameObject> furthestObstacle = m_obstacles.back();
+		minDepth = glm::min(minDepth, furthestObstacle->getPosition().z - MIN_DISTANCE_BETWEEN_OBSTACLES);
+	}
+
+	return minDepth - glm::linearRand(0.0f, 10.0f);
+}
+
+float GameplayManager::generateObstacleX() {
+	float sign = (glm::linearRand(0.0f, 1.0f) <= chanceToSpawnRight) ? 1.0f : -1.0f;
+
+	chanceToSpawnRight -= sign * SPAWN_CHANCE_INCREMENT;
+	chanceToSpawnRight = glm::clamp(chanceToSpawnRight, 0.0f, 1.0f);
+
+	return sign * glm::linearRand(MIN_OBSTACLE_X_OFFSET, MAX_OBSTACLE_X_OFFSET);
 }

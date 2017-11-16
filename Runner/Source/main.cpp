@@ -15,8 +15,8 @@
 int main(int argc, char* argv[]) {
 
 	ResourceManager g_resourceManager;
-	GameplayManager g_gameplayManager(g_resourceManager);
 	GraphicsManager g_graphicsManager(g_resourceManager);
+	GameplayManager g_gameplayManager(g_resourceManager, g_graphicsManager);
 
 	g_resourceManager.startUp();
 	g_graphicsManager.startUp();

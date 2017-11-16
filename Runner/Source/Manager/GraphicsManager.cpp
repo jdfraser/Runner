@@ -174,3 +174,7 @@ float GraphicsManager::getAspectRatio() {
 	return static_cast<float>(getWindowWidth()) / static_cast<float>(getWindowHeight());
 }
 
+float GraphicsManager::getMaxViewDistance() {
+	return 10.0f;
+}
+
