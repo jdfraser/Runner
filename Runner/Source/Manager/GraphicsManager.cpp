@@ -15,12 +15,24 @@ GraphicsManager::GraphicsManager(ResourceManager& resourceManager)
 }
 
 void GraphicsManager::startUp() {
+	SDL_VideoInit(nullptr);
+
+	SDL_DisplayMode displayMode;
+	if (SDL_GetDesktopDisplayMode(0, &displayMode) != 0) {
+		Debug::log(SDL_GetError());
+
+		return;
+	}
+
+	m_windowWidth = displayMode.w;
+	m_windowHeight = displayMode.h;
+
 	m_window = SDL_CreateWindow(
 		"Runner",
 		SDL_WINDOWPOS_CENTERED,
 		SDL_WINDOWPOS_CENTERED,
-		getWindowWidth(),
-		getWindowHeight(),
+		m_windowWidth,
+		m_windowHeight,
 		SDL_WINDOW_OPENGL
 	);
 
@@ -143,11 +155,11 @@ void GraphicsManager::draw() {
 }
 
 int GraphicsManager::getWindowWidth() {
-	return 1920;
+	return m_windowWidth;
 }
 
 int GraphicsManager::getWindowHeight() {
-	return 1080;
+	return m_windowHeight;
 }
 
 glm::uvec2 GraphicsManager::getWindowCenter() {

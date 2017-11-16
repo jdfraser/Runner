@@ -12,9 +12,6 @@
 
 #include "Component/InputHandler.h"
 
-const int WINDOW_WIDTH = 1024;
-const int WINDOW_HEIGHT = 768;
-
 int main(int argc, char* argv[]) {
 
 	ResourceManager g_resourceManager;
