@@ -34,14 +34,7 @@ void ResourceManager::cleanupDestroyedSpawnables() {
 		gameObject.reset();
 	}
 
-	m_gameObjects.erase(
-		std::remove_if(
-			m_gameObjects.begin(),
-			m_gameObjects.end(),
-			[](std::shared_ptr<GameObject>& gameObject) { return gameObject == nullptr; }
-		),
-		m_gameObjects.end()
-	);
+	ResourceManager::eraseNullPointers<GameObject>(m_gameObjects);
 
 	for (std::shared_ptr<Component> component : m_components) {
 		if (!component->isPendingDestruction()) {
@@ -55,14 +48,7 @@ void ResourceManager::cleanupDestroyedSpawnables() {
 		component.reset();
 	}
 
-	m_components.erase(
-		std::remove_if(
-			m_components.begin(),
-			m_components.end(),
-			[](std::shared_ptr<Component>& component) { return component == nullptr; }
-		),
-		m_components.end()
-	);
+	ResourceManager::eraseNullPointers<Component>(m_components);
 }
 
 void ResourceManager::loadModelData(const std::shared_ptr<class Model> model, std::string modelName) {

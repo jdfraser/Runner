@@ -43,6 +43,9 @@ public:
 	const std::shared_ptr<class GameObject> getPlayer();
 
 	static bool isValid(std::shared_ptr<class Spawnable> spawnableObject);
+
+	template <typename T>
+	static void eraseNullPointers(std::vector<std::shared_ptr<T>>& pointers);
 };
 
 template <typename T>
@@ -52,4 +55,16 @@ std::shared_ptr<class Component> ResourceManager::makeNewComponent() {
 	m_components.push_back(component);
 
 	return component;
+}
+
+template <typename T>
+void ResourceManager::eraseNullPointers(std::vector<std::shared_ptr<T>>& pointers) {
+	pointers.erase(
+		std::remove_if(
+			pointers.begin(),
+			pointers.end(),
+			[](std::shared_ptr<T>& pointer) { return pointer == nullptr; }
+		),
+		pointers.end()
+	);
 }

@@ -18,7 +18,7 @@ void GameplayManager::startUp() {
 	std::shared_ptr<GameObject> hedge = m_factory.makeHedge();
 	hedge->getTransform().setPosition(m_player->getTransform().getPosition() + glm::vec3(1.0f, -0.5f, -10.0f));
 
-	generateGround();
+	initializeGround();
 }
 
 void GameplayManager::shutDown() {
@@ -37,46 +37,47 @@ void GameplayManager::tick(float deltaTime) {
 	}
 }
 
+void GameplayManager::initializeGround() {
+	std::shared_ptr<GameObject> ground = m_factory.makeGround();
+
+	glm::vec3 playerPosition = m_player->getPosition();
+	ground->setPosition(glm::vec3(playerPosition.x, 0.0f, playerPosition.z));
+
+	m_groundInstances.push_back(ground);
+	generateGround();
+}
+
 void GameplayManager::generateGround() {
 	std::shared_ptr<GameObject> player = m_resourceManager.getPlayer();
-	glm::vec3 playerPos = player->getTransform().getPosition();
+	glm::vec3 playerPos = player->getPosition();
 
-	float furthestZ = 4.0f;
-	std::vector<std::shared_ptr<GameObject>> groundInFront;
 	for (std::shared_ptr<GameObject>& ground : m_groundInstances) {
-		glm::vec3 groundPos = ground->getTransform().getPosition();
-		float depth = ground->getModel()->getBounds().max.z - ground->getModel()->getBounds().min.z;
-
-		if (groundPos.z > playerPos.z + depth / 2) {
+		if (ground->getPosition().z > playerPos.z + ground->getDepth() / 2) {
+			// Ground is far enough behind the player that it can't be seen
 			ground->destroy();
 			ground.reset();
-		} else {
-			groundInFront.push_back(ground);
-			if (groundPos.z < furthestZ) {
-				furthestZ = groundPos.z;
-			}
 		}
 	}
 
-	while (static_cast<int>(groundInFront.size()) < MIN_GROUND_INSTANCES) {
+	ResourceManager::eraseNullPointers<GameObject>(m_groundInstances);
+
+	assert(m_groundInstances.size() > 0);
+
+	std::shared_ptr<GameObject> furthestGround = m_groundInstances.back();
+
+	while (m_groundInstances.size() < MIN_GROUND_INSTANCES) {
 		std::shared_ptr<GameObject> ground = m_factory.makeGround();
 
-		float depth        = ground->getModel()->getBounds().max.z - ground->getModel()->getBounds().min.z;
-		glm::vec3 position = glm::vec3(0.0f, 0.0f, furthestZ - depth);
+		ground->setPosition(
+			glm::vec3(
+				0.0f, 
+				0.0f, 
+				furthestGround->getPosition().z - furthestGround->getDepth()
+			)
+		);
 
-		furthestZ = position.z;
-		ground->getTransform().setPosition(position);
+		furthestGround = ground;
 
 		m_groundInstances.push_back(ground);
-		groundInFront.push_back(ground);
 	}
-
-	m_groundInstances.erase(
-		std::remove_if(
-			m_groundInstances.begin(), 
-			m_groundInstances.end(), 
-			[](std::shared_ptr<GameObject>& gameObject) { return gameObject == nullptr; }
-		), 
-		m_groundInstances.end()
-	);
 }

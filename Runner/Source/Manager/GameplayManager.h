@@ -6,7 +6,7 @@
 class GameplayManager : public Manager
 {
 private:
-	const int MIN_GROUND_INSTANCES = 6;
+	const uint32_t MIN_GROUND_INSTANCES = 6;
 
 	class ResourceManager& m_resourceManager;
 
@@ -28,5 +28,7 @@ public:
 	virtual void tick(float deltaTime) override;
 
 private:
+	void initializeGround();
+
 	void generateGround();
 };
