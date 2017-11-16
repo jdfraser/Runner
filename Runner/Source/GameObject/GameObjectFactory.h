@@ -13,5 +13,7 @@ public:
 
 	std::shared_ptr<class GameObject> makeGround();
 
+	std::shared_ptr<class GameObject> makeHedge();
+
 	std::shared_ptr<class GameObject> makePlayer();
 };

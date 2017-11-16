@@ -15,6 +15,9 @@ void GameplayManager::startUp() {
 	m_player = m_factory.makePlayer();
 	m_player->getTransform().setPosition(glm::vec3(0.0f, 0.5f, 0.0f));
 
+	std::shared_ptr<GameObject> hedge = m_factory.makeHedge();
+	hedge->getTransform().setPosition(m_player->getTransform().getPosition() + glm::vec3(1.0f, -0.5f, -10.0f));
+
 	generateGround();
 }
 
@@ -38,11 +41,13 @@ void GameplayManager::generateGround() {
 	std::shared_ptr<GameObject> player = m_resourceManager.getPlayer();
 	glm::vec3 playerPos = player->getTransform().getPosition();
 
-	float furthestZ = 0.0f;
+	float furthestZ = 4.0f;
 	std::vector<std::shared_ptr<GameObject>> groundInFront;
 	for (std::shared_ptr<GameObject>& ground : m_groundInstances) {
 		glm::vec3 groundPos = ground->getTransform().getPosition();
-		if (groundPos.z > playerPos.z) {
+		float depth = ground->getModel()->getBounds().max.z - ground->getModel()->getBounds().min.z;
+
+		if (groundPos.z > playerPos.z + depth / 2) {
 			ground->destroy();
 			ground.reset();
 		} else {

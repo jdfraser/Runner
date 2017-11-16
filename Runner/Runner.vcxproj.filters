@@ -211,6 +211,7 @@
     <None Include="Assets\Shaders\default.vert" />
     <None Include="Assets\Models\pink_cube.mtl" />
     <None Include="Assets\Models\ground.mtl" />
+    <None Include="Assets\Models\hedge.mtl" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Libraries\glm\CMakeLists.txt" />
@@ -219,6 +220,7 @@
   <ItemGroup>
     <Object Include="Assets\Models\pink_cube.obj" />
     <Object Include="Assets\Models\ground.obj" />
+    <Object Include="Assets\Models\hedge.obj" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Assets\Textures\uvtemplate.DDS" />

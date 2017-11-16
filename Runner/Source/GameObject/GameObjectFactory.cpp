@@ -22,6 +22,18 @@ std::shared_ptr<GameObject> GameObjectFactory::makeGround() {
 	return gameObject;
 }
 
+std::shared_ptr<GameObject> GameObjectFactory::makeHedge() {
+	std::shared_ptr<GameObject> gameObject = std::dynamic_pointer_cast<GameObject>(m_resourceManager.makeNewObject());
+
+	std::shared_ptr<Model> model = std::dynamic_pointer_cast<Model>(m_resourceManager.makeNewComponent<Model>());
+	m_resourceManager.loadModelData(model, "hedge");
+
+	gameObject->setModel(model);
+	model->setOwner(gameObject);
+
+	return gameObject;
+}
+
 std::shared_ptr<GameObject> GameObjectFactory::makePlayer() {
 	std::shared_ptr<GameObject> player = std::dynamic_pointer_cast<GameObject>(m_resourceManager.makeNewPlayer());
 	std::shared_ptr<InputHandler> inputHandler = std::dynamic_pointer_cast<InputHandler>(m_resourceManager.makeNewComponent<InputHandler>());
