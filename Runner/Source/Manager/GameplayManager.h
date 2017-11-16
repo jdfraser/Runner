@@ -6,7 +6,7 @@
 class GameplayManager : public Manager
 {
 private:
-	const int MIN_GROUND_INSTANCES = 5;
+	const int MIN_GROUND_INSTANCES = 6;
 
 	class ResourceManager& m_resourceManager;
 

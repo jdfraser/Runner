@@ -16,7 +16,7 @@ GraphicsManager::GraphicsManager(ResourceManager& resourceManager)
 
 void GraphicsManager::startUp() {
 	m_window = SDL_CreateWindow(
-		"Hello World",
+		"Runner",
 		SDL_WINDOWPOS_CENTERED,
 		SDL_WINDOWPOS_CENTERED,
 		getWindowWidth(),
@@ -49,7 +49,7 @@ void GraphicsManager::startUp() {
 
 	m_defaultShader = m_resourceManager.loadShader("default");
 
-	glClearColor(0.0f, 0.0f, 0.4f, 0.0f);
+	glClearColor(CLEAR_COLOR.r, CLEAR_COLOR.g, CLEAR_COLOR.b, CLEAR_COLOR.a);
 
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LESS);
@@ -143,11 +143,11 @@ void GraphicsManager::draw() {
 }
 
 int GraphicsManager::getWindowWidth() {
-	return 1024;
+	return 1920;
 }
 
 int GraphicsManager::getWindowHeight() {
-	return 768;
+	return 1080;
 }
 
 glm::uvec2 GraphicsManager::getWindowCenter() {

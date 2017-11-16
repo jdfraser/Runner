@@ -6,6 +6,8 @@
 class GraphicsManager final : public Manager
 {
 private:
+	const glm::vec4 CLEAR_COLOR = {0.5f, 0.5f, 0.5f, 1.0f};
+
 	class ResourceManager& m_resourceManager;
 
 	SDL_Window* m_window;
