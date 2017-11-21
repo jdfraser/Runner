@@ -3,6 +3,8 @@
 #include "Common.h"
 #include "Component/Component.h"
 #include "Component/Model.h"
+#include "Component/InputHandler.h"
+#include "Component/PhysicsHandler.h"
 #include "Engine/Transform.h"
 
 class GameObject : public Spawnable
@@ -23,7 +25,7 @@ public:
 
 	std::shared_ptr<InputHandler> getInputHandler();
 
-	std::shared_ptr<class InputHandler> getInputHandler();
+	std::shared_ptr<PhysicsHandler> getPhysicsHandler();
 
 	void addComponent(std::shared_ptr<Component> component);
 

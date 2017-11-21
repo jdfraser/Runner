@@ -37,9 +37,12 @@ std::shared_ptr<GameObject> GameObjectFactory::makeHedge() {
 std::shared_ptr<GameObject> GameObjectFactory::makePlayer() {
 	std::shared_ptr<GameObject> player             = ResourceManager::cast<GameObject>(m_resourceManager.makeNewPlayer());
 	std::shared_ptr<InputHandler> inputHandler     = ResourceManager::cast<InputHandler>(m_resourceManager.make<InputHandler>());
+	std::shared_ptr<PhysicsHandler> physicsHandler = ResourceManager::cast<PhysicsHandler>(m_resourceManager.make<PhysicsHandler>());
 
 	inputHandler->setOwner(player);
+	physicsHandler->setOwner(player);
 	player->addComponent(inputHandler);
+	player->addComponent(physicsHandler);
 
 	return player;
 }

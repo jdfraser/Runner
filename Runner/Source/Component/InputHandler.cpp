@@ -1,12 +1,11 @@
 #include <SDL2/SDL.h>
 
 #include "InputHandler.h"
+#include "PhysicsHandler.h"
 #include "GameObject/GameObject.h"
 
 void InputHandler::tick(float deltaTime) {
-	std::shared_ptr<GameObject> owner = getOwner();
-
-	if (!owner) {
+	if (!getOwner()) {
 		return;
 	}
 
@@ -40,15 +39,18 @@ void InputHandler::tick(float deltaTime) {
 
 	m_forward = 1.0f;
 
-	glm::vec3 position = owner->getTransform().getPosition();
-	glm::vec3 forwardVector = owner->getTransform().getForwardVector();
-	glm::vec3 rightVector = owner->getTransform().getRightVector();
-	glm::vec3 upVector = owner->getTransform().getUpVector();
+	glm::vec3 velocity;
+	glm::vec3 forwardVector = getOwner()->getTransform().getForwardVector();
+	glm::vec3 rightVector = getOwner()->getTransform().getRightVector();
+	glm::vec3 upVector = getOwner()->getTransform().getUpVector();
 
-	position += forwardVector * (m_forward - m_backward) * deltaTime * m_forwardSpeed;
-	position += rightVector * (m_right - m_left) * deltaTime * m_rightSpeed;
+	velocity += forwardVector * (m_forward - m_backward) * m_forwardSpeed;
+	velocity += rightVector * (m_right - m_left) * m_rightSpeed;
 
-	owner->getTransform().setPosition(position);
+	std::shared_ptr<PhysicsHandler> physicsHandler = getOwner()->getPhysicsHandler();
+	if (physicsHandler) {
+		physicsHandler->setVelocity(velocity);
+	}
 }
 
 void InputHandler::load() {

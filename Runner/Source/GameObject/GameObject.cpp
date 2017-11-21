@@ -31,11 +31,22 @@ std::shared_ptr<InputHandler> GameObject::getInputHandler() {
 	return ResourceManager::cast<InputHandler>(inputHandlers[0]);
 }
 
+std::shared_ptr<class PhysicsHandler> GameObject::getPhysicsHandler() {
+	std::vector <std::shared_ptr<Component>> physicsHandlers = findComponentsByType<PhysicsHandler>();
+
+	if (physicsHandlers.size() == 0) {
+		return std::shared_ptr<PhysicsHandler>();
+	}
+
+	return ResourceManager::cast<PhysicsHandler>(physicsHandlers[0]);
+}
+
 void GameObject::addComponent(std::shared_ptr<Component> component) {
 	m_components.push_back(component);
 
 	assert(findComponentsByType<Model>().size() <= 1);
 	assert(findComponentsByType<InputHandler>().size() <= 1);
+	assert(findComponentsByType<PhysicsHandler>().size() <= 1);
 }
 
 void GameObject::tick(float deltaTime) {
