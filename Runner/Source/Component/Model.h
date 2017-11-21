@@ -36,6 +36,8 @@ public:
 
 	void setMaterial(std::shared_ptr<class Material> material);
 
+	glm::mat4 getTransformMatrix();
+
 	Bounds getBounds();
 
 	void writeTextureToShader(GLuint uniformLocation);

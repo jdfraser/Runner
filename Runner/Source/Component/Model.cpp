@@ -1,4 +1,5 @@
 #include "Model.h"
+#include "GameObject/GameObject.h"
 
 void Model::load() {
 	if (!m_material || m_vertices.size() == 0 || (m_material->getTexture() && m_texCoords.size() == 0)) {
@@ -55,6 +56,10 @@ void Model::setTexCoords(std::vector<GLfloat> texCoords) {
 
 void Model::setMaterial(std::shared_ptr<class Material> material) {
 	m_material = material;
+}
+
+glm::mat4 Model::getTransformMatrix() {
+	return getOwner()->getTransformMatrix();
 }
 
 Bounds Model::getBounds() {

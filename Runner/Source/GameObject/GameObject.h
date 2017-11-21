@@ -43,6 +43,8 @@ public:
 
 	inline void setScale(glm::vec3 scale) { getTransform().setScale(scale); }
 
+	inline glm::mat4 getTransformMatrix() { return getTransform().getMatrix(); }
+
 	inline float getWidth() { return getModel()->getBounds().getWidth(); }
 
 	inline float getHeight() { return getModel()->getBounds().getHeight(); }

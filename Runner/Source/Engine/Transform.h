@@ -5,7 +5,10 @@
 class Transform
 {
 private:
+	bool m_matrixDirty;
 	
+	glm::mat4 m_matrix;
+
 	glm::vec3 m_scale;
 	glm::vec3 m_rotation;
 	glm::vec3 m_position;
@@ -26,7 +29,7 @@ public:
 
 	void setPosition(glm::vec3 position);
 
-	glm::mat4 toMatrix();
+	glm::mat4 getMatrix();
 
 	glm::vec3 getForwardVector();
 

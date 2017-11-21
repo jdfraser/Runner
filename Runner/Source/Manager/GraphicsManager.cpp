@@ -129,7 +129,7 @@ void GraphicsManager::draw() {
 			continue;
 		}
 
-		glm::mat4 modelMatrix = gameObject->getTransform().toMatrix();
+		glm::mat4 modelMatrix = model->getTransformMatrix();
 
 		glm::mat4 mvp = projectionMatrix * viewMatrix * modelMatrix;
 
