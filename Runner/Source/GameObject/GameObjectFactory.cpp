@@ -16,7 +16,7 @@ std::shared_ptr<GameObject> GameObjectFactory::makeGround() {
 	std::shared_ptr<Model> model = ResourceManager::cast<Model>(m_resourceManager.make<Model>());
 	m_resourceManager.loadModelData(model, "ground");
 
-	gameObject->setModel(model);
+	gameObject->addComponent(model);
 	model->setOwner(gameObject);
 
 	return gameObject;
@@ -28,18 +28,18 @@ std::shared_ptr<GameObject> GameObjectFactory::makeHedge() {
 	std::shared_ptr<Model> model = ResourceManager::cast<Model>(m_resourceManager.make<Model>());
 	m_resourceManager.loadModelData(model, "hedge");
 
-	gameObject->setModel(model);
+	gameObject->addComponent(model);
 	model->setOwner(gameObject);
 
 	return gameObject;
 }
 
 std::shared_ptr<GameObject> GameObjectFactory::makePlayer() {
-	std::shared_ptr<GameObject> player = ResourceManager::cast<GameObject>(m_resourceManager.makeNewPlayer());
-	std::shared_ptr<InputHandler> inputHandler = ResourceManager::cast<InputHandler>(m_resourceManager.make<InputHandler>());
+	std::shared_ptr<GameObject> player             = ResourceManager::cast<GameObject>(m_resourceManager.makeNewPlayer());
+	std::shared_ptr<InputHandler> inputHandler     = ResourceManager::cast<InputHandler>(m_resourceManager.make<InputHandler>());
 
 	inputHandler->setOwner(player);
-	player->setInputHandler(inputHandler);
+	player->addComponent(inputHandler);
 
 	return player;
 }

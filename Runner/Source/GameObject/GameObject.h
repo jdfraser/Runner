@@ -10,10 +10,6 @@ class GameObject : public Spawnable
 private:
 	Transform m_transform;
 
-	std::shared_ptr<Model> m_model;
-
-	std::shared_ptr<class InputHandler> m_inputHandler;
-
 	std::vector<std::shared_ptr<Component>> m_components;
 
 public:
@@ -25,11 +21,11 @@ public:
 
 	std::shared_ptr<Model> getModel();
 
-	void setModel(std::shared_ptr<Model> model);
+	std::shared_ptr<InputHandler> getInputHandler();
 
 	std::shared_ptr<class InputHandler> getInputHandler();
 
-	void setInputHandler(std::shared_ptr<class InputHandler> inputHandler);
+	void addComponent(std::shared_ptr<Component> component);
 
 	inline glm::vec3 getPosition() { return getTransform().getPosition(); }
 
@@ -50,4 +46,21 @@ public:
 	inline float getHeight() { return getModel()->getBounds().getHeight(); }
 
 	inline float getDepth() { return getModel()->getBounds().getDepth(); }
+
+	template<class T>
+	const std::vector<std::shared_ptr<Component>> findComponentsByType();
 };
+
+template<class T>
+const std::vector<std::shared_ptr<Component>> GameObject::findComponentsByType() {
+	std::vector<std::shared_ptr<Component>> results;
+
+	for (std::shared_ptr<Component> object : m_components) {
+		std::shared_ptr<T> found = ResourceManager::cast<T>(object);
+		if (found) {
+			results.push_back(object);
+		}
+	}
+
+	return results;
+}
