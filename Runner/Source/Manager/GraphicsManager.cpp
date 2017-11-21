@@ -118,13 +118,7 @@ void GraphicsManager::draw() {
 		getCamera()->getTransform().getUpVector()
 	);
 
-	for (std::shared_ptr<GameObject> gameObject : m_resourceManager.getDrawObjects()) {
-		if (!ResourceManager::isValid(gameObject)) {
-			continue;
-		}
-
-		std::shared_ptr<Model> model = gameObject->getModel();
-
+	for (std::shared_ptr<Model> model : m_resourceManager.findByType<Model>()) {
 		if (!ResourceManager::isValid(model)) {
 			continue;
 		}

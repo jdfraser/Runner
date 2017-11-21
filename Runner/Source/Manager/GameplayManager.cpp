@@ -32,7 +32,7 @@ void GameplayManager::tick(float deltaTime) {
 	generateGround();
 	generateObstacles();
 	
-	for (std::shared_ptr<GameObject> gameObject : m_resourceManager.getAllGameObjects()) {
+	for (std::shared_ptr<GameObject> gameObject : m_resourceManager.findByType<GameObject>()) {
 		if (!ResourceManager::isValid(gameObject)) {
 			continue;
 		}
@@ -89,8 +89,8 @@ void GameplayManager::destroyUnusedObjects() {
 		}
 	}
 
-	ResourceManager::eraseNullPointers<GameObject>(m_groundInstances);
-	ResourceManager::eraseNullPointers<GameObject>(m_obstacles);
+	ResourceManager::eraseNullPointers<std::shared_ptr<GameObject>>(m_groundInstances);
+	ResourceManager::eraseNullPointers<std::shared_ptr<GameObject>>(m_obstacles);
 }
 
 void GameplayManager::generateObstacles() {

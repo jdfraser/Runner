@@ -11,9 +11,9 @@ GameObjectFactory::GameObjectFactory(ResourceManager& resourceManager) : m_resou
 }
 
 std::shared_ptr<GameObject> GameObjectFactory::makeGround() {
-	std::shared_ptr<GameObject> gameObject = std::dynamic_pointer_cast<GameObject>(m_resourceManager.makeNewObject());
+	std::shared_ptr<GameObject> gameObject = ResourceManager::cast<GameObject>(m_resourceManager.make<GameObject>());
 
-	std::shared_ptr<Model> model = std::dynamic_pointer_cast<Model>(m_resourceManager.makeNewComponent<Model>());
+	std::shared_ptr<Model> model = ResourceManager::cast<Model>(m_resourceManager.make<Model>());
 	m_resourceManager.loadModelData(model, "ground");
 
 	gameObject->setModel(model);
@@ -23,9 +23,9 @@ std::shared_ptr<GameObject> GameObjectFactory::makeGround() {
 }
 
 std::shared_ptr<GameObject> GameObjectFactory::makeHedge() {
-	std::shared_ptr<GameObject> gameObject = std::dynamic_pointer_cast<GameObject>(m_resourceManager.makeNewObject());
+	std::shared_ptr<GameObject> gameObject = ResourceManager::cast<GameObject>(m_resourceManager.make<GameObject>());
 
-	std::shared_ptr<Model> model = std::dynamic_pointer_cast<Model>(m_resourceManager.makeNewComponent<Model>());
+	std::shared_ptr<Model> model = ResourceManager::cast<Model>(m_resourceManager.make<Model>());
 	m_resourceManager.loadModelData(model, "hedge");
 
 	gameObject->setModel(model);
@@ -35,8 +35,8 @@ std::shared_ptr<GameObject> GameObjectFactory::makeHedge() {
 }
 
 std::shared_ptr<GameObject> GameObjectFactory::makePlayer() {
-	std::shared_ptr<GameObject> player = std::dynamic_pointer_cast<GameObject>(m_resourceManager.makeNewPlayer());
-	std::shared_ptr<InputHandler> inputHandler = std::dynamic_pointer_cast<InputHandler>(m_resourceManager.makeNewComponent<InputHandler>());
+	std::shared_ptr<GameObject> player = ResourceManager::cast<GameObject>(m_resourceManager.makeNewPlayer());
+	std::shared_ptr<InputHandler> inputHandler = ResourceManager::cast<InputHandler>(m_resourceManager.make<InputHandler>());
 
 	inputHandler->setOwner(player);
 	player->setInputHandler(inputHandler);

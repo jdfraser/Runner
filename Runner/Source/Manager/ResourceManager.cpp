@@ -16,42 +16,28 @@ void ResourceManager::startUp() {
 }
 
 void ResourceManager::shutDown() {
-	for (std::shared_ptr<Component> component : m_components) {
+	for (std::shared_ptr<Component> component : findByType<Component>()) {
 		component->unLoad();
 	}
 }
 
-void ResourceManager::cleanupDestroyedSpawnables() {
-	for (std::shared_ptr<GameObject>& gameObject : m_gameObjects) {
-		if (!gameObject->isPendingDestruction()) {
+void ResourceManager::removeDestroyed() {
+	for (std::shared_ptr<Spawnable>& object : m_spawnedObjects) {
+		if (!object->isPendingDestruction()) {
 			continue;
 		}
 
-		if (!gameObject.unique()) {
+		if (!object.unique()) {
 			continue;
 		}
 
-		gameObject.reset();
+		object.reset();
 	}
 
-	ResourceManager::eraseNullPointers<GameObject>(m_gameObjects);
-
-	for (std::shared_ptr<Component> component : m_components) {
-		if (!component->isPendingDestruction()) {
-			continue;
-		}
-
-		if (!component.unique()) {
-			continue;
-		}
-
-		component.reset();
-	}
-
-	ResourceManager::eraseNullPointers<Component>(m_components);
+	eraseNullPointers<std::shared_ptr<Spawnable>>(m_spawnedObjects);
 }
 
-void ResourceManager::loadModelData(const std::shared_ptr<class Model> model, std::string modelName) {
+void ResourceManager::loadModelData(const std::shared_ptr<Model> model, std::string modelName) {
 	tinyobj::attrib_t attrib;
 	std::vector<tinyobj::shape_t> shapes;
 	std::vector<tinyobj::material_t> materials;
@@ -79,7 +65,7 @@ void ResourceManager::loadModelData(const std::shared_ptr<class Model> model, st
 		}
 	}
 	
-	std::shared_ptr<Material> material = std::dynamic_pointer_cast<Material>(makeNewComponent<Material>());
+	std::shared_ptr<Material> material = cast<Material>(make<Material>());
 
 	material->setTexture(
 		SOIL_load_OGL_texture(
@@ -98,42 +84,26 @@ void ResourceManager::loadModelData(const std::shared_ptr<class Model> model, st
 	model->load();
 }
 
-std::shared_ptr<class GameObject> ResourceManager::makeNewObject() {
-	std::shared_ptr<GameObject> gameObject = std::make_shared<GameObject>();
-
-	m_gameObjects.push_back(gameObject);
-
-	return gameObject;
-}
-
 GLuint ResourceManager::loadShader(std::string shaderName) {
 	std::string baseDir = "Assets/Shaders/";
 
 	return LoadShaders((baseDir + shaderName + ".vert").c_str(), (baseDir + shaderName + ".frag").c_str());
 }
 
-const std::vector<std::shared_ptr<class GameObject>>& ResourceManager::getDrawObjects() {
-	return m_gameObjects;
-}
-
-const std::vector<std::shared_ptr<class GameObject>>& ResourceManager::getAllGameObjects() {
-	return m_gameObjects;
-}
-
-std::shared_ptr<class GameObject> ResourceManager::makeNewPlayer() {
-	m_player = std::dynamic_pointer_cast<GameObject>(makeNewObject());
+std::shared_ptr<GameObject> ResourceManager::makeNewPlayer() {
+	m_player = cast<GameObject>(make<GameObject>());
 	
 	return m_player;
 }
 
-const std::shared_ptr<class GameObject> ResourceManager::getPlayer() {
+const std::shared_ptr<GameObject> ResourceManager::getPlayer() {
 	return m_player;
 }
 
-bool ResourceManager::isValid(std::shared_ptr<class Spawnable> spawnableObject) {
+bool ResourceManager::isValid(std::shared_ptr<Spawnable> spawnableObject) {
 	return spawnableObject != nullptr && !spawnableObject->isPendingDestruction();
 }
 
 void ResourceManager::tick(float deltaTime) {
-	cleanupDestroyedSpawnables();
+	removeDestroyed();
 }

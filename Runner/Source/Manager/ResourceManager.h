@@ -10,9 +10,7 @@ private:
 	const std::string MODEL_DIR = "Assets/Models/";
 	const std::string TEXTURE_DIR = "Assets/Textures/";
 
-	std::vector<std::shared_ptr<class GameObject>> m_gameObjects;
-
-	std::vector<std::shared_ptr<class Component>> m_components;
+	std::vector<std::shared_ptr<class Spawnable>> m_spawnedObjects;
 
 	std::shared_ptr<class GameObject> m_player;
 
@@ -23,12 +21,10 @@ public:
 	
 	virtual void tick(float deltaTime) override;
 
-	void cleanupDestroyedSpawnables();
-
-	std::shared_ptr<class GameObject> makeNewObject();
+	void removeDestroyed();
 
 	template<class T>
-	std::shared_ptr<class Component> makeNewComponent();
+	std::shared_ptr<Spawnable> make();
 
 	std::shared_ptr<class GameObject> makeNewPlayer();
 
@@ -36,34 +32,54 @@ public:
 
 	GLuint loadShader(std::string shaderName);
 
-	const std::vector<std::shared_ptr<class GameObject>>& getDrawObjects();
-
-	const std::vector<std::shared_ptr<class GameObject>>& getAllGameObjects();
-
 	const std::shared_ptr<class GameObject> getPlayer();
 
 	static bool isValid(std::shared_ptr<class Spawnable> spawnableObject);
 
-	template <typename T>
-	static void eraseNullPointers(std::vector<std::shared_ptr<T>>& pointers);
+	template<class To, class From>
+	static std::shared_ptr<To> cast(std::shared_ptr<From> from);
+
+	template<class T>
+	const std::vector<std::shared_ptr<T>> findByType();
+
+	template<class T>
+	static void eraseNullPointers(std::vector<T>& pointers);
 };
 
-template <typename T>
-std::shared_ptr<class Component> ResourceManager::makeNewComponent() {
-	std::shared_ptr<class Component> component = std::make_shared<T>();
+template<class T>
+std::shared_ptr<class Spawnable> ResourceManager::make() {
+	std::shared_ptr<class Spawnable> spawnable = std::make_shared<T>();
+	m_spawnedObjects.push_back(spawnable);
 
-	m_components.push_back(component);
-
-	return component;
+	return spawnable;
 }
 
-template <typename T>
-void ResourceManager::eraseNullPointers(std::vector<std::shared_ptr<T>>& pointers) {
+template<typename To, typename From>
+std::shared_ptr<To> ResourceManager::cast(std::shared_ptr<From> from) {
+	return std::dynamic_pointer_cast<To>(from);
+}
+
+template<class T>
+const std::vector<std::shared_ptr<T>> ResourceManager::findByType() {
+	std::vector<std::shared_ptr<T>> results;
+
+	for (std::shared_ptr<Spawnable> object : m_spawnedObjects) {
+		std::shared_ptr<T> found = cast<T>(object);
+		if (found) {
+			results.push_back(found);
+		}
+	}
+
+	return results;
+}
+
+template<class T>
+void ResourceManager::eraseNullPointers(std::vector<T>& pointers) {
 	pointers.erase(
 		std::remove_if(
 			pointers.begin(),
 			pointers.end(),
-			[](std::shared_ptr<T>& pointer) { return pointer == nullptr; }
+			[](T& pointer) { return pointer == nullptr; }
 		),
 		pointers.end()
 	);
