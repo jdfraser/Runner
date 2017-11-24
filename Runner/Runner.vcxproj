@@ -108,6 +108,7 @@
     <ClCompile Include="Source\main.cpp" />
     <ClCompile Include="Source\Manager\GameplayManager.cpp" />
     <ClCompile Include="Source\Manager\GraphicsManager.cpp" />
+    <ClCompile Include="Source\Manager\PhysicsManager.cpp" />
     <ClCompile Include="Source\Manager\ResourceManager.cpp" />
     <ClCompile Include="Source\Util\shader.cpp" />
   </ItemGroup>
@@ -250,6 +251,7 @@
     <ClInclude Include="Source\Manager\GameplayManager.h" />
     <ClInclude Include="Source\Manager\GraphicsManager.h" />
     <ClInclude Include="Source\Manager\Manager.h" />
+    <ClInclude Include="Source\Manager\PhysicsManager.h" />
     <ClInclude Include="Source\Manager\ResourceManager.h" />
     <ClInclude Include="Source\Util\shader.h" />
   </ItemGroup>

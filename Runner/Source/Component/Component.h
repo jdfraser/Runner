@@ -8,10 +8,9 @@ class Component : public Spawnable
 private:
 	std::shared_ptr<class GameObject> m_owner;
 
-protected:
+public:
 	std::shared_ptr<class GameObject> getOwner();
 
-public:
 	void setOwner(std::shared_ptr<class GameObject> owner);
 
 	virtual void tick(float deltaTime);

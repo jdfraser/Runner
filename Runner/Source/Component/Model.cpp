@@ -103,8 +103,8 @@ void Model::writeTexCoordsToShader(GLuint texCoordsIndex) {
 }
 
 void Model::calculateBounds() {
-	glm::vec3 min;
-	glm::vec3 max;
+	glm::vec3 min(0.0f, 0.0f, 0.0f);
+	glm::vec3 max(0.0f, 0.0f, 0.0f);
 
 	assert(m_vertices.size() % 3 == 0);
 

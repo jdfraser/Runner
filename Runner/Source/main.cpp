@@ -6,6 +6,7 @@
 #include "Manager/ResourceManager.h"
 #include "Manager/GraphicsManager.h"
 #include "Manager/GameplayManager.h"
+#include "Manager/PhysicsManager.h"
 
 #include "GameObject/GameObject.h"
 #include "GameObject/GameObjectFactory.h"
@@ -16,10 +17,12 @@ int main(int argc, char* argv[]) {
 
 	ResourceManager g_resourceManager;
 	GraphicsManager g_graphicsManager(g_resourceManager);
+	PhysicsManager g_physicsManager(g_resourceManager);
 	GameplayManager g_gameplayManager(g_resourceManager, g_graphicsManager);
 
 	g_resourceManager.startUp();
 	g_graphicsManager.startUp();
+	g_physicsManager.startUp();
 	g_gameplayManager.startUp();
 
 	std::shared_ptr<GameObject> player = g_resourceManager.getPlayer();
@@ -31,6 +34,7 @@ int main(int argc, char* argv[]) {
 		float deltaTime = (currentTime - lastTime) / 1000.0f;
 
 		g_resourceManager.tick(deltaTime);
+		g_physicsManager.tick(deltaTime);
 		g_gameplayManager.tick(deltaTime);
 		g_graphicsManager.tick(deltaTime);
 
@@ -38,6 +42,7 @@ int main(int argc, char* argv[]) {
 	}
 
 	g_gameplayManager.shutDown();
+	g_physicsManager.shutDown();
 	g_graphicsManager.shutDown();
 	g_resourceManager.shutDown();
 

@@ -20,3 +20,11 @@ void PhysicsHandler::setVelocity(glm::vec3 velocity) {
 glm::vec3 PhysicsHandler::getVelocity() {
 	return m_velocity;
 }
+
+Bounds PhysicsHandler::getBounds() {
+	return m_bounds;
+}
+
+void PhysicsHandler::setBounds(Bounds bounds) {
+	m_bounds = bounds;
+}
