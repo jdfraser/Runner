@@ -11,42 +11,40 @@ Transform& GameObject::getTransform() {
 }
 
 std::shared_ptr<Model> GameObject::getModel() {
-	std::vector<std::shared_ptr<Component>> models = findComponentsByType<Model>();
-	
-	if (models.size() == 0) {
-		return std::shared_ptr<Model>();
-	}
-
-	// TODO: start handling multiple models
-	return ResourceManager::cast<Model>(models[0]);
+	return m_model;
 }
 
 std::shared_ptr<InputHandler> GameObject::getInputHandler() {
-	std::vector <std::shared_ptr<Component>> inputHandlers = findComponentsByType<InputHandler>();
-
-	if (inputHandlers.size() == 0) {
-		return std::shared_ptr<InputHandler>();
-	}
-
-	return ResourceManager::cast<InputHandler>(inputHandlers[0]);
+	return m_inputHandler;
 }
 
-std::shared_ptr<class PhysicsHandler> GameObject::getPhysicsHandler() {
-	std::vector <std::shared_ptr<Component>> physicsHandlers = findComponentsByType<PhysicsHandler>();
-
-	if (physicsHandlers.size() == 0) {
-		return std::shared_ptr<PhysicsHandler>();
-	}
-
-	return ResourceManager::cast<PhysicsHandler>(physicsHandlers[0]);
+std::shared_ptr<PhysicsHandler> GameObject::getPhysicsHandler() {
+	return m_physicsHandler;
 }
 
 void GameObject::addComponent(std::shared_ptr<Component> component) {
 	m_components.push_back(component);
+}
 
-	assert(findComponentsByType<Model>().size() <= 1);
-	assert(findComponentsByType<InputHandler>().size() <= 1);
-	assert(findComponentsByType<PhysicsHandler>().size() <= 1);
+void GameObject::addComponent(std::shared_ptr<Model> model) {
+	assert(m_model == nullptr);
+
+	m_model = model;
+	m_components.push_back(ResourceManager::cast<Component>(model));
+}
+
+void GameObject::addComponent(std::shared_ptr<InputHandler> inputHandler) {
+	assert(m_inputHandler == nullptr);
+
+	m_inputHandler = inputHandler;
+	m_components.push_back(ResourceManager::cast<Component>(inputHandler));
+}
+
+void GameObject::addComponent(std::shared_ptr<PhysicsHandler> physicsHandler) {
+	assert(m_physicsHandler == nullptr);
+
+	m_physicsHandler = physicsHandler;
+	m_components.push_back(ResourceManager::cast<Component>(physicsHandler));
 }
 
 void GameObject::tick(float deltaTime) {

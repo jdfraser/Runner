@@ -14,6 +14,10 @@ private:
 
 	std::vector<std::shared_ptr<Component>> m_components;
 
+	std::shared_ptr<Model> m_model;
+	std::shared_ptr<InputHandler> m_inputHandler;
+	std::shared_ptr<PhysicsHandler> m_physicsHandler;
+
 public:
 	virtual void tick(float deltaTime) override;
 
@@ -29,6 +33,12 @@ public:
 
 	void addComponent(std::shared_ptr<Component> component);
 
+	void addComponent(std::shared_ptr<Model> model);
+
+	void addComponent(std::shared_ptr<InputHandler> inputHandler);
+
+	void addComponent(std::shared_ptr<PhysicsHandler> physicsHandler);
+
 	inline glm::vec3 getPosition() { return getTransform().getPosition(); }
 
 	inline void setPosition(glm::vec3 position) { getTransform().setPosition(position); }
@@ -42,12 +52,6 @@ public:
 	inline void setScale(glm::vec3 scale) { getTransform().setScale(scale); }
 
 	inline glm::mat4 getTransformMatrix() { return getTransform().getMatrix(); }
-
-	inline float getWidth() { return getModel()->getBounds().getWidth(); }
-
-	inline float getHeight() { return getModel()->getBounds().getHeight(); }
-
-	inline float getDepth() { return getModel()->getBounds().getDepth(); }
 
 	template<class T>
 	const std::vector<std::shared_ptr<Component>> findComponentsByType();
