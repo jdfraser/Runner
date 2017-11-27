@@ -2,11 +2,11 @@
 
 #include <algorithm>
 
-#include "Common.h"
+#include "Util/Common.h"
 #include "GameplayManager.h"
 #include "GraphicsManager.h"
-#include "GameObject/GameObject.h"
-#include "Component/Model.h"
+#include "Spawnable/GameObject/GameObject.h"
+#include "Spawnable/Component/Model.h"
 
 GameplayManager::GameplayManager(class ResourceManager& resourceManager, class GraphicsManager& graphicsManager)
 	: m_resourceManager(resourceManager),

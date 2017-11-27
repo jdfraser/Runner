@@ -1,5 +1,5 @@
 #include "Model.h"
-#include "GameObject/GameObject.h"
+#include "Spawnable/GameObject/GameObject.h"
 
 void Model::load() {
 	if (!m_material || m_vertices.size() == 0 || (m_material->getTexture() && m_texCoords.size() == 0)) {

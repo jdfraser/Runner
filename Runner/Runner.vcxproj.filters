@@ -16,28 +16,7 @@
     <ClCompile Include="Source\Util\shader.cpp">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Component\Component.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\GameObject\GameObject.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Component\Model.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Manager\ResourceManager.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\GameObject\GameObjectFactory.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Component\InputHandler.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Component\Material.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Debug.cpp">
       <Filter>Source</Filter>
     </ClCompile>
     <ClCompile Include="Libraries\tinyobjloader\tiny_obj_loader.cc">
@@ -52,10 +31,31 @@
     <ClCompile Include="Source\Engine\Spawnable.cpp">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Component\PhysicsHandler.cpp">
+    <ClCompile Include="Source\Manager\PhysicsManager.cpp">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Manager\PhysicsManager.cpp">
+    <ClCompile Include="Source\Util\Debug.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Spawnable\Component\Component.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Spawnable\Component\InputHandler.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Spawnable\Component\Material.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Spawnable\Component\Model.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Spawnable\Component\PhysicsHandler.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Spawnable\GameObject\GameObject.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Spawnable\GameObject\GameObjectFactory.cpp">
       <Filter>Source</Filter>
     </ClCompile>
   </ItemGroup>
@@ -185,22 +185,23 @@
     <ClInclude Include="Source\Manager\Manager.h" />
     <ClInclude Include="Source\Manager\GraphicsManager.h" />
     <ClInclude Include="Source\Util\shader.h" />
-    <ClInclude Include="Source\Component\Component.h" />
-    <ClInclude Include="Source\GameObject\GameObject.h" />
-    <ClInclude Include="Source\Component\Model.h" />
     <ClInclude Include="Source\Manager\ResourceManager.h" />
-    <ClInclude Include="Source\GameObject\GameObjectFactory.h" />
-    <ClInclude Include="Source\Component\InputHandler.h" />
-    <ClInclude Include="Source\Component\Material.h" />
-    <ClInclude Include="Source\Common.h" />
-    <ClInclude Include="Source\Debug.h" />
     <ClInclude Include="Libraries\tinyobjloader\tiny_obj_loader.h" />
     <ClInclude Include="Source\Manager\GameplayManager.h" />
     <ClInclude Include="Source\Engine\Bounds.h" />
     <ClInclude Include="Source\Engine\Transform.h" />
     <ClInclude Include="Source\Engine\Spawnable.h" />
-    <ClInclude Include="Source\Component\PhysicsHandler.h" />
     <ClInclude Include="Source\Manager\PhysicsManager.h" />
+    <ClInclude Include="Source\Engine\Functor\Functor.h" />
+    <ClInclude Include="Source\Util\Common.h" />
+    <ClInclude Include="Source\Util\Debug.h" />
+    <ClInclude Include="Source\Spawnable\Component\Component.h" />
+    <ClInclude Include="Source\Spawnable\Component\InputHandler.h" />
+    <ClInclude Include="Source\Spawnable\Component\Material.h" />
+    <ClInclude Include="Source\Spawnable\Component\Model.h" />
+    <ClInclude Include="Source\Spawnable\Component\PhysicsHandler.h" />
+    <ClInclude Include="Source\Spawnable\GameObject\GameObject.h" />
+    <ClInclude Include="Source\Spawnable\GameObject\GameObjectFactory.h" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="Libraries\GL\glew32.lib" />

@@ -1,7 +1,7 @@
 #include "PhysicsManager.h"
 #include "ResourceManager.h"
-#include "GameObject/GameObject.h"
-#include "Component/PhysicsHandler.h"
+#include "Spawnable/GameObject/GameObject.h"
+#include "Spawnable/Component/PhysicsHandler.h"
 
 PhysicsManager::PhysicsManager(class ResourceManager& resourceManager) 
 	: m_resourceManager(resourceManager) 

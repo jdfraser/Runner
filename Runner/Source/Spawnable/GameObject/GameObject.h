@@ -1,10 +1,10 @@
 #pragma once
 
-#include "Common.h"
-#include "Component/Component.h"
-#include "Component/Model.h"
-#include "Component/InputHandler.h"
-#include "Component/PhysicsHandler.h"
+#include "Util/Common.h"
+#include "Spawnable/Component/Component.h"
+#include "Spawnable/Component/Model.h"
+#include "Spawnable/Component/InputHandler.h"
+#include "Spawnable/Component/PhysicsHandler.h"
 #include "Engine/Transform.h"
 
 class GameObject : public Spawnable

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Manager.h"
-#include "GameObject/GameObjectFactory.h"
+#include "Spawnable/GameObject/GameObjectFactory.h"
 
 class GameplayManager : public Manager
 {

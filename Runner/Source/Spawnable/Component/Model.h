@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Component.h"
-#include "Component/Material.h"
+#include "Spawnable/Component/Material.h"
 #include "Engine/Bounds.h"
 
 class Model : public Component

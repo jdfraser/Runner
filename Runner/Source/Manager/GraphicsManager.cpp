@@ -4,9 +4,9 @@
 #include "GraphicsManager.h"
 #include "ResourceManager.h"
 #include "Util/shader.h"
-#include "GameObject/GameObject.h"
-#include "Component/Model.h"
-#include "Component/Material.h"
+#include "Spawnable/GameObject/GameObject.h"
+#include "Spawnable/Component/Model.h"
+#include "Spawnable/Component/Material.h"
 #include "Engine/Transform.h"
 
 GraphicsManager::GraphicsManager(ResourceManager& resourceManager)

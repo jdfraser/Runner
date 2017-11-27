@@ -1,5 +1,5 @@
 #include "PhysicsHandler.h"
-#include "GameObject/GameObject.h"
+#include "Spawnable/GameObject/GameObject.h"
 
 void PhysicsHandler::tick(float deltaTime) {
 	getOwner()->setPosition(getOwner()->getPosition() + m_velocity * deltaTime);

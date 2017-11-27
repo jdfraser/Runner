@@ -1,17 +1,17 @@
 #include <SDL2/SDL.h>
 #include <GL/glew.h>
 
-#include "Common.h"
+#include "Util/Common.h"
 
 #include "Manager/ResourceManager.h"
 #include "Manager/GraphicsManager.h"
 #include "Manager/GameplayManager.h"
 #include "Manager/PhysicsManager.h"
 
-#include "GameObject/GameObject.h"
-#include "GameObject/GameObjectFactory.h"
+#include "Spawnable/GameObject/GameObject.h"
+#include "Spawnable/GameObject/GameObjectFactory.h"
 
-#include "Component/InputHandler.h"
+#include "Spawnable/Component/InputHandler.h"
 
 int main(int argc, char* argv[]) {
 

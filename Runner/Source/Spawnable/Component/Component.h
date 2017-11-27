@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Common.h"
+#include "Util/Common.h"
 #include "Engine/Spawnable.h"
 
 class Component : public Spawnable

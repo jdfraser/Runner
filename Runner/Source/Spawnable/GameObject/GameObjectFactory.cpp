@@ -1,10 +1,10 @@
 #include "GameObjectFactory.h"
 #include "Manager/ResourceManager.h"
-#include "GameObject/GameObject.h"
+#include "Spawnable/GameObject/GameObject.h"
 #include "GameObject.h"
-#include "Component/Model.h"
-#include "Component/InputHandler.h"
-#include "Component/Material.h"
+#include "Spawnable/Component/Model.h"
+#include "Spawnable/Component/InputHandler.h"
+#include "Spawnable/Component/Material.h"
 
 GameObjectFactory::GameObjectFactory(ResourceManager& resourceManager) : m_resourceManager(resourceManager) {
 

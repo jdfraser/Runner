@@ -2,7 +2,7 @@
 
 #include "InputHandler.h"
 #include "PhysicsHandler.h"
-#include "GameObject/GameObject.h"
+#include "Spawnable/GameObject/GameObject.h"
 
 void InputHandler::tick(float deltaTime) {
 	if (!getOwner()) {
