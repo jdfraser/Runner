@@ -58,6 +58,15 @@
     <ClCompile Include="Source\Spawnable\GameObject\GameObjectFactory.cpp">
       <Filter>Source</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Event\CollisionEvent.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Event\Event.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Manager\EventManager.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Libraries\GL\glew.h" />
@@ -202,6 +211,9 @@
     <ClInclude Include="Source\Spawnable\Component\PhysicsHandler.h" />
     <ClInclude Include="Source\Spawnable\GameObject\GameObject.h" />
     <ClInclude Include="Source\Spawnable\GameObject\GameObjectFactory.h" />
+    <ClInclude Include="Source\Event\CollisionEvent.h" />
+    <ClInclude Include="Source\Event\Event.h" />
+    <ClInclude Include="Source\Manager\EventManager.h" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="Libraries\GL\glew32.lib" />

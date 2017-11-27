@@ -7,6 +7,7 @@
 #include "Manager/GraphicsManager.h"
 #include "Manager/GameplayManager.h"
 #include "Manager/PhysicsManager.h"
+#include "Manager/EventManager.h"
 
 #include "Spawnable/GameObject/GameObject.h"
 #include "Spawnable/GameObject/GameObjectFactory.h"
@@ -16,14 +17,16 @@
 int main(int argc, char* argv[]) {
 
 	ResourceManager g_resourceManager;
+	EventManager g_eventManager;
 	GraphicsManager g_graphicsManager(g_resourceManager);
-	PhysicsManager g_physicsManager(g_resourceManager);
-	GameplayManager g_gameplayManager(g_resourceManager, g_graphicsManager);
+	PhysicsManager g_physicsManager(g_resourceManager, g_eventManager);
+	GameplayManager g_gameplayManager(g_resourceManager, g_graphicsManager, g_eventManager);
 
 	g_resourceManager.startUp();
 	g_graphicsManager.startUp();
 	g_physicsManager.startUp();
 	g_gameplayManager.startUp();
+	g_eventManager.startUp();
 
 	std::shared_ptr<GameObject> player = g_resourceManager.getPlayer();
 	std::shared_ptr<InputHandler> inputHandler = player->getInputHandler();
@@ -41,6 +44,7 @@ int main(int argc, char* argv[]) {
 		lastTime = currentTime;
 	}
 
+	g_eventManager.shutDown();
 	g_gameplayManager.shutDown();
 	g_physicsManager.shutDown();
 	g_graphicsManager.shutDown();

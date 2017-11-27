@@ -5,13 +5,18 @@
 #include "Util/Common.h"
 #include "GameplayManager.h"
 #include "GraphicsManager.h"
+#include "EventManager.h"
 #include "Spawnable/GameObject/GameObject.h"
 #include "Spawnable/Component/Model.h"
 
-GameplayManager::GameplayManager(class ResourceManager& resourceManager, class GraphicsManager& graphicsManager)
-	: m_resourceManager(resourceManager),
-	  m_graphicsManager(graphicsManager),
-	  m_factory(resourceManager) 
+GameplayManager::GameplayManager(
+	ResourceManager& resourceManager, 
+	GraphicsManager& graphicsManager, 
+	EventManager& eventManager
+) : m_resourceManager(resourceManager),
+	m_graphicsManager(graphicsManager),
+	m_eventManager(eventManager),
+	m_factory(resourceManager) 
 {
 
 }
@@ -31,6 +36,7 @@ void GameplayManager::tick(float deltaTime) {
 	destroyUnusedObjects();
 	generateGround();
 	generateObstacles();
+	handleCollisions();
 	
 	for (std::shared_ptr<GameObject> gameObject : m_resourceManager.findByType<GameObject>()) {
 		if (!ResourceManager::isValid(gameObject)) {
@@ -38,6 +44,18 @@ void GameplayManager::tick(float deltaTime) {
 		}
 
 		gameObject->tick(deltaTime);
+	}
+}
+
+void GameplayManager::handleCollisions() {
+	while (m_eventManager.hasCollisionEvent()) {
+		CollisionEvent event = m_eventManager.getNextCollisionEvent();
+		std::shared_ptr<GameObject> ownerA = event.firstCollider->getOwner();
+		std::shared_ptr<GameObject> ownerB = event.secondCollider->getOwner();
+
+		if (ownerA == m_resourceManager.getPlayer() || ownerB == m_resourceManager.getPlayer()) {
+			Debug::log("Game Over!");
+		}
 	}
 }
 

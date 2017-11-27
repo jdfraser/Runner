@@ -1,12 +1,14 @@
 #include "PhysicsManager.h"
 #include "ResourceManager.h"
+#include "EventManager.h"
 #include "Spawnable/GameObject/GameObject.h"
 #include "Spawnable/Component/PhysicsHandler.h"
 
-PhysicsManager::PhysicsManager(class ResourceManager& resourceManager) 
-	: m_resourceManager(resourceManager) 
+PhysicsManager::PhysicsManager(ResourceManager& resourceManager, EventManager& eventManager)
+	: m_resourceManager(resourceManager),
+	  m_eventManager(eventManager)
 {
-
+	
 }
 
 void PhysicsManager::startUp() {
@@ -28,7 +30,11 @@ void PhysicsManager::tick(float deltaTime) {
 			 a = physicsHandlers[i];
 			 b = physicsHandlers[j];
 			if (checkAABBCollision(a, b)) {
-				Debug::log("Collision!");
+				CollisionEvent event;
+				event.firstCollider = a;
+				event.secondCollider = b;
+
+				m_eventManager.push(event);
 			}
 		}
 	}

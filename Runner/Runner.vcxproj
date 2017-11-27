@@ -95,6 +95,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Libraries\tinyobjloader\tiny_obj_loader.cc" />
+    <ClCompile Include="Source\Event\CollisionEvent.cpp" />
+    <ClCompile Include="Source\Event\Event.cpp" />
+    <ClCompile Include="Source\Manager\EventManager.cpp" />
     <ClCompile Include="Source\Spawnable\Component\Component.cpp" />
     <ClCompile Include="Source\Spawnable\Component\InputHandler.cpp" />
     <ClCompile Include="Source\Spawnable\Component\Model.cpp" />
@@ -236,6 +239,9 @@
     <ClInclude Include="Libraries\SOIL2\stb_image.h" />
     <ClInclude Include="Libraries\SOIL2\stb_image_write.h" />
     <ClInclude Include="Libraries\tinyobjloader\tiny_obj_loader.h" />
+    <ClInclude Include="Source\Event\CollisionEvent.h" />
+    <ClInclude Include="Source\Event\Event.h" />
+    <ClInclude Include="Source\Manager\EventManager.h" />
     <ClInclude Include="Source\Util\Common.h" />
     <ClInclude Include="Source\Spawnable\Component\Component.h" />
     <ClInclude Include="Source\Spawnable\Component\InputHandler.h" />

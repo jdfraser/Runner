@@ -7,8 +7,10 @@ class PhysicsManager : public Manager
 private:
 	class ResourceManager& m_resourceManager;
 
+	class EventManager& m_eventManager;
+
 public:
-	PhysicsManager(class ResourceManager& resourceManager);
+	PhysicsManager(class ResourceManager& resourceManager, class EventManager& eventManager);
 
 	virtual void startUp() override;
 

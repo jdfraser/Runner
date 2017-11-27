@@ -18,8 +18,8 @@ private:
 	float chanceToSpawnRight = 0.50f;
 
 	class ResourceManager& m_resourceManager;
-
 	class GraphicsManager& m_graphicsManager;
+	class EventManager& m_eventManager;
 
 	GameObjectFactory m_factory;
 
@@ -30,7 +30,11 @@ private:
 	std::vector<std::shared_ptr<GameObject>> m_obstacles;
 
 public:
-	GameplayManager(class ResourceManager& resourceManager, class GraphicsManager& graphicsManager);
+	GameplayManager(
+		class ResourceManager& resourceManager, 
+		class GraphicsManager& graphicsManager, 
+		class EventManager& eventManager
+	);
 
 	~GameplayManager() = default;
 
@@ -41,6 +45,8 @@ public:
 	virtual void tick(float deltaTime) override;
 
 private:
+	void handleCollisions();
+	
 	void initializeGround();
 
 	void generateGround();
