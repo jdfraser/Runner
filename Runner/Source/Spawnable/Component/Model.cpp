@@ -62,7 +62,7 @@ glm::mat4 Model::getTransformMatrix() {
 	return getOwner()->getTransformMatrix();
 }
 
-Bounds Model::getBounds() {
+Bounds Model::getBounds() const {
 	return m_bounds;
 }
 

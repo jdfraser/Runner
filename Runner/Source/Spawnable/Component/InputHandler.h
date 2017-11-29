@@ -23,5 +23,5 @@ public:
 
 	virtual void unLoad() override;
 
-	bool wantsQuit();
+	bool wantsQuit() const;
 };

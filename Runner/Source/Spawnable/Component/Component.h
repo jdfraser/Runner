@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Util/Common.h"
-#include "Engine/Spawnable.h"
+#include "Spawnable/Spawnable.h"
 
 class Component : public Spawnable
 {

@@ -23,8 +23,6 @@ public:
 
 	virtual void destroy() final override;
 
-	Transform& getTransform();
-
 	std::shared_ptr<Model> getModel();
 
 	std::shared_ptr<InputHandler> getInputHandler();
@@ -39,19 +37,25 @@ public:
 
 	void addComponent(std::shared_ptr<PhysicsHandler> physicsHandler);
 
-	inline glm::vec3 getPosition() { return getTransform().getPosition(); }
+	inline glm::vec3 getPosition() const { return m_transform.getPosition(); }
 
-	inline void setPosition(glm::vec3 position) { getTransform().setPosition(position); }
+	inline void setPosition(glm::vec3 position) { m_transform.setPosition(position); }
 
-	inline glm::vec3 getRotation() { return getTransform().getRotation(); }
+	inline glm::vec3 getRotation() const { return m_transform.getRotation(); }
 
-	inline void setRotation(glm::vec3 rotation) { getTransform().setRotation(rotation); }
+	inline void setRotation(glm::vec3 rotation) { m_transform.setRotation(rotation); }
 
-	inline glm::vec3 getScale() { return getTransform().getScale(); }
+	inline glm::vec3 getScale() const { return m_transform.getScale(); }
 
-	inline void setScale(glm::vec3 scale) { getTransform().setScale(scale); }
+	inline void setScale(glm::vec3 scale) { m_transform.setScale(scale); }
 
-	inline glm::mat4 getTransformMatrix() { return getTransform().getMatrix(); }
+	inline glm::vec3 getUpVector() { return m_transform.getUpVector(); }
+
+	inline glm::vec3 getForwardVector() { return m_transform.getForwardVector(); }
+
+	inline glm::vec3 getRightVector() { return m_transform.getRightVector(); }
+
+	inline glm::mat4 getTransformMatrix() { return m_transform.getMatrix(); }
 
 	template<class T>
 	const std::vector<std::shared_ptr<Component>> findComponentsByType();

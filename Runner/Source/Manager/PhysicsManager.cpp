@@ -40,7 +40,7 @@ void PhysicsManager::tick(float deltaTime) {
 	}
 }
 
-bool PhysicsManager::checkAABBCollision(const std::shared_ptr<PhysicsHandler>& a, const std::shared_ptr<PhysicsHandler>& b) {
+bool PhysicsManager::checkAABBCollision(const std::shared_ptr<PhysicsHandler> a, const std::shared_ptr<PhysicsHandler> b) const {
 	if (!ResourceManager::isValid(a) || !ResourceManager::isValid(b)) {
 		return false;
 	}

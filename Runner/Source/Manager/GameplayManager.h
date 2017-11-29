@@ -14,7 +14,6 @@ private:
 	const float MAX_OBSTACLE_X_OFFSET = 2.0f;
 
 	const float SPAWN_CHANCE_INCREMENT = 0.25f;
-
 	float chanceToSpawnRight = 0.50f;
 
 	class ResourceManager& m_resourceManager;
@@ -28,6 +27,20 @@ private:
 	std::vector<std::shared_ptr<GameObject>> m_groundInstances;
 
 	std::vector<std::shared_ptr<GameObject>> m_obstacles;
+
+	void handleCollisions();
+
+	void initializeGround();
+
+	void generateGround();
+
+	void destroyUnusedObjects();
+
+	void generateObstacles();
+
+	float generateObstacleZ();
+
+	float generateObstacleX();
 
 public:
 	GameplayManager(
@@ -43,19 +56,4 @@ public:
 	virtual void shutDown() override;
 
 	virtual void tick(float deltaTime) override;
-
-private:
-	void handleCollisions();
-	
-	void initializeGround();
-
-	void generateGround();
-
-	void destroyUnusedObjects();
-
-	void generateObstacles();
-
-	float generateObstacleZ();
-
-	float generateObstacleX();
 };

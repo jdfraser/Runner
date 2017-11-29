@@ -9,6 +9,8 @@ private:
 
 	class EventManager& m_eventManager;
 
+	bool checkAABBCollision(const std::shared_ptr<class PhysicsHandler> a, const std::shared_ptr<class PhysicsHandler> b) const;
+
 public:
 	PhysicsManager(class ResourceManager& resourceManager, class EventManager& eventManager);
 
@@ -18,5 +20,4 @@ public:
 
 	virtual void tick(float deltaTime) override;
 
-	bool checkAABBCollision(const std::shared_ptr<class PhysicsHandler>& a, const std::shared_ptr<class PhysicsHandler>& b);
 };

@@ -40,9 +40,9 @@ void InputHandler::tick(float deltaTime) {
 	m_forward = 1.0f;
 
 	glm::vec3 velocity;
-	glm::vec3 forwardVector = getOwner()->getTransform().getForwardVector();
-	glm::vec3 rightVector = getOwner()->getTransform().getRightVector();
-	glm::vec3 upVector = getOwner()->getTransform().getUpVector();
+	glm::vec3 forwardVector = getOwner()->getForwardVector();
+	glm::vec3 rightVector = getOwner()->getRightVector();
+	glm::vec3 upVector = getOwner()->getUpVector();
 
 	velocity += forwardVector * (m_forward - m_backward) * m_forwardSpeed;
 	velocity += rightVector * (m_right - m_left) * m_rightSpeed;
@@ -61,6 +61,6 @@ void InputHandler::unLoad() {
 
 }
 
-bool InputHandler::wantsQuit() {
+bool InputHandler::wantsQuit() const {
 	return m_quit;
 }

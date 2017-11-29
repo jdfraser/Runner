@@ -31,6 +31,7 @@ int main(int argc, char* argv[]) {
 	std::shared_ptr<GameObject> player = g_resourceManager.getPlayer();
 	std::shared_ptr<InputHandler> inputHandler = player->getInputHandler();
 
+	// TODO: handle wantsQuit via event queue instead
 	while (!inputHandler->wantsQuit()) {
 		static float lastTime = static_cast<float>(SDL_GetTicks());
 		float currentTime = static_cast<float>(SDL_GetTicks());

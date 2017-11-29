@@ -28,9 +28,6 @@
     <ClCompile Include="Source\Engine\Transform.cpp">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Engine\Spawnable.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Manager\PhysicsManager.cpp">
       <Filter>Source</Filter>
     </ClCompile>
@@ -65,6 +62,9 @@
       <Filter>Source</Filter>
     </ClCompile>
     <ClCompile Include="Source\Manager\EventManager.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Spawnable\Spawnable.cpp">
       <Filter>Source</Filter>
     </ClCompile>
   </ItemGroup>
@@ -199,7 +199,6 @@
     <ClInclude Include="Source\Manager\GameplayManager.h" />
     <ClInclude Include="Source\Engine\Bounds.h" />
     <ClInclude Include="Source\Engine\Transform.h" />
-    <ClInclude Include="Source\Engine\Spawnable.h" />
     <ClInclude Include="Source\Manager\PhysicsManager.h" />
     <ClInclude Include="Source\Engine\Functor\Functor.h" />
     <ClInclude Include="Source\Util\Common.h" />
@@ -214,6 +213,7 @@
     <ClInclude Include="Source\Event\CollisionEvent.h" />
     <ClInclude Include="Source\Event\Event.h" />
     <ClInclude Include="Source\Manager\EventManager.h" />
+    <ClInclude Include="Source\Spawnable\Spawnable.h" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="Libraries\GL\glew32.lib" />

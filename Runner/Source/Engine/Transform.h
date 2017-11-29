@@ -14,18 +14,17 @@ private:
 	glm::vec3 m_position;
 
 public:
-
 	Transform();
 
-	glm::vec3 getScale();
+	glm::vec3 getScale() const;
 
 	void setScale(glm::vec3 scale);
 
-	glm::vec3 getRotation();
+	glm::vec3 getRotation() const;
 
 	void setRotation(glm::vec3 rotation);
 
-	glm::vec3 getPosition();
+	glm::vec3 getPosition() const;
 
 	void setPosition(glm::vec3 position);
 

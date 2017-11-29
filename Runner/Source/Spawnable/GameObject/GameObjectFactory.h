@@ -8,8 +8,7 @@ private:
 	ResourceManager& m_resourceManager;
 
 public:
-
-	explicit GameObjectFactory(ResourceManager& resourceManager);
+	GameObjectFactory(ResourceManager& resourceManager);
 
 	std::shared_ptr<class GameObject> makeGround();
 

@@ -20,6 +20,8 @@ private:
 
 	bool m_rendering = false;
 	std::vector<GLuint> m_attribArraysInUse;
+
+	void calculateBounds();
 	
 public:
 	virtual void load() override;
@@ -38,14 +40,11 @@ public:
 
 	glm::mat4 getTransformMatrix();
 
-	Bounds getBounds();
+	Bounds getBounds() const;
 
 	void writeTextureToShader(GLuint uniformLocation);
 
 	void writeVerticesToShader(GLuint verticesIndex);
 
 	void writeTexCoordsToShader(GLuint texCoordsIndex);
-
-private:
-	void calculateBounds();
 };

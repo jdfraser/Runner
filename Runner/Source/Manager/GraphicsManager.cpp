@@ -81,6 +81,10 @@ void GraphicsManager::shutDown() {
 	SDL_Quit();
 }
 
+void GraphicsManager::tick(float deltaTime) {
+	draw();
+}
+
 void GraphicsManager::setCamera(std::shared_ptr<GameObject> camera) {
 	m_camera = camera;
 }
@@ -93,8 +97,8 @@ std::shared_ptr<class GameObject> GraphicsManager::getCamera() {
 	return m_camera;
 }
 
-void GraphicsManager::tick(float deltaTime) {
-	draw();
+float GraphicsManager::getMaxViewDistance() const {
+	return 10.0f;
 }
 
 void GraphicsManager::draw() {
@@ -110,12 +114,12 @@ void GraphicsManager::draw() {
 		100.0f
 	);
 
-	glm::vec3 pos = getCamera()->getTransform().getPosition();
+	glm::vec3 pos = getCamera()->getPosition();
 
 	glm::mat4 viewMatrix = glm::lookAt(
 		pos,
-		pos + getCamera()->getTransform().getForwardVector(),
-		getCamera()->getTransform().getUpVector()
+		pos + getCamera()->getForwardVector(),
+		getCamera()->getUpVector()
 	);
 
 	for (std::shared_ptr<Model> model : m_resourceManager.findByType<Model>()) {
@@ -148,15 +152,15 @@ void GraphicsManager::draw() {
 	SDL_GL_SwapWindow(m_window);
 }
 
-int GraphicsManager::getWindowWidth() {
+int GraphicsManager::getWindowWidth() const {
 	return m_windowWidth;
 }
 
-int GraphicsManager::getWindowHeight() {
+int GraphicsManager::getWindowHeight() const {
 	return m_windowHeight;
 }
 
-glm::uvec2 GraphicsManager::getWindowCenter() {
+glm::uvec2 GraphicsManager::getWindowCenter() const {
 	glm::uvec2 center;
 	center.x = getWindowWidth() / 2;
 	center.y = getWindowHeight() / 2;
@@ -164,11 +168,7 @@ glm::uvec2 GraphicsManager::getWindowCenter() {
 	return center;
 }
 
-float GraphicsManager::getAspectRatio() {
+float GraphicsManager::getAspectRatio() const {
 	return static_cast<float>(getWindowWidth()) / static_cast<float>(getWindowHeight());
-}
-
-float GraphicsManager::getMaxViewDistance() {
-	return 10.0f;
 }
 

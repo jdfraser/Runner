@@ -7,7 +7,7 @@ Transform::Transform() : m_scale(1.0f, 1.0f, 1.0f) {
 
 }
 
-glm::vec3 Transform::getScale() {
+glm::vec3 Transform::getScale() const {
 	return m_scale;
 }
 
@@ -17,7 +17,7 @@ void Transform::setScale(glm::vec3 scale) {
 	m_scale = scale;
 }
 
-glm::vec3 Transform::getRotation() {
+glm::vec3 Transform::getRotation() const {
 	return m_rotation;
 }
 
@@ -27,7 +27,7 @@ void Transform::setRotation(glm::vec3 rotation) {
 	m_rotation = rotation;
 }
 
-glm::vec3 Transform::getPosition() {
+glm::vec3 Transform::getPosition() const {
 	return m_position;
 }
 
@@ -38,6 +38,7 @@ void Transform::setPosition(glm::vec3 position) {
 }
 
 glm::mat4 Transform::getMatrix() {
+	// TODO: move write out of accessor
 	if (m_matrixDirty) {
 		m_matrixDirty = false;
 		m_matrix      = glm::translate(m_position) *

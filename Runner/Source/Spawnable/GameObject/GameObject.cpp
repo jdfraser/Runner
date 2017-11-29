@@ -6,10 +6,6 @@
 #include "Spawnable/Component/Model.h"
 #include "Spawnable/Component/InputHandler.h"
 
-Transform& GameObject::getTransform() {
-	return m_transform;
-}
-
 std::shared_ptr<Model> GameObject::getModel() {
 	return m_model;
 }

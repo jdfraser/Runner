@@ -16,5 +16,5 @@ public:
 
 	void setTexture(GLuint textureID);
 
-	GLuint getTexture();
+	GLuint getTexture() const;
 };

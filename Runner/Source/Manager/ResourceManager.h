@@ -32,7 +32,10 @@ public:
 
 	GLuint loadShader(std::string shaderName);
 
-	const std::shared_ptr<class GameObject> getPlayer();
+	std::shared_ptr<class GameObject> getPlayer();
+
+	template<class T>
+	const std::vector<std::shared_ptr<T>> findByType() const;
 
 	static bool isValid(std::shared_ptr<class Spawnable> spawnableObject);
 
@@ -40,11 +43,22 @@ public:
 	static std::shared_ptr<To> cast(std::shared_ptr<From> from);
 
 	template<class T>
-	const std::vector<std::shared_ptr<T>> findByType();
-
-	template<class T>
 	static void eraseNullPointers(std::vector<T>& pointers);
 };
+
+template<class T>
+const std::vector<std::shared_ptr<T>> ResourceManager::findByType() const {
+	std::vector<std::shared_ptr<T>> results;
+
+	for (std::shared_ptr<Spawnable> object : m_spawnedObjects) {
+		std::shared_ptr<T> found = cast<T>(object);
+		if (found) {
+			results.push_back(found);
+		}
+	}
+
+	return results;
+}
 
 template<class T>
 std::shared_ptr<class Spawnable> ResourceManager::make() {
@@ -57,20 +71,6 @@ std::shared_ptr<class Spawnable> ResourceManager::make() {
 template<typename To, typename From>
 std::shared_ptr<To> ResourceManager::cast(std::shared_ptr<From> from) {
 	return std::dynamic_pointer_cast<To>(from);
-}
-
-template<class T>
-const std::vector<std::shared_ptr<T>> ResourceManager::findByType() {
-	std::vector<std::shared_ptr<T>> results;
-
-	for (std::shared_ptr<Spawnable> object : m_spawnedObjects) {
-		std::shared_ptr<T> found = cast<T>(object);
-		if (found) {
-			results.push_back(found);
-		}
-	}
-
-	return results;
 }
 
 template<class T>

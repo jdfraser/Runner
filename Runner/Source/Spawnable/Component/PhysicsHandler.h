@@ -19,9 +19,9 @@ public:
 
 	void setVelocity(glm::vec3 velocity);
 
-	glm::vec3 getVelocity();
+	glm::vec3 getVelocity() const;
 
-	Bounds getBounds();
+	Bounds getBounds() const;
 
 	void setBounds(Bounds bounds);
 

@@ -96,7 +96,7 @@ std::shared_ptr<GameObject> ResourceManager::makeNewPlayer() {
 	return m_player;
 }
 
-const std::shared_ptr<GameObject> ResourceManager::getPlayer() {
+std::shared_ptr<GameObject> ResourceManager::getPlayer() {
 	return m_player;
 }
 

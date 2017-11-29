@@ -1,4 +1,5 @@
 #pragma once
+
 #include <SDL2/SDL.h>
 
 #include "Manager.h"
@@ -20,6 +21,16 @@ private:
 
 	std::shared_ptr<class GameObject> m_camera;
 
+	void draw();
+
+	int getWindowWidth() const;
+
+	int getWindowHeight() const;
+
+	glm::uvec2 getWindowCenter() const;
+
+	float getAspectRatio() const;
+
 public:
 	GraphicsManager(class ResourceManager& resourceManager);
 
@@ -35,17 +46,6 @@ public:
 
 	std::shared_ptr<class GameObject> getCamera();
 
-	float getMaxViewDistance();
+	float getMaxViewDistance() const;
 
-private:
-
-	void draw();
-
-	int getWindowWidth();
-
-	int getWindowHeight();
-
-	glm::uvec2 getWindowCenter();
-
-	float getAspectRatio();
 };

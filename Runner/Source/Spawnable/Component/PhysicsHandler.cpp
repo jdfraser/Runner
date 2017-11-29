@@ -17,11 +17,11 @@ void PhysicsHandler::setVelocity(glm::vec3 velocity) {
 	m_velocity = velocity;
 }
 
-glm::vec3 PhysicsHandler::getVelocity() {
+glm::vec3 PhysicsHandler::getVelocity() const {
 	return m_velocity;
 }
 
-Bounds PhysicsHandler::getBounds() {
+Bounds PhysicsHandler::getBounds() const {
 	return m_bounds;
 }
 

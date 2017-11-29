@@ -12,6 +12,6 @@ void Material::setTexture(GLuint textureID) {
 	m_textureID = textureID;
 }
 
-GLuint Material::getTexture() {
+GLuint Material::getTexture() const {
 	return m_textureID;
 }

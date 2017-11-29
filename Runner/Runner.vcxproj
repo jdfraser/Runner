@@ -102,7 +102,7 @@
     <ClCompile Include="Source\Spawnable\Component\InputHandler.cpp" />
     <ClCompile Include="Source\Spawnable\Component\Model.cpp" />
     <ClCompile Include="Source\Spawnable\Component\PhysicsHandler.cpp" />
-    <ClCompile Include="Source\Engine\Spawnable.cpp" />
+    <ClCompile Include="Source\Spawnable\Spawnable.cpp" />
     <ClCompile Include="Source\Engine\Transform.cpp" />
     <ClCompile Include="Source\Util\Debug.cpp" />
     <ClCompile Include="Source\Spawnable\GameObject\GameObject.cpp" />
@@ -249,7 +249,7 @@
     <ClInclude Include="Source\Spawnable\Component\PhysicsHandler.h" />
     <ClInclude Include="Source\Engine\Bounds.h" />
     <ClInclude Include="Source\Engine\Functor\Functor.h" />
-    <ClInclude Include="Source\Engine\Spawnable.h" />
+    <ClInclude Include="Source\Spawnable\Spawnable.h" />
     <ClInclude Include="Source\Engine\Transform.h" />
     <ClInclude Include="Source\Util\Debug.h" />
     <ClInclude Include="Source\Spawnable\GameObject\GameObject.h" />
