@@ -28,12 +28,13 @@ public:
 
 	void setPosition(glm::vec3 position);
 
-	glm::mat4 getMatrix();
+	glm::mat4 getMatrix() const;
 
-	glm::vec3 getForwardVector();
+	glm::vec3 getForwardVector() const;
 
-	glm::vec3 getRightVector();
+	glm::vec3 getRightVector() const;
 
-	glm::vec3 getUpVector();
+	glm::vec3 getUpVector() const;
 
+	void rebuildMatrix();
 };

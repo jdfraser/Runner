@@ -6,6 +6,27 @@
 #include "Spawnable/Component/Model.h"
 #include "Spawnable/Component/InputHandler.h"
 
+void GameObject::tick(float deltaTime) {
+	if (!canTick()) {
+		return;
+	}
+
+	m_transform.rebuildMatrix();
+
+	for (std::shared_ptr<Component> component : m_components) {
+		component->tick(deltaTime);
+	}
+}
+
+void GameObject::destroy() {
+	Spawnable::destroy();
+
+	for (std::shared_ptr<Component> component : m_components) {
+		component->destroy();
+		component.reset();
+	}
+}
+
 std::shared_ptr<Model> GameObject::getModel() {
 	return m_model;
 }
@@ -41,23 +62,4 @@ void GameObject::addComponent(std::shared_ptr<PhysicsHandler> physicsHandler) {
 
 	m_physicsHandler = physicsHandler;
 	m_components.push_back(ResourceManager::cast<Component>(physicsHandler));
-}
-
-void GameObject::tick(float deltaTime) {
-	if (!canTick()) {
-		return;
-	}
-
-	for (std::shared_ptr<Component> component : m_components) {
-		component->tick(deltaTime);
-	}
-}
-
-void GameObject::destroy() {
-	Spawnable::destroy();
-
-	for (std::shared_ptr<Component> component : m_components) {
-		component->destroy();
-		component.reset();
-	}
 }

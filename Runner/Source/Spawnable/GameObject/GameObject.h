@@ -49,13 +49,13 @@ public:
 
 	inline void setScale(glm::vec3 scale) { m_transform.setScale(scale); }
 
-	inline glm::vec3 getUpVector() { return m_transform.getUpVector(); }
+	inline glm::vec3 getUpVector() const { return m_transform.getUpVector(); }
 
-	inline glm::vec3 getForwardVector() { return m_transform.getForwardVector(); }
+	inline glm::vec3 getForwardVector() const { return m_transform.getForwardVector(); }
 
-	inline glm::vec3 getRightVector() { return m_transform.getRightVector(); }
+	inline glm::vec3 getRightVector() const { return m_transform.getRightVector(); }
 
-	inline glm::mat4 getTransformMatrix() { return m_transform.getMatrix(); }
+	inline glm::mat4 getTransformMatrix() const { return m_transform.getMatrix(); }
 
 	template<class T>
 	const std::vector<std::shared_ptr<Component>> findComponentsByType();
