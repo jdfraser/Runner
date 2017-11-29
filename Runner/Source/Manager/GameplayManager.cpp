@@ -25,6 +25,8 @@ void GameplayManager::startUp() {
 	m_player = m_factory.makePlayer();
 	m_player->setPosition(glm::vec3(0.0f, 0.5f, 0.0f));
 
+	m_graphicsManager.setCamera(m_player);
+
 	initializeGround();
 }
 

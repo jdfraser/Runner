@@ -90,10 +90,6 @@ void GraphicsManager::setCamera(std::shared_ptr<GameObject> camera) {
 }
 
 std::shared_ptr<class GameObject> GraphicsManager::getCamera() {
-	if (!m_camera) {
-		m_camera = m_resourceManager.getPlayer();
-	}
-
 	return m_camera;
 }
 
