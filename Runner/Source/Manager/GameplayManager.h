@@ -32,6 +32,8 @@ private:
 
 	void initializeGround();
 
+	void initializePlayer();
+
 	void generateGround();
 
 	void destroyUnusedObjects();
@@ -41,6 +43,10 @@ private:
 	float generateObstacleZ();
 
 	float generateObstacleX();
+
+	void resetLevel();
+
+	void destroyAllObjects();
 
 public:
 	GameplayManager(

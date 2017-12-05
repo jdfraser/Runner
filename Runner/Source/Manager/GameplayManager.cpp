@@ -23,10 +23,9 @@ GameplayManager::GameplayManager(
 
 void GameplayManager::startUp() {
 	m_player = m_factory.makePlayer();
-	m_player->setPosition(glm::vec3(0.0f, 0.5f, 0.0f));
-
 	m_graphicsManager.setCamera(m_player);
 
+	initializePlayer();
 	initializeGround();
 }
 
@@ -56,7 +55,7 @@ void GameplayManager::handleCollisions() {
 		std::shared_ptr<GameObject> ownerB = event.secondCollider->getOwner();
 
 		if (ownerA == m_resourceManager.getPlayer() || ownerB == m_resourceManager.getPlayer()) {
-			Debug::log("Game Over!");
+			resetLevel();
 		}
 	}
 }
@@ -70,6 +69,10 @@ void GameplayManager::initializeGround() {
 	m_groundInstances.push_back(ground);
 
 	generateGround();
+}
+
+void GameplayManager::initializePlayer() {
+	m_player->setPosition(glm::vec3(0.0f, 0.5f, 0.0f));
 }
 
 void GameplayManager::generateGround() {
@@ -168,4 +171,24 @@ float GameplayManager::generateObstacleX() {
 	chanceToSpawnRight = glm::clamp(chanceToSpawnRight, 0.0f, 1.0f);
 
 	return sign * glm::linearRand(MIN_OBSTACLE_X_OFFSET, MAX_OBSTACLE_X_OFFSET);
+}
+
+void GameplayManager::resetLevel() {
+	destroyAllObjects();
+	initializePlayer();
+	initializeGround();
+}
+
+void GameplayManager::destroyAllObjects() {
+	for (std::shared_ptr<GameObject> ground : m_groundInstances) {
+		ground->destroy();
+	}
+
+	m_groundInstances.clear();
+
+	for (std::shared_ptr<GameObject> obstacle : m_obstacles) {
+		obstacle->destroy();
+	}
+
+	m_obstacles.clear();
 }
