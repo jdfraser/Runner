@@ -6,15 +6,13 @@ class InputHandler : public Component
 {
 private:
 	float m_forwardSpeed = 3.0f;
-	float m_rightSpeed = 1.5f;
-	float m_mouseSpeed = 0.05f;
+	float m_rightSpeed   = 1.5f;
+	float m_mouseSpeed   = 0.05f;
 
 	bool m_quit = false;
 
-	float m_forward  = 0.0f;
-	float m_backward = 0.0f;
-	float m_left     = 0.0f;
-	float m_right    = 0.0f;
+	float m_forward = 0.0f;
+	float m_right   = 0.0f;
 
 public:
 	virtual void tick(float deltaTime) override;
