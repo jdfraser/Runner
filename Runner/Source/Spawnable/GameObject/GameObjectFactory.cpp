@@ -46,8 +46,8 @@ std::shared_ptr<GameObject> GameObjectFactory::makePlayer() {
 	std::shared_ptr<PhysicsHandler> physicsHandler = ResourceManager::cast<PhysicsHandler>(m_resourceManager.make<PhysicsHandler>());
 	
 	Bounds physicsBounds;
-	physicsBounds.min = glm::vec3(-1.0f, -1.0f, -1.0f);
-	physicsBounds.max = glm::vec3(1.0f, 1.0f, 1.0f);
+	physicsBounds.min = glm::vec3(-0.25f, -1.0f, -0.25f);
+	physicsBounds.max = glm::vec3(0.25f, 1.0f, 0.25f);
 
 	physicsHandler->setBounds(physicsBounds);
 
