@@ -14,7 +14,6 @@ private:
 
 	std::vector<std::shared_ptr<Component>> m_components;
 
-	std::shared_ptr<Model> m_model;
 	std::shared_ptr<InputHandler> m_inputHandler;
 	std::shared_ptr<PhysicsHandler> m_physicsHandler;
 
@@ -23,15 +22,11 @@ public:
 
 	virtual void destroy() final override;
 
-	std::shared_ptr<Model> getModel();
-
 	std::shared_ptr<InputHandler> getInputHandler();
 
 	std::shared_ptr<PhysicsHandler> getPhysicsHandler();
 
 	void addComponent(std::shared_ptr<Component> component);
-
-	void addComponent(std::shared_ptr<Model> model);
 
 	void addComponent(std::shared_ptr<InputHandler> inputHandler);
 

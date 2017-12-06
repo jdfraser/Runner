@@ -27,10 +27,6 @@ void GameObject::destroy() {
 	}
 }
 
-std::shared_ptr<Model> GameObject::getModel() {
-	return m_model;
-}
-
 std::shared_ptr<InputHandler> GameObject::getInputHandler() {
 	return m_inputHandler;
 }
@@ -41,13 +37,6 @@ std::shared_ptr<PhysicsHandler> GameObject::getPhysicsHandler() {
 
 void GameObject::addComponent(std::shared_ptr<Component> component) {
 	m_components.push_back(component);
-}
-
-void GameObject::addComponent(std::shared_ptr<Model> model) {
-	assert(m_model == nullptr);
-
-	m_model = model;
-	m_components.push_back(ResourceManager::cast<Component>(model));
 }
 
 void GameObject::addComponent(std::shared_ptr<InputHandler> inputHandler) {

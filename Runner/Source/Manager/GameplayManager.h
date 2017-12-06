@@ -24,9 +24,9 @@ private:
 
 	std::shared_ptr<GameObject> m_player;
 
-	std::vector<std::shared_ptr<GameObject>> m_groundInstances;
+	std::vector<std::shared_ptr<class Ground>> m_groundInstances;
 
-	std::vector<std::shared_ptr<GameObject>> m_obstacles;
+	std::vector<std::shared_ptr<class Obstacle>> m_obstacles;
 
 	void handleCollisions();
 

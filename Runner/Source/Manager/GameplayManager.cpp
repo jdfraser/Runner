@@ -7,6 +7,8 @@
 #include "GraphicsManager.h"
 #include "EventManager.h"
 #include "Spawnable/GameObject/GameObject.h"
+#include "Spawnable/GameObject/Ground.h"
+#include "Spawnable/GameObject/Obstacle.h"
 #include "Spawnable/Component/Model.h"
 
 GameplayManager::GameplayManager(
@@ -61,7 +63,7 @@ void GameplayManager::handleCollisions() {
 }
 
 void GameplayManager::initializeGround() {
-	std::shared_ptr<GameObject> ground = m_factory.makeGround();
+	std::shared_ptr<Ground> ground = m_factory.makeGround();
 
 	glm::vec3 playerPosition = m_player->getPosition();
 	ground->setPosition(glm::vec3(playerPosition.x, 0.0f, playerPosition.z));
@@ -78,18 +80,18 @@ void GameplayManager::initializePlayer() {
 void GameplayManager::generateGround() {
 	assert(m_groundInstances.size() > 0);
 
-	std::shared_ptr<GameObject> furthestGround = m_groundInstances.back();
+	std::shared_ptr<Ground> furthestGround = m_groundInstances.back();
 
 	while (m_groundInstances.size() < MIN_GROUND_INSTANCES) {
-		std::shared_ptr<GameObject> ground = m_factory.makeGround();
+		std::shared_ptr<Ground> ground = m_factory.makeGround();
 
-		if (furthestGround->getModel() == nullptr) {
+		if (furthestGround->getGroundModel() == nullptr) {
 			Debug::log("Warning: Ground object missing model!");
 
 			continue;
 		}
 
-		float groundDepth = furthestGround->getModel()->getBounds().getDepth();
+		float groundDepth = furthestGround->getGroundModel()->getBounds().getDepth();
 
 		ground->setPosition(
 			glm::vec3(
@@ -106,36 +108,36 @@ void GameplayManager::generateGround() {
 }
 
 void GameplayManager::destroyUnusedObjects() {
-	for (std::shared_ptr<GameObject>& ground : m_groundInstances) {
-		if (ground->getModel() == nullptr) {
+	for (std::shared_ptr<Ground>& ground : m_groundInstances) {
+		if (ground->getGroundModel() == nullptr) {
 			Debug::log("Warning: Ground object missing model!");
 
 			continue;
 		}
 
-		float depth = ground->getModel()->getBounds().getDepth();
+		float depth = ground->getGroundModel()->getBounds().getDepth();
 		if (ground->getPosition().z > m_player->getPosition().z + (depth / 2)) {
 			ground->destroy();
 			ground.reset();
 		}
 	}
 
-	for (std::shared_ptr<GameObject>& obstacle : m_obstacles) {
-		if (obstacle->getModel() == nullptr) {
+	for (std::shared_ptr<Obstacle>& obstacle : m_obstacles) {
+		if (obstacle->getObstacleModel() == nullptr) {
 			Debug::log("Warning: Obstacle object missing model!");
 
 			continue;
 		}
 
-		float depth = obstacle->getModel()->getBounds().getDepth();
+		float depth = obstacle->getObstacleModel()->getBounds().getDepth();
 		if (obstacle->getPosition().z > m_player->getPosition().z + (depth / 2)) {
 			obstacle->destroy();
 			obstacle.reset();
 		}
 	}
 
-	ResourceManager::eraseNullPointers<std::shared_ptr<GameObject>>(m_groundInstances);
-	ResourceManager::eraseNullPointers<std::shared_ptr<GameObject>>(m_obstacles);
+	ResourceManager::eraseNullPointers<std::shared_ptr<Ground>>(m_groundInstances);
+	ResourceManager::eraseNullPointers<std::shared_ptr<Obstacle>>(m_obstacles);
 }
 
 void GameplayManager::generateObstacles() {
@@ -147,7 +149,7 @@ void GameplayManager::generateObstacles() {
 
 	float x = generateObstacleX();
 
-	std::shared_ptr<GameObject> obstacle = m_factory.makeHedge();
+	std::shared_ptr<Obstacle> obstacle = m_factory.makeHedge();
 	obstacle->setPosition(glm::vec3(x, 0.0f, z));
 
 	m_obstacles.push_back(obstacle);
@@ -157,7 +159,7 @@ float GameplayManager::generateObstacleZ() {
 	float minDepth = m_player->getPosition().z - m_graphicsManager.getMaxViewDistance();
 
 	if (m_obstacles.size() > 0) {
-		std::shared_ptr<GameObject> furthestObstacle = m_obstacles.back();
+		std::shared_ptr<Obstacle> furthestObstacle = m_obstacles.back();
 		minDepth = glm::min(minDepth, furthestObstacle->getPosition().z - MIN_DISTANCE_BETWEEN_OBSTACLES);
 	}
 
@@ -180,13 +182,13 @@ void GameplayManager::resetLevel() {
 }
 
 void GameplayManager::destroyAllObjects() {
-	for (std::shared_ptr<GameObject> ground : m_groundInstances) {
+	for (std::shared_ptr<Ground> ground : m_groundInstances) {
 		ground->destroy();
 	}
 
 	m_groundInstances.clear();
 
-	for (std::shared_ptr<GameObject> obstacle : m_obstacles) {
+	for (std::shared_ptr<Obstacle> obstacle : m_obstacles) {
 		obstacle->destroy();
 	}
 

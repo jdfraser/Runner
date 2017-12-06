@@ -10,9 +10,9 @@ private:
 public:
 	GameObjectFactory(ResourceManager& resourceManager);
 
-	std::shared_ptr<class GameObject> makeGround();
+	std::shared_ptr<class Ground> makeGround();
 
-	std::shared_ptr<class GameObject> makeHedge();
+	std::shared_ptr<class Obstacle> makeHedge();
 
 	std::shared_ptr<class GameObject> makePlayer();
 };

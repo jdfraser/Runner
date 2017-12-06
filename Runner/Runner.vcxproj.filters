@@ -67,6 +67,12 @@
     <ClCompile Include="Source\Spawnable\Spawnable.cpp">
       <Filter>Source</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Spawnable\GameObject\Ground.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Spawnable\GameObject\Obstacle.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Libraries\GL\glew.h" />
@@ -214,6 +220,8 @@
     <ClInclude Include="Source\Event\Event.h" />
     <ClInclude Include="Source\Manager\EventManager.h" />
     <ClInclude Include="Source\Spawnable\Spawnable.h" />
+    <ClInclude Include="Source\Spawnable\GameObject\Ground.h" />
+    <ClInclude Include="Source\Spawnable\GameObject\Obstacle.h" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="Libraries\GL\glew32.lib" />

@@ -1,7 +1,10 @@
 #include "GameObjectFactory.h"
 #include "Manager/ResourceManager.h"
-#include "Spawnable/GameObject/GameObject.h"
+
 #include "GameObject.h"
+#include "Ground.h"
+#include "Obstacle.h"
+
 #include "Spawnable/Component/Model.h"
 #include "Spawnable/Component/InputHandler.h"
 #include "Spawnable/Component/Material.h"
@@ -10,20 +13,21 @@ GameObjectFactory::GameObjectFactory(ResourceManager& resourceManager) : m_resou
 
 }
 
-std::shared_ptr<GameObject> GameObjectFactory::makeGround() {
-	std::shared_ptr<GameObject> gameObject = ResourceManager::cast<GameObject>(m_resourceManager.make<GameObject>());
+std::shared_ptr<Ground> GameObjectFactory::makeGround() {
+	std::shared_ptr<Ground> ground = ResourceManager::cast<Ground>(m_resourceManager.make<Ground>());
 
 	std::shared_ptr<Model> model = ResourceManager::cast<Model>(m_resourceManager.make<Model>());
 	m_resourceManager.loadModelData(model, "ground");
+	model->setOwner(ground);
 
-	gameObject->addComponent(model);
-	model->setOwner(gameObject);
+	ground->addComponent(model);
+	ground->setGroundModel(model);
 
-	return gameObject;
+	return ground;
 }
 
-std::shared_ptr<GameObject> GameObjectFactory::makeHedge() {
-	std::shared_ptr<GameObject> gameObject = ResourceManager::cast<GameObject>(m_resourceManager.make<GameObject>());
+std::shared_ptr<Obstacle> GameObjectFactory::makeHedge() {
+	std::shared_ptr<Obstacle> obstacle = ResourceManager::cast<Obstacle>(m_resourceManager.make<Obstacle>());
 
 	std::shared_ptr<Model> model = ResourceManager::cast<Model>(m_resourceManager.make<Model>());
 	m_resourceManager.loadModelData(model, "hedge");
@@ -31,13 +35,14 @@ std::shared_ptr<GameObject> GameObjectFactory::makeHedge() {
 	std::shared_ptr<PhysicsHandler> physicsHandler = ResourceManager::cast<PhysicsHandler>(m_resourceManager.make<PhysicsHandler>());
 	physicsHandler->setBounds(model->getBounds());
 
-	model->setOwner(gameObject);
-	physicsHandler->setOwner(gameObject);
+	model->setOwner(obstacle);
+	physicsHandler->setOwner(obstacle);
 
-	gameObject->addComponent(model);
-	gameObject->addComponent(physicsHandler);
+	obstacle->addComponent(model);
+	obstacle->addComponent(physicsHandler);
+	obstacle->setObstacleModel(model);
 
-	return gameObject;
+	return obstacle;
 }
 
 std::shared_ptr<GameObject> GameObjectFactory::makePlayer() {
