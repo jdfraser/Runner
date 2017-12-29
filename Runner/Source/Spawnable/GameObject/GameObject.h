@@ -11,11 +11,14 @@ class GameObject : public Spawnable
 {
 private:
 	Transform m_transform;
+	Bounds m_bounds;
 
 	std::vector<std::shared_ptr<Component>> m_components;
 
 	std::shared_ptr<InputHandler> m_inputHandler;
 	std::shared_ptr<PhysicsHandler> m_physicsHandler;
+
+	void addBounds(Bounds bounds);
 
 public:
 	virtual void tick(float deltaTime) override;
@@ -26,11 +29,15 @@ public:
 
 	std::shared_ptr<PhysicsHandler> getPhysicsHandler();
 
+	Bounds getBounds() const;
+
 	void addComponent(std::shared_ptr<Component> component);
 
 	void addComponent(std::shared_ptr<InputHandler> inputHandler);
 
 	void addComponent(std::shared_ptr<PhysicsHandler> physicsHandler);
+
+	void addComponent(std::shared_ptr<Model> model);
 
 	inline glm::vec3 getPosition() const { return m_transform.getPosition(); }
 
@@ -52,18 +59,20 @@ public:
 
 	inline glm::mat4 getTransformMatrix() const { return m_transform.getMatrix(); }
 
+	inline float getDepth() const { return getBounds().getDepth(); }
+
 	template<class T>
-	const std::vector<std::shared_ptr<Component>> findComponentsByType();
+	const std::vector<std::shared_ptr<T>> findComponentsByType();
 };
 
 template<class T>
-const std::vector<std::shared_ptr<Component>> GameObject::findComponentsByType() {
-	std::vector<std::shared_ptr<Component>> results;
+const std::vector<std::shared_ptr<T>> GameObject::findComponentsByType() {
+	std::vector<std::shared_ptr<T>> results;
 
 	for (std::shared_ptr<Component> object : m_components) {
 		std::shared_ptr<T> found = ResourceManager::cast<T>(object);
 		if (found) {
-			results.push_back(object);
+			results.push_back(found);
 		}
 	}
 

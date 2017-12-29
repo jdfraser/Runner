@@ -21,10 +21,6 @@ glm::vec3 PhysicsHandler::getVelocity() const {
 	return m_velocity;
 }
 
-Bounds PhysicsHandler::getBounds() const {
-	return m_bounds;
-}
-
-void PhysicsHandler::setBounds(Bounds bounds) {
-	m_bounds = bounds;
+Bounds PhysicsHandler::getBounds() {
+	return getOwner()->getBounds();
 }

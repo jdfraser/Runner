@@ -85,19 +85,11 @@ void GameplayManager::generateGround() {
 	while (m_groundInstances.size() < MIN_GROUND_INSTANCES) {
 		std::shared_ptr<Ground> ground = m_factory.makeGround();
 
-		if (furthestGround->getGroundModel() == nullptr) {
-			Debug::log("Warning: Ground object missing model!");
-
-			continue;
-		}
-
-		float groundDepth = furthestGround->getGroundModel()->getBounds().getDepth();
-
 		ground->setPosition(
 			glm::vec3(
 				0.0f, 
 				0.0f, 
-				furthestGround->getPosition().z - groundDepth
+				furthestGround->getPosition().z - furthestGround->getDepth()
 			)
 		);
 
@@ -109,28 +101,14 @@ void GameplayManager::generateGround() {
 
 void GameplayManager::destroyUnusedObjects() {
 	for (std::shared_ptr<Ground>& ground : m_groundInstances) {
-		if (ground->getGroundModel() == nullptr) {
-			Debug::log("Warning: Ground object missing model!");
-
-			continue;
-		}
-
-		float depth = ground->getGroundModel()->getBounds().getDepth();
-		if (ground->getPosition().z > m_player->getPosition().z + (depth / 2)) {
+		if (ground->getPosition().z > m_player->getPosition().z + (ground->getDepth() / 2)) {
 			ground->destroy();
 			ground.reset();
 		}
 	}
 
 	for (std::shared_ptr<Obstacle>& obstacle : m_obstacles) {
-		if (obstacle->getObstacleModel() == nullptr) {
-			Debug::log("Warning: Obstacle object missing model!");
-
-			continue;
-		}
-
-		float depth = obstacle->getObstacleModel()->getBounds().getDepth();
-		if (obstacle->getPosition().z > m_player->getPosition().z + (depth / 2)) {
+		if (obstacle->getPosition().z > m_player->getPosition().z + (obstacle->getDepth() / 2)) {
 			obstacle->destroy();
 			obstacle.reset();
 		}
