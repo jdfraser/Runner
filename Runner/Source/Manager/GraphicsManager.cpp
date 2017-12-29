@@ -123,9 +123,7 @@ void GraphicsManager::draw() {
 			continue;
 		}
 
-		glm::mat4 modelMatrix = model->getTransformMatrix();
-
-		glm::mat4 mvp = projectionMatrix * viewMatrix * modelMatrix;
+		glm::mat4 mvp = projectionMatrix * viewMatrix * model->getWorldTransformMatrix();
 
 		glUseProgram(m_defaultShader);
 

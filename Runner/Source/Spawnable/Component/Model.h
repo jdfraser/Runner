@@ -2,6 +2,7 @@
 
 #include "Component.h"
 #include "Spawnable/Component/Material.h"
+#include "Engine/Transform.h"
 #include "Engine/Bounds.h"
 
 class Model : public Component
@@ -11,6 +12,8 @@ private:
 	GLuint m_vertexBufferID;
 	GLuint m_UVBufferID;
 
+	Transform m_transform;
+	glm::mat4 m_worldTransformMatrix;
 	Bounds m_bounds;
 
 	std::vector<GLfloat> m_vertices;
@@ -22,11 +25,13 @@ private:
 	std::vector<GLuint> m_attribArraysInUse;
 
 	void calculateBounds();
-	
+
 public:
 	virtual void load() override;
 
 	virtual void unLoad() override;
+
+	virtual void tick(float deltaTime) override;
 
 	void beginRender();
 
@@ -38,7 +43,9 @@ public:
 
 	void setMaterial(std::shared_ptr<class Material> material);
 
-	glm::mat4 getTransformMatrix();
+	glm::mat4 getLocalTransformMatrix() const;
+
+	glm::mat4 getWorldTransformMatrix() const;
 
 	Bounds getBounds() const;
 

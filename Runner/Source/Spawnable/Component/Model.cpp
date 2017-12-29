@@ -28,6 +28,14 @@ void Model::unLoad() {
 	glDeleteVertexArrays(1, &m_vertexArrayID);
 }
 
+void Model::tick(float deltaTime) {
+	m_transform.rebuildMatrix();
+
+	if (getOwner() != nullptr) {
+		m_worldTransformMatrix = getOwner()->getTransformMatrix() * getLocalTransformMatrix();
+	}
+}
+
 void Model::beginRender() {
 	assert(!m_rendering);
 
@@ -58,8 +66,12 @@ void Model::setMaterial(std::shared_ptr<class Material> material) {
 	m_material = material;
 }
 
-glm::mat4 Model::getTransformMatrix() {
-	return getOwner()->getTransformMatrix();
+glm::mat4 Model::getLocalTransformMatrix() const {
+	return m_transform.getMatrix();
+}
+
+glm::mat4 Model::getWorldTransformMatrix() const {
+	return m_worldTransformMatrix;
 }
 
 Bounds Model::getBounds() const {

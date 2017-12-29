@@ -9,9 +9,7 @@ void Component::setOwner(std::shared_ptr<class GameObject> owner) {
 }
 
 void Component::tick(float deltaTime) {
-	if (!canTick()) {
-		return;
-	}
+	
 }
 
 void Component::destroy() {

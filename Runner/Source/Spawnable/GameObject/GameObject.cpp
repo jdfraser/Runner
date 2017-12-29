@@ -14,6 +14,10 @@ void GameObject::tick(float deltaTime) {
 	m_transform.rebuildMatrix();
 
 	for (std::shared_ptr<Component> component : m_components) {
+		if (!component->canTick()) {
+			continue;
+		}
+
 		component->tick(deltaTime);
 	}
 }
