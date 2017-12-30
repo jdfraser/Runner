@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Manager/ResourceManager.h"
+#include "Engine/Bounds.h"
 
 class GameObjectFactory
 {
@@ -15,4 +16,6 @@ public:
 	std::shared_ptr<class Obstacle> makeHedge();
 
 	std::shared_ptr<class GameObject> makePlayer();
+
+	Bounds getPlayerBounds() const;
 };

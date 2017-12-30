@@ -41,6 +41,8 @@ std::shared_ptr<Obstacle> GameObjectFactory::makeHedge() {
 	obstacle->addComponent(physicsHandler);
 	obstacle->setObstacleModel(model);
 
+	physicsHandler->setLocalBounds(obstacle->getBounds());
+
 	return obstacle;
 }
 
@@ -48,10 +50,6 @@ std::shared_ptr<GameObject> GameObjectFactory::makePlayer() {
 	std::shared_ptr<GameObject> player             = ResourceManager::cast<GameObject>(m_resourceManager.makeNewPlayer());
 	std::shared_ptr<InputHandler> inputHandler     = ResourceManager::cast<InputHandler>(m_resourceManager.make<InputHandler>());
 	std::shared_ptr<PhysicsHandler> physicsHandler = ResourceManager::cast<PhysicsHandler>(m_resourceManager.make<PhysicsHandler>());
-	
-	Bounds physicsBounds;
-	physicsBounds.min = glm::vec3(-0.25f, -1.0f, -0.25f);
-	physicsBounds.max = glm::vec3(0.25f, 1.0f, 0.25f);
 
 	inputHandler->setOwner(player);
 	physicsHandler->setOwner(player);
@@ -59,5 +57,15 @@ std::shared_ptr<GameObject> GameObjectFactory::makePlayer() {
 	player->addComponent(inputHandler);
 	player->addComponent(physicsHandler);
 
+	physicsHandler->setLocalBounds(getPlayerBounds());
+
 	return player;
+}
+
+Bounds GameObjectFactory::getPlayerBounds() const {
+	Bounds playerBounds;
+	playerBounds.min = glm::vec3(-0.25f, -1.0f, -0.25f);
+	playerBounds.max = glm::vec3(0.25f, 1.0f, 0.25f);
+
+	return playerBounds;
 }

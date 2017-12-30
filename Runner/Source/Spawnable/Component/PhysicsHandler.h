@@ -8,6 +8,9 @@ class PhysicsHandler : public Component
 private:
 	glm::vec3 m_velocity;
 
+	Bounds m_bounds;
+	Bounds m_worldBounds;
+
 public:
 	virtual void tick(float deltaTime) override;
 
@@ -19,6 +22,10 @@ public:
 
 	glm::vec3 getVelocity() const;
 
-	Bounds getBounds();
+	Bounds getLocalBounds() const;
+
+	Bounds getWorldBounds() const;
+
+	void setLocalBounds(Bounds bounds);
 
 };

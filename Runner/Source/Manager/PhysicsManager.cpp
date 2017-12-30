@@ -45,11 +45,11 @@ bool PhysicsManager::checkAABBCollision(const std::shared_ptr<PhysicsHandler> a,
 		return false;
 	}
 
-	glm::vec3 minA = a->getOwner()->getPosition() + a->getBounds().min;
-	glm::vec3 maxA = a->getOwner()->getPosition() + a->getBounds().max;
+	glm::vec3 minA = a->getWorldBounds().min;
+	glm::vec3 maxA = a->getWorldBounds().max;
 
-	glm::vec3 minB = b->getOwner()->getPosition() + b->getBounds().min;
-	glm::vec3 maxB = b->getOwner()->getPosition() + b->getBounds().max;
+	glm::vec3 minB = b->getWorldBounds().min;
+	glm::vec3 maxB = b->getWorldBounds().max;
 
 	bool ret = (
 		minA.x < maxB.x &&
