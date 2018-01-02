@@ -43,6 +43,8 @@ public:
 
 	void setMaterial(std::shared_ptr<class Material> material);
 
+	Transform& getTransform();
+
 	glm::mat4 getLocalTransformMatrix() const;
 
 	glm::mat4 getWorldTransformMatrix() const;

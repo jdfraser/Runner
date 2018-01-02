@@ -66,6 +66,10 @@ void Model::setMaterial(std::shared_ptr<class Material> material) {
 	m_material = material;
 }
 
+Transform& Model::getTransform() {
+	return m_transform;
+}
+
 glm::mat4 Model::getLocalTransformMatrix() const {
 	return m_transform.getMatrix();
 }

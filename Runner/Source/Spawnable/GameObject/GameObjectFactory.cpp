@@ -1,3 +1,5 @@
+#include "glm/gtc/constants.hpp"
+
 #include "GameObjectFactory.h"
 #include "Manager/ResourceManager.h"
 
@@ -16,12 +18,28 @@ GameObjectFactory::GameObjectFactory(ResourceManager& resourceManager) : m_resou
 std::shared_ptr<Ground> GameObjectFactory::makeGround() {
 	std::shared_ptr<Ground> ground = ResourceManager::cast<Ground>(m_resourceManager.make<Ground>());
 
-	std::shared_ptr<Model> model = ResourceManager::cast<Model>(m_resourceManager.make<Model>());
-	m_resourceManager.loadModelData(model, "ground");
-	model->setOwner(ground);
+	std::shared_ptr<Model> groundModel = ResourceManager::cast<Model>(m_resourceManager.make<Model>());
+	m_resourceManager.loadModelData(groundModel, "ground");
+	groundModel->setOwner(ground);
 
-	ground->addComponent(model);
-	ground->setGroundModel(model);
+	std::shared_ptr<Model> leftHedge = ResourceManager::cast<Model>(m_resourceManager.make<Model>());
+	m_resourceManager.loadModelData(leftHedge, "hedge");
+	leftHedge->setOwner(ground);
+	leftHedge->getTransform().setPosition(glm::vec3(-3.0f, 0.0f, 0.0f));
+	leftHedge->getTransform().setRotation(glm::vec3(0.0f, glm::pi<float>() / 2.0f, 0.0f));
+	leftHedge->getTransform().setScale(glm::vec3(2.0f, 1.0f, 1.0f));
+
+	std::shared_ptr<Model> rightHedge = ResourceManager::cast<Model>(m_resourceManager.make<Model>());
+	m_resourceManager.loadModelData(rightHedge, "hedge");
+	rightHedge->setOwner(ground);
+	rightHedge->getTransform().setPosition(glm::vec3(3.0f, 0.0f, 0.0f));
+	rightHedge->getTransform().setRotation(glm::vec3(0.0f, glm::pi<float>() / 2.0f, 0.0f));
+	rightHedge->getTransform().setScale(glm::vec3(2.0f, 1.0f, 1.0f));
+
+	ground->addComponent(groundModel);
+	ground->addComponent(leftHedge);
+	ground->addComponent(rightHedge);
+	ground->setGroundModel(groundModel);
 
 	return ground;
 }
