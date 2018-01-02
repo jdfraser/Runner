@@ -150,7 +150,7 @@ float GameplayManager::generateObstacleX() {
 	chanceToSpawnRight -= sign * SPAWN_CHANCE_INCREMENT;
 	chanceToSpawnRight = glm::clamp(chanceToSpawnRight, 0.0f, 1.0f);
 
-	return sign * glm::linearRand(MIN_OBSTACLE_X_OFFSET, MAX_OBSTACLE_X_OFFSET);
+	return sign * OBSTACLE_X_OFFSET;
 }
 
 void GameplayManager::resetLevel() {

@@ -10,8 +10,7 @@ private:
 
 	const float MIN_DISTANCE_BETWEEN_OBSTACLES = 5.0f;
 	const float MAX_DISTANCE = 20.0f;
-	const float MIN_OBSTACLE_X_OFFSET = 0.5f;
-	const float MAX_OBSTACLE_X_OFFSET = 2.0f;
+	const float OBSTACLE_X_OFFSET = 1.25f;
 
 	const float SPAWN_CHANCE_INCREMENT = 0.25f;
 	float chanceToSpawnRight = 0.50f;

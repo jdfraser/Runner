@@ -49,10 +49,10 @@ std::shared_ptr<Obstacle> GameObjectFactory::makeHedge() {
 
 	std::shared_ptr<Model> model = ResourceManager::cast<Model>(m_resourceManager.make<Model>());
 	m_resourceManager.loadModelData(model, "hedge");
+	model->setOwner(obstacle);
+	model->getTransform().setScale(glm::vec3(1.5f, 1.0f, 1.0f));
 
 	std::shared_ptr<PhysicsHandler> physicsHandler = ResourceManager::cast<PhysicsHandler>(m_resourceManager.make<PhysicsHandler>());
-
-	model->setOwner(obstacle);
 	physicsHandler->setOwner(obstacle);
 
 	obstacle->addComponent(model);
@@ -82,8 +82,8 @@ std::shared_ptr<GameObject> GameObjectFactory::makePlayer() {
 
 Bounds GameObjectFactory::getPlayerBounds() const {
 	Bounds playerBounds;
-	playerBounds.min = glm::vec3(-0.25f, -1.0f, -0.25f);
-	playerBounds.max = glm::vec3(0.25f, 1.0f, 0.25f);
+	playerBounds.min = glm::vec3(-0.5f, -1.0f, -0.25f);
+	playerBounds.max = glm::vec3(0.5f, 1.0f, 0.25f);
 
 	return playerBounds;
 }
