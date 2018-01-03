@@ -30,7 +30,7 @@ void ResourceManager::loadModelData(std::shared_ptr<Model> model, std::string pa
 	tinyobj::LoadObj(&attrib, &shapes, &materials, &errorMessage, path.c_str());
 
 	if (!errorMessage.empty()) {
-		Debug::log(errorMessage);
+		Debug::log(errorMessage.c_str());
 	}
 
 	std::vector<GLfloat> vertices;
