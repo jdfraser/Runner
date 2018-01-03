@@ -21,29 +21,13 @@ void ResourceManager::shutDown() {
 	}
 }
 
-void ResourceManager::removeDestroyed() {
-	for (std::shared_ptr<Spawnable>& object : m_spawnedObjects) {
-		if (!object->isPendingDestruction()) {
-			continue;
-		}
-
-		if (!object.unique()) {
-			continue;
-		}
-
-		object.reset();
-	}
-
-	eraseNullPointers<std::shared_ptr<Spawnable>>(m_spawnedObjects);
-}
-
-void ResourceManager::loadModelData(const std::shared_ptr<Model> model, std::string modelName) {
+void ResourceManager::loadModelData(std::shared_ptr<Model> model, std::string path) {
 	tinyobj::attrib_t attrib;
 	std::vector<tinyobj::shape_t> shapes;
 	std::vector<tinyobj::material_t> materials;
 	std::string errorMessage;
 
-	tinyobj::LoadObj(&attrib, &shapes, &materials, &errorMessage, (MODEL_DIR + modelName + ".obj").c_str(), MODEL_DIR.c_str());
+	tinyobj::LoadObj(&attrib, &shapes, &materials, &errorMessage, path.c_str());
 
 	if (!errorMessage.empty()) {
 		Debug::log(errorMessage);
@@ -64,24 +48,37 @@ void ResourceManager::loadModelData(const std::shared_ptr<Model> model, std::str
 			}
 		}
 	}
-	
-	std::shared_ptr<Material> material = cast<Material>(make<Material>());
 
+	model->setVertices(vertices);
+	model->setTexCoords(texCoords);
+	model->load();
+}
+
+void ResourceManager::loadMaterialData(std::shared_ptr<class Material> material, std::string path) {
 	material->setTexture(
 		SOIL_load_OGL_texture(
-			(TEXTURE_DIR + modelName + ".DDS").c_str(),
+			path.c_str(),
 			SOIL_LOAD_RGB,
 			SOIL_CREATE_NEW_ID,
 			SOIL_FLAG_DDS_LOAD_DIRECT
 		)
 	);
+}
 
-	material->load();
+void ResourceManager::removeDestroyed() {
+	for (std::shared_ptr<Spawnable>& object : m_spawnedObjects) {
+		if (!object->isPendingDestruction()) {
+			continue;
+		}
 
-	model->setMaterial(material);
-	model->setVertices(vertices);
-	model->setTexCoords(texCoords);
-	model->load();
+		if (!object.unique()) {
+			continue;
+		}
+
+		object.reset();
+	}
+
+	eraseNullPointers<std::shared_ptr<Spawnable>>(m_spawnedObjects);
 }
 
 GLuint ResourceManager::loadShader(std::string shaderName) {
@@ -90,7 +87,7 @@ GLuint ResourceManager::loadShader(std::string shaderName) {
 	return LoadShaders((baseDir + shaderName + ".vert").c_str(), (baseDir + shaderName + ".frag").c_str());
 }
 
-std::shared_ptr<GameObject> ResourceManager::makeNewPlayer() {
+std::shared_ptr<GameObject> ResourceManager::makePlayer() {
 	m_player = cast<GameObject>(make<GameObject>());
 	
 	return m_player;
@@ -106,4 +103,21 @@ bool ResourceManager::isValid(std::shared_ptr<Spawnable> spawnableObject) {
 
 void ResourceManager::tick(float deltaTime) {
 	removeDestroyed();
+}
+
+std::shared_ptr<Model> ResourceManager::makeModel(std::string path, std::shared_ptr<Material> material) {
+	std::shared_ptr<Model> model = cast<Model>(make<Model>());
+	loadModelData(model, path);
+	model->setMaterial(material);
+	model->load();
+
+	return model;
+}
+
+std::shared_ptr<class Material> ResourceManager::makeMaterial(std::string path) {
+	std::shared_ptr<Material> material = cast<Material>(make<Material>());
+	loadMaterialData(material, path);
+	material->load();
+
+	return material;
 }

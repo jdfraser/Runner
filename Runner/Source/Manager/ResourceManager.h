@@ -7,12 +7,13 @@ class ResourceManager final : public Manager
 {
 
 private:
-	const std::string MODEL_DIR = "Assets/Models/";
-	const std::string TEXTURE_DIR = "Assets/Textures/";
-
 	std::vector<std::shared_ptr<class Spawnable>> m_spawnedObjects;
 
 	std::shared_ptr<class GameObject> m_player;
+
+	void loadModelData(std::shared_ptr<class Model> model, std::string path);
+
+	void loadMaterialData(std::shared_ptr<class Material> material, std::string path);
 
 public:
 	virtual void startUp() override;
@@ -26,9 +27,11 @@ public:
 	template<class T>
 	std::shared_ptr<Spawnable> make();
 
-	std::shared_ptr<class GameObject> makeNewPlayer();
+	std::shared_ptr<class GameObject> makePlayer();
 
-	void loadModelData(const std::shared_ptr<class Model> model, std::string modelName);
+	std::shared_ptr<class Model> makeModel(std::string path, std::shared_ptr<class Material> material);
+
+	std::shared_ptr<class Material> makeMaterial(std::string path);
 
 	GLuint loadShader(std::string shaderName);
 
