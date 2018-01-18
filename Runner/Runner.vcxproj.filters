@@ -254,5 +254,6 @@
   <ItemGroup>
     <Image Include="Assets\Textures\uvtemplate.DDS" />
     <Image Include="Assets\Textures\ground.DDS" />
+    <Image Include="Assets\Textures\hedge.DDS" />
   </ItemGroup>
 </Project>

@@ -7,6 +7,8 @@ class ResourceManager final : public Manager
 {
 
 private:
+	const char* MATERIAL_DIR = "Assets/Models/";
+
 	std::vector<std::shared_ptr<class Spawnable>> m_spawnedObjects;
 
 	std::shared_ptr<class GameObject> m_player;

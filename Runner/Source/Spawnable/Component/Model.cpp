@@ -3,7 +3,7 @@
 
 void Model::load() {
 	if (!m_material || m_vertices.size() == 0 || (m_material->getTexture() && m_texCoords.size() == 0)) {
-		Debug::log("Failed to load model");
+		Debug::log("Failed to load model\n");
 
 		return;
 	}

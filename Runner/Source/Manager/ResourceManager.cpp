@@ -27,7 +27,7 @@ void ResourceManager::loadModelData(std::shared_ptr<Model> model, std::string pa
 	std::vector<tinyobj::material_t> materials;
 	std::string errorMessage;
 
-	tinyobj::LoadObj(&attrib, &shapes, &materials, &errorMessage, path.c_str());
+	tinyobj::LoadObj(&attrib, &shapes, &materials, &errorMessage, path.c_str(), MATERIAL_DIR);
 
 	if (!errorMessage.empty()) {
 		Debug::log(errorMessage.c_str());
@@ -51,7 +51,6 @@ void ResourceManager::loadModelData(std::shared_ptr<Model> model, std::string pa
 
 	model->setVertices(vertices);
 	model->setTexCoords(texCoords);
-	model->load();
 }
 
 void ResourceManager::loadMaterialData(std::shared_ptr<class Material> material, std::string path) {

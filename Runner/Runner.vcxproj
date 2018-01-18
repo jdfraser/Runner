@@ -310,6 +310,7 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="Assets\Textures\ground.DDS" />
+    <Image Include="Assets\Textures\hedge.DDS" />
     <Image Include="Assets\Textures\uvtemplate.DDS" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
