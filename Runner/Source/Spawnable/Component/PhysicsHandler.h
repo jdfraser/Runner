@@ -20,8 +20,6 @@ private:
 
 	void applyGravity(float deltaTime);
 
-	bool isFalling();
-
 	void stopFalling();
 
 	void snapToTop(std::shared_ptr<PhysicsHandler> other);
@@ -33,7 +31,9 @@ public:
 
 	virtual void unLoad() override;
 
-	void addForce(glm::vec3 velocity);
+	void addForce(glm::vec3 force);
+
+	void addImpulse(glm::vec3 impulse);
 
 	glm::vec3 getVelocity() const;
 
@@ -44,6 +44,8 @@ public:
 	void setLocalBounds(Bounds bounds);
 
 	void setHasPhysics(bool hasGravity);
+
+	bool isFalling();
 
 	void setFalling(bool falling);
 

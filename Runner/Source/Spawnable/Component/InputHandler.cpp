@@ -32,6 +32,8 @@ void InputHandler::tick(float deltaTime) {
 		return;
 	}
 
+	bool jumped = false;
+
 	SDL_Event event;
 	while (SDL_PollEvent(&event)) {
 		if (event.type == SDL_QUIT) {
@@ -47,6 +49,8 @@ void InputHandler::tick(float deltaTime) {
 				case SDLK_a:
 					m_horizontalMovement -= 1.0f;
 					break;
+				case SDLK_SPACE:
+					jumped = true;
 			}
 		} else if (event.type == SDL_KEYUP) {
 			switch (event.key.keysym.sym) {
@@ -60,21 +64,31 @@ void InputHandler::tick(float deltaTime) {
 		}
 	}
 
+	m_forwardMovement    = 1.0f;
 	m_horizontalMovement = glm::clamp(m_horizontalMovement, -1.0f, 1.0f);
 
-	m_forwardMovement = 1.0f;
-
-	glm::vec3 velocity;
-	glm::vec3 forwardVector = getOwner()->getForwardVector();
-	glm::vec3 rightVector   = getOwner()->getRightVector();
-
-	velocity += forwardVector * m_forwardMovement * m_forwardSpeed;
-	velocity += rightVector * getHorizontalMovement() * m_horizontalSpeed;
-
 	std::shared_ptr<PhysicsHandler> physicsHandler = getOwner()->getPhysicsHandler();
-	if (physicsHandler) {
-		physicsHandler->addForce(velocity);
+	if (physicsHandler == nullptr) {
+		return;
 	}
+
+	glm::vec3 force;
+	glm::vec3 forward = glm::vec3(0.0f, 0.0f, -1.0f);
+	glm::vec3 right   = glm::vec3(1.0f, 0.0f, 0.0f);
+	glm::vec3 up      = glm::vec3(0.0f, 1.0f, 0.0f);
+
+	force += forward * m_forwardMovement * m_forwardSpeed;
+
+	if (!physicsHandler->isFalling()) {
+		force += right * getHorizontalMovement() * m_horizontalSpeed;
+
+		if (jumped) {
+			physicsHandler->setFalling(true);
+			physicsHandler->addImpulse(up * m_jumpForce);
+		}
+	}
+
+	physicsHandler->addForce(force);
 }
 
 void InputHandler::load() {

@@ -57,11 +57,15 @@ void GameplayManager::handleCollisions() {
 		std::shared_ptr<GameObject> a = event.firstCollider->getOwner();
 		std::shared_ptr<GameObject> b = event.secondCollider->getOwner();
 
+		if (!ResourceManager::isValid(a) || !ResourceManager::isValid(b)) {
+			continue;
+		}
+
 		if (typeid(*a) != typeid(Player) && typeid(*b) != typeid(Player)) {
 			continue;
 		}
 
-		if (typeid(*a) != typeid(Obstacle) && typeid(*b) != typeid(Obstacle)) {
+ 		if (typeid(*a) != typeid(Obstacle) && typeid(*b) != typeid(Obstacle)) {
 			continue;
 		}
 
@@ -81,7 +85,7 @@ void GameplayManager::initializeGround() {
 }
 
 void GameplayManager::initializePlayer() {
-	m_player->setPosition(glm::vec3(0.0f, 4.0f, 0.0f));
+	m_player->setPosition(glm::vec3(0.0f, 0.5f, 0.0f));
 	m_player->getPhysicsHandler()->setFalling(true);
 }
 

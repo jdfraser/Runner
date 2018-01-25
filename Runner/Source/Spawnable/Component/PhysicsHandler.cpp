@@ -15,14 +15,6 @@ void PhysicsHandler::applyGravity(float deltaTime) {
 	m_velocity += glm::vec3(0.0f, m_gravity, 0.0f) * deltaTime;
 }
 
-bool PhysicsHandler::isFalling() {
-	if (!m_hasPhysics) {
-		return false;
-	}
-
-	return m_falling;
-}
-
 void PhysicsHandler::stopFalling() {
 	if (!m_hasPhysics) {
 		return;
@@ -67,6 +59,10 @@ void PhysicsHandler::addForce(glm::vec3 force) {
 	m_force += force;
 }
 
+void PhysicsHandler::addImpulse(glm::vec3 impulse) {
+	m_velocity += impulse;
+}
+
 glm::vec3 PhysicsHandler::getVelocity() const {
 	return m_velocity;
 }
@@ -85,6 +81,14 @@ void PhysicsHandler::setLocalBounds(Bounds bounds) {
 
 void PhysicsHandler::setHasPhysics(bool hasPhysics) {
 	m_hasPhysics = hasPhysics;
+}
+
+bool PhysicsHandler::isFalling() {
+	if (!m_hasPhysics) {
+		return false;
+	}
+
+	return m_falling;
 }
 
 void PhysicsHandler::setFalling(bool falling) {

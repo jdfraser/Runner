@@ -10,6 +10,7 @@ private:
 
 	float m_forwardSpeed      = 5.0f;
 	float m_horizontalSpeed   = 4.0f;
+	float m_jumpForce         = 4.0f;
 
 	bool m_quit = false;
 
