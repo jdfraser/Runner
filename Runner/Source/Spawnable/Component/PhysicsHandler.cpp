@@ -3,16 +3,16 @@
 #include "PhysicsHandler.h"
 #include "Spawnable/GameObject/GameObject.h"
 
-void PhysicsHandler::resetVelocity() {
-	m_velocity = glm::vec3(0.0f, 0.0f, 0.0f);
+void PhysicsHandler::resetForce() {
+	m_force = glm::vec3(0.0f, 0.0f, 0.0f);
 }
 
-void PhysicsHandler::applyGravity() {
+void PhysicsHandler::applyGravity(float deltaTime) {
 	if (!isFalling()) {
 		return;
 	}
 
-	addVelocity(glm::vec3(0.0f, m_gravity, 0.0f));
+	m_velocity += glm::vec3(0.0f, m_gravity, 0.0f) * deltaTime;
 }
 
 bool PhysicsHandler::isFalling() {
@@ -28,7 +28,8 @@ void PhysicsHandler::stopFalling() {
 		return;
 	}
 
-	m_falling = false;
+	m_velocity.y = 0.0f;
+	m_falling    = false;
 }
 
 void PhysicsHandler::snapToTop(std::shared_ptr<PhysicsHandler> other) {
@@ -45,12 +46,13 @@ void PhysicsHandler::snapToTop(std::shared_ptr<PhysicsHandler> other) {
 void PhysicsHandler::tick(float deltaTime) {
 	assert(getOwner() != nullptr);
 
-	getOwner()->setPosition(getOwner()->getPosition() + m_velocity * deltaTime);
+	applyGravity(deltaTime);
+
+	getOwner()->setPosition(getOwner()->getPosition() + (m_velocity + m_force) * deltaTime);
 
 	m_worldBounds = m_bounds.applyTransformation(getOwner()->getTransformMatrix());
 
-	resetVelocity();
-	applyGravity();
+	resetForce();
 }
 
 void PhysicsHandler::load() {
@@ -61,8 +63,8 @@ void PhysicsHandler::unLoad() {
 	
 }
 
-void PhysicsHandler::addVelocity(glm::vec3 velocity) {
-	m_velocity += velocity;
+void PhysicsHandler::addForce(glm::vec3 force) {
+	m_force += force;
 }
 
 glm::vec3 PhysicsHandler::getVelocity() const {

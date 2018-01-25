@@ -73,7 +73,7 @@ void InputHandler::tick(float deltaTime) {
 
 	std::shared_ptr<PhysicsHandler> physicsHandler = getOwner()->getPhysicsHandler();
 	if (physicsHandler) {
-		physicsHandler->addVelocity(velocity);
+		physicsHandler->addForce(velocity);
 	}
 }
 

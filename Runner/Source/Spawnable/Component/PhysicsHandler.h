@@ -10,14 +10,15 @@ private:
 	bool m_hasPhysics = false;
 	bool m_falling    = true;
 
+	glm::vec3 m_force;
 	glm::vec3 m_velocity;
 
 	Bounds m_bounds;
 	Bounds m_worldBounds;
 
-	void resetVelocity();
+	void resetForce();
 
-	void applyGravity();
+	void applyGravity(float deltaTime);
 
 	bool isFalling();
 
@@ -32,7 +33,7 @@ public:
 
 	virtual void unLoad() override;
 
-	void addVelocity(glm::vec3 velocity);
+	void addForce(glm::vec3 velocity);
 
 	glm::vec3 getVelocity() const;
 
