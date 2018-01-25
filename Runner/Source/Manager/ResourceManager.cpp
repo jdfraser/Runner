@@ -8,6 +8,7 @@
 #include "Util/shader.h"
 
 #include "Spawnable/GameObject/GameObject.h"
+#include "Spawnable/GameObject/Player.h"
 #include "Spawnable/Component/Model.h"
 #include "Spawnable/Component/Material.h"
 
@@ -87,7 +88,7 @@ GLuint ResourceManager::loadShader(std::string shaderName) {
 }
 
 std::shared_ptr<GameObject> ResourceManager::makePlayer() {
-	m_player = cast<GameObject>(make<GameObject>());
+	m_player = cast<GameObject>(make<Player>());
 	
 	return m_player;
 }

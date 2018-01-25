@@ -104,6 +104,7 @@
     <ClCompile Include="Source\Spawnable\Component\PhysicsHandler.cpp" />
     <ClCompile Include="Source\Spawnable\GameObject\Ground.cpp" />
     <ClCompile Include="Source\Spawnable\GameObject\Obstacle.cpp" />
+    <ClCompile Include="Source\Spawnable\GameObject\Player.cpp" />
     <ClCompile Include="Source\Spawnable\Spawnable.cpp" />
     <ClCompile Include="Source\Engine\Transform.cpp" />
     <ClCompile Include="Source\Util\Debug.cpp" />
@@ -246,6 +247,7 @@
     <ClInclude Include="Source\Manager\EventManager.h" />
     <ClInclude Include="Source\Spawnable\GameObject\Ground.h" />
     <ClInclude Include="Source\Spawnable\GameObject\Obstacle.h" />
+    <ClInclude Include="Source\Spawnable\GameObject\Player.h" />
     <ClInclude Include="Source\Util\Common.h" />
     <ClInclude Include="Source\Spawnable\Component\Component.h" />
     <ClInclude Include="Source\Spawnable\Component\InputHandler.h" />

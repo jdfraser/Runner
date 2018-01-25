@@ -7,6 +7,7 @@
 #include "GraphicsManager.h"
 #include "EventManager.h"
 #include "Spawnable/GameObject/GameObject.h"
+#include "Spawnable/GameObject/Player.h"
 #include "Spawnable/GameObject/Ground.h"
 #include "Spawnable/GameObject/Obstacle.h"
 #include "Spawnable/Component/Model.h"
