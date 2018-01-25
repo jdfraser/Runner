@@ -35,6 +35,9 @@ void PhysicsManager::tick(float deltaTime) {
 				event.secondCollider = b;
 
 				m_eventManager.push(event);
+
+				a->collidedWith(b);
+				b->collidedWith(a);
 			}
 		}
 	}

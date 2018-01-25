@@ -49,7 +49,7 @@ std::shared_ptr<PhysicsHandler> GameObject::getPhysicsHandler() {
 	return m_physicsHandler;
 }
 
-Bounds GameObject::getBounds() const {
+Bounds GameObject::getLocalBounds() const {
 	return m_bounds;
 }
 

@@ -29,7 +29,7 @@ public:
 
 	std::shared_ptr<PhysicsHandler> getPhysicsHandler();
 
-	Bounds getBounds() const;
+	Bounds getLocalBounds() const;
 
 	void addComponent(std::shared_ptr<Component> component);
 
@@ -59,7 +59,9 @@ public:
 
 	inline glm::mat4 getTransformMatrix() const { return m_transform.getMatrix(); }
 
-	inline float getDepth() const { return getBounds().getDepth(); }
+	inline float getDepth() const { return getLocalBounds().getDepth(); }
+
+	inline float getHeight() const { return getLocalBounds().getHeight(); }
 
 	template<class T>
 	const std::vector<std::shared_ptr<T>> findComponentsByType();

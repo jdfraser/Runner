@@ -25,7 +25,7 @@ GameplayManager::GameplayManager(
 }
 
 void GameplayManager::startUp() {
-	m_player = m_factory.makePlayer();
+	m_player = ResourceManager::cast<Player>(m_factory.makePlayer());
 	m_graphicsManager.setCamera(m_player);
 
 	initializePlayer();
@@ -54,12 +54,18 @@ void GameplayManager::tick(float deltaTime) {
 void GameplayManager::handleCollisions() {
 	while (m_eventManager.hasCollisionEvent()) {
 		CollisionEvent event = m_eventManager.getNextCollisionEvent();
-		std::shared_ptr<GameObject> ownerA = event.firstCollider->getOwner();
-		std::shared_ptr<GameObject> ownerB = event.secondCollider->getOwner();
+		std::shared_ptr<GameObject> a = event.firstCollider->getOwner();
+		std::shared_ptr<GameObject> b = event.secondCollider->getOwner();
 
-		if (ownerA == m_resourceManager.getPlayer() || ownerB == m_resourceManager.getPlayer()) {
-			resetLevel();
+		if (typeid(*a) != typeid(Player) && typeid(*b) != typeid(Player)) {
+			continue;
 		}
+
+		if (typeid(*a) != typeid(Obstacle) && typeid(*b) != typeid(Obstacle)) {
+			continue;
+		}
+
+		resetLevel();
 	}
 }
 
@@ -75,7 +81,8 @@ void GameplayManager::initializeGround() {
 }
 
 void GameplayManager::initializePlayer() {
-	m_player->setPosition(glm::vec3(0.0f, 0.5f, 0.0f));
+	m_player->setPosition(glm::vec3(0.0f, 4.0f, 0.0f));
+	m_player->getPhysicsHandler()->setFalling(true);
 }
 
 void GameplayManager::generateGround() {

@@ -21,7 +21,7 @@ private:
 
 	GameObjectFactory m_factory;
 
-	std::shared_ptr<GameObject> m_player;
+	std::shared_ptr<class Player> m_player;
 
 	std::vector<std::shared_ptr<class Ground>> m_groundInstances;
 
