@@ -13,7 +13,7 @@ private:
 	const float OBSTACLE_X_OFFSET = 1.25f;
 
 	const float SPAWN_CHANCE_INCREMENT = 0.25f;
-	float chanceToSpawnRight = 0.50f;
+	float m_chanceToSpawnRight = 0.50f;
 
 	class ResourceManager& m_resourceManager;
 	class GraphicsManager& m_graphicsManager;
@@ -37,7 +37,7 @@ private:
 
 	void destroyUnusedObjects();
 
-	void generateObstacles();
+	void generateNextObstacle();
 
 	float generateObstacleZ();
 

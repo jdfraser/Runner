@@ -39,7 +39,7 @@ void GameplayManager::shutDown() {
 void GameplayManager::tick(float deltaTime) {
 	destroyUnusedObjects();
 	generateGround();
-	generateObstacles();
+	generateNextObstacle();
 	handleCollisions();
 	
 	for (std::shared_ptr<GameObject> gameObject : m_resourceManager.findByType<GameObject>()) {
@@ -130,17 +130,22 @@ void GameplayManager::destroyUnusedObjects() {
 	ResourceManager::eraseNullPointers<std::shared_ptr<Obstacle>>(m_obstacles);
 }
 
-void GameplayManager::generateObstacles() {
+void GameplayManager::generateNextObstacle() {
 	float z = generateObstacleZ();
 
 	if (z < m_player->getPosition().z - MAX_DISTANCE) {
 		return;
 	}
 
-	float x = generateObstacleX();
+	std::shared_ptr<Obstacle> obstacle;
 
-	std::shared_ptr<Obstacle> obstacle = m_factory.makeHedge();
-	obstacle->setPosition(glm::vec3(x, 0.0f, z));
+	if (glm::linearRand(0.0f, 1.0f) < 0.75f) {
+		obstacle = m_factory.makeHedge();
+		obstacle->setPosition(glm::vec3(generateObstacleX(), 0.0f, z));
+	} else {
+		obstacle = m_factory.makeWall();
+		obstacle->setPosition(glm::vec3(0.0f, 0.0f, z));
+	}
 
 	m_obstacles.push_back(obstacle);
 }
@@ -157,10 +162,10 @@ float GameplayManager::generateObstacleZ() {
 }
 
 float GameplayManager::generateObstacleX() {
-	float sign = (glm::linearRand(0.0f, 1.0f) <= chanceToSpawnRight) ? 1.0f : -1.0f;
+	float sign = (glm::linearRand(0.0f, 1.0f) <= m_chanceToSpawnRight) ? 1.0f : -1.0f;
 
-	chanceToSpawnRight -= sign * SPAWN_CHANCE_INCREMENT;
-	chanceToSpawnRight = glm::clamp(chanceToSpawnRight, 0.0f, 1.0f);
+	m_chanceToSpawnRight -= sign * SPAWN_CHANCE_INCREMENT;
+	m_chanceToSpawnRight = glm::clamp(m_chanceToSpawnRight, 0.0f, 1.0f);
 
 	return sign * OBSTACLE_X_OFFSET;
 }

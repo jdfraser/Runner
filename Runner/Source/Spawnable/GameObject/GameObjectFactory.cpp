@@ -53,23 +53,42 @@ std::shared_ptr<Ground> GameObjectFactory::makeGround() {
 }
 
 std::shared_ptr<Obstacle> GameObjectFactory::makeHedge() {
-	std::shared_ptr<Obstacle> obstacle = ResourceManager::cast<Obstacle>(m_resourceManager.make<Obstacle>());
+	std::shared_ptr<Obstacle> hedge = ResourceManager::cast<Obstacle>(m_resourceManager.make<Obstacle>());
 
 	std::shared_ptr<Material> material = m_resourceManager.makeMaterial("Assets/Textures/hedge.DDS");
 	std::shared_ptr<Model> model       = m_resourceManager.makeModel("Assets/Models/hedge.obj", material);
-	model->setOwner(obstacle);
+	model->setOwner(hedge);
 	model->getTransform().setScale(glm::vec3(1.5f, 1.0f, 1.0f));
 
 	std::shared_ptr<PhysicsHandler> physicsHandler = ResourceManager::cast<PhysicsHandler>(m_resourceManager.make<PhysicsHandler>());
-	physicsHandler->setOwner(obstacle);
+	physicsHandler->setOwner(hedge);
 
-	obstacle->addComponent(model);
-	obstacle->addComponent(physicsHandler);
-	obstacle->setObstacleModel(model);
+	hedge->addComponent(model);
+	hedge->addComponent(physicsHandler);
+	hedge->setObstacleModel(model);
 
-	physicsHandler->setLocalBounds(obstacle->getLocalBounds());
+	physicsHandler->setLocalBounds(hedge->getLocalBounds());
 
-	return obstacle;
+	return hedge;
+}
+
+std::shared_ptr<class Obstacle> GameObjectFactory::makeWall() {
+	std::shared_ptr<Obstacle> wall = ResourceManager::cast<Obstacle>(m_resourceManager.make<Obstacle>());
+
+	std::shared_ptr<Material> material = m_resourceManager.makeMaterial("Assets/Textures/wall.DDS");
+	std::shared_ptr<Model> model = m_resourceManager.makeModel("Assets/Models/wall.obj", material);
+	model->setOwner(wall);
+
+	std::shared_ptr<PhysicsHandler> physicsHandler = ResourceManager::cast<PhysicsHandler>(m_resourceManager.make<PhysicsHandler>());
+	physicsHandler->setOwner(wall);
+
+	wall->addComponent(model);
+	wall->addComponent(physicsHandler);
+	wall->setObstacleModel(model);
+
+	physicsHandler->setLocalBounds(wall->getLocalBounds());
+
+	return wall;
 }
 
 std::shared_ptr<GameObject> GameObjectFactory::makePlayer() {

@@ -15,6 +15,8 @@ public:
 
 	std::shared_ptr<class Obstacle> makeHedge();
 
+	std::shared_ptr<class Obstacle> makeWall();
+
 	std::shared_ptr<class GameObject> makePlayer();
 
 	Bounds getPlayerBounds() const;
