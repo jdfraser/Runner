@@ -1,6 +1,30 @@
 #include "Model.h"
 #include "Spawnable/GameObject/GameObject.h"
 
+void Model::calculateBounds() {
+	glm::vec3 min(0.0f, 0.0f, 0.0f);
+	glm::vec3 max(0.0f, 0.0f, 0.0f);
+
+	assert(m_vertices.size() % 3 == 0);
+
+	for (uint32_t i = 0; i < m_vertices.size(); i += 3) {
+		float x = m_vertices[i];
+		float y = m_vertices[i + 1];
+		float z = m_vertices[i + 2];
+
+		min.x = glm::min(x, min.x);
+		min.y = glm::min(y, min.y);
+		min.z = glm::min(z, min.z);
+
+		max.x = glm::max(x, max.x);
+		max.y = glm::max(y, max.y);
+		max.z = glm::max(z, max.z);
+	}
+
+	m_bounds.min = min;
+	m_bounds.max = max;
+}
+
 void Model::load() {
 	if (!m_material || m_vertices.size() == 0 || (m_material->getTexture() && m_texCoords.size() == 0)) {
 		Debug::log("Failed to load model\n");
@@ -36,24 +60,6 @@ void Model::tick(float deltaTime) {
 	}
 }
 
-void Model::beginRender() {
-	assert(!m_rendering);
-
-	m_rendering = true;
-}
-
-void Model::endRender() {
-	assert(m_rendering);
-
-	m_rendering = false;
-
-	for (GLuint index : m_attribArraysInUse) {
-		glDisableVertexAttribArray(index);
-	}
-
-	m_attribArraysInUse.clear();
-}
-
 void Model::setVertices(std::vector<GLfloat> vertices) {
 	m_vertices = vertices;
 }
@@ -64,6 +70,10 @@ void Model::setTexCoords(std::vector<GLfloat> texCoords) {
 
 void Model::setMaterial(std::shared_ptr<class Material> material) {
 	m_material = material;
+}
+
+std::shared_ptr<Material> Model::getMaterial() {
+	return m_material;
 }
 
 Transform& Model::getTransform() {
@@ -82,7 +92,42 @@ Bounds Model::getBounds() const {
 	return m_bounds;
 }
 
-void Model::writeTextureToShader(GLuint uniformLocation) {
+void Model::beginRender() {
+	assert(!m_rendering);
+
+	m_rendering = true;
+
+	glUseProgram(getMaterial()->getShader());
+}
+
+void Model::draw() {
+	assert(m_rendering);
+
+	glDrawArrays(GL_TRIANGLES, 0, 12 * 3);
+}
+
+void Model::endRender() {
+	assert(m_rendering);
+
+	m_rendering = false;
+
+	for (GLuint index : m_attribArraysInUse) {
+		glDisableVertexAttribArray(index);
+	}
+
+	m_attribArraysInUse.clear();
+}
+
+void Model::writeMVPToShader(glm::mat4 mvp) {
+	glUniformMatrix4fv(
+		glGetUniformLocation(getMaterial()->getShader(), "MVP"),
+		1,
+		GL_FALSE,
+		&mvp[0][0]
+	);
+}
+
+void Model::writeTextureToShader() {
 	assert(m_rendering);
 
 	if (!m_material->getTexture()) {
@@ -91,11 +136,13 @@ void Model::writeTextureToShader(GLuint uniformLocation) {
 
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, m_material->getTexture());
-	glUniform1i(uniformLocation, 0);
+	glUniform1i(glGetUniformLocation(getMaterial()->getShader(), "textureSampler"), 0);
 }
 
-void Model::writeVerticesToShader(GLuint verticesIndex) {
+void Model::writeVerticesToShader() {
 	assert(m_rendering);
+
+	GLuint verticesIndex = getMaterial()->getShaderVerticesIndex();
 
 	m_attribArraysInUse.push_back(verticesIndex);
 
@@ -104,40 +151,18 @@ void Model::writeVerticesToShader(GLuint verticesIndex) {
 	glVertexAttribPointer(verticesIndex, 3, GL_FLOAT, GL_FALSE, 0, nullptr);
 }
 
-void Model::writeTexCoordsToShader(GLuint texCoordsIndex) {
+void Model::writeTexCoordsToShader() {
 	assert(m_rendering);
 
 	if (!m_material->getTexture()) {
 		return;
 	}
 
+	GLuint texCoordsIndex = getMaterial()->getShaderTexCoordsIndex();
+
 	m_attribArraysInUse.push_back(texCoordsIndex);
 
 	glEnableVertexAttribArray(texCoordsIndex);
 	glBindBuffer(GL_ARRAY_BUFFER, m_UVBufferID);
 	glVertexAttribPointer(texCoordsIndex, 2, GL_FLOAT, GL_FALSE, 0, nullptr);
-}
-
-void Model::calculateBounds() {
-	glm::vec3 min(0.0f, 0.0f, 0.0f);
-	glm::vec3 max(0.0f, 0.0f, 0.0f);
-
-	assert(m_vertices.size() % 3 == 0);
-
-	for (uint32_t i = 0; i < m_vertices.size(); i += 3) {
-		float x = m_vertices[i];
-		float y = m_vertices[i + 1];
-		float z = m_vertices[i + 2];
-
-		min.x = glm::min(x, min.x);
-		min.y = glm::min(y, min.y);
-		min.z = glm::min(z, min.z);
-
-		max.x = glm::max(x, max.x);
-		max.y = glm::max(y, max.y);
-		max.z = glm::max(z, max.z);
-	}
-
-	m_bounds.min = min;
-	m_bounds.max = max;
 }

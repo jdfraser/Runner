@@ -15,7 +15,7 @@ private:
 
 	void loadModelData(std::shared_ptr<class Model> model, std::string path);
 
-	void loadMaterialData(std::shared_ptr<class Material> material, std::string path);
+	void loadMaterialData(std::shared_ptr<class Material> material, std::string texturePath, std::string shaderName);
 
 public:
 	virtual void startUp() override;
@@ -33,7 +33,7 @@ public:
 
 	std::shared_ptr<class Model> makeModel(std::string path, std::shared_ptr<class Material> material);
 
-	std::shared_ptr<class Material> makeMaterial(std::string path);
+	std::shared_ptr<class Material> makeMaterial(std::string path, std::string shaderName = "default");
 
 	GLuint loadShader(std::string shaderName);
 

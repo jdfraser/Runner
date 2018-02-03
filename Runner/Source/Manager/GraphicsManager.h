@@ -17,8 +17,6 @@ private:
 	int m_windowWidth;
 	int m_windowHeight;
 
-	GLuint m_defaultShader;
-
 	std::shared_ptr<class GameObject> m_camera;
 
 	void draw();

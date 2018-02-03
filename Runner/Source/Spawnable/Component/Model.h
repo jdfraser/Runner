@@ -26,16 +26,14 @@ private:
 
 	void calculateBounds();
 
+	std::shared_ptr<Material> getMaterial();
+
 public:
 	virtual void load() override;
 
 	virtual void unLoad() override;
 
 	virtual void tick(float deltaTime) override;
-
-	void beginRender();
-
-	void endRender();
 
 	void setVertices(std::vector<GLfloat> vertices);
 	
@@ -51,9 +49,17 @@ public:
 
 	Bounds getBounds() const;
 
-	void writeTextureToShader(GLuint uniformLocation);
+	void beginRender();
 
-	void writeVerticesToShader(GLuint verticesIndex);
+	void draw();
 
-	void writeTexCoordsToShader(GLuint texCoordsIndex);
+	void endRender();
+
+	void writeMVPToShader(glm::mat4 mvp);
+	
+	void writeTextureToShader();
+
+	void writeVerticesToShader();
+
+	void writeTexCoordsToShader();
 };

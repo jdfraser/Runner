@@ -54,14 +54,18 @@ void ResourceManager::loadModelData(std::shared_ptr<Model> model, std::string pa
 	model->setTexCoords(texCoords);
 }
 
-void ResourceManager::loadMaterialData(std::shared_ptr<class Material> material, std::string path) {
+void ResourceManager::loadMaterialData(std::shared_ptr<class Material> material, std::string texturePath, std::string shaderName) {
 	material->setTexture(
 		SOIL_load_OGL_texture(
-			path.c_str(),
+			texturePath.c_str(),
 			SOIL_LOAD_RGB,
 			SOIL_CREATE_NEW_ID,
 			SOIL_FLAG_DDS_LOAD_DIRECT
 		)
+	);
+
+	material->setShader(
+		loadShader(shaderName)
 	);
 }
 
@@ -114,9 +118,9 @@ std::shared_ptr<Model> ResourceManager::makeModel(std::string path, std::shared_
 	return model;
 }
 
-std::shared_ptr<class Material> ResourceManager::makeMaterial(std::string path) {
+std::shared_ptr<class Material> ResourceManager::makeMaterial(std::string path, std::string shaderName) {
 	std::shared_ptr<Material> material = cast<Material>(make<Material>());
-	loadMaterialData(material, path);
+	loadMaterialData(material, path, shaderName);
 	material->load();
 
 	return material;

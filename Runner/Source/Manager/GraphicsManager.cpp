@@ -59,8 +59,6 @@ void GraphicsManager::startUp() {
 
 	glewInit();
 
-	m_defaultShader = m_resourceManager.loadShader("default");
-
 	glClearColor(CLEAR_COLOR.r, CLEAR_COLOR.g, CLEAR_COLOR.b, CLEAR_COLOR.a);
 
 	glEnable(GL_DEPTH_TEST);
@@ -124,22 +122,13 @@ void GraphicsManager::draw() {
 		}
 
 		glm::mat4 mvp = projectionMatrix * viewMatrix * model->getWorldTransformMatrix();
-
-		glUseProgram(m_defaultShader);
-
-		// Write the MVP matrix
-		glUniformMatrix4fv(
-			glGetUniformLocation(m_defaultShader, "MVP"),
-			1,
-			GL_FALSE,
-			&mvp[0][0]
-		);
 		
 		model->beginRender();
-			model->writeTextureToShader(glGetUniformLocation(m_defaultShader, "textureSampler"));
-			model->writeVerticesToShader(0);
-			model->writeTexCoordsToShader(1);
-			glDrawArrays(GL_TRIANGLES, 0, 12 * 3);
+			model->writeMVPToShader(mvp);
+			model->writeTextureToShader();
+			model->writeVerticesToShader();
+			model->writeTexCoordsToShader();
+			model->draw();
 		model->endRender();
 	}
 

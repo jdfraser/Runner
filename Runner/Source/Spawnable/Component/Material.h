@@ -8,6 +8,7 @@ class Material : public Component
 {
 private:
 	GLuint m_textureID;
+	GLuint m_shaderID;
 
 public:
 	virtual void load() override;
@@ -17,4 +18,12 @@ public:
 	void setTexture(GLuint textureID);
 
 	GLuint getTexture() const;
+
+	void setShader(GLuint shaderID);
+
+	GLuint getShader() const;
+
+	GLuint getShaderVerticesIndex();
+
+	GLuint getShaderTexCoordsIndex();
 };

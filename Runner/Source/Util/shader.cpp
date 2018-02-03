@@ -43,8 +43,7 @@ GLuint LoadShaders(const char * vertexPath, const char * fragmentPath){
 	GLint result = GL_FALSE;
 	int infoLogLength;
 
-	Debug::log("Compiling shader:");
-	Debug::log(vertexPath);
+	//Debug::log("Compiling shader: %s\n", vertexPath);
 	char const * vertexSourcePointer = vertexShaderCode.c_str();
 	glShaderSource(vertexShaderID, 1, &vertexSourcePointer , nullptr);
 	glCompileShader(vertexShaderID);
@@ -58,8 +57,7 @@ GLuint LoadShaders(const char * vertexPath, const char * fragmentPath){
 		Debug::log(&vertexShaderErrorMessage[0]);
 	}
 
-	Debug::log("Compiling shader:");
-	Debug::log(fragmentPath);
+	//Debug::log("Compiling shader: %s\n", fragmentPath);
 	char const * fragmentSourcePointer = fragmentShaderCode.c_str();
 	glShaderSource(fragmentShaderID, 1, &fragmentSourcePointer , nullptr);
 	glCompileShader(fragmentShaderID);
@@ -73,7 +71,7 @@ GLuint LoadShaders(const char * vertexPath, const char * fragmentPath){
 		Debug::log(&fragmentShaderErrorMessage[0]);
 	}
 
-	Debug::log("Linking program");
+	//Debug::log("Linking program\n");
 	GLuint programID = glCreateProgram();
 	glAttachShader(programID, vertexShaderID);
 	glAttachShader(programID, fragmentShaderID);
